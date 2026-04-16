@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilista - Seu guia local e página para negócios</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Archivo:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="src/styles/styles.css">
+    <link rel="stylesheet" href="src/styles/config.css">
+    <link rel="stylesheet" href="src/styles/preview.css">
+    <link rel="stylesheet" href="src/styles/links.css">
+    <link rel="stylesheet" href="src/styles/themes.css">
+    <link rel="stylesheet" href="src/styles/gallery.css">
+    <link rel="stylesheet" href="src/styles/carousel.css">
+    <link rel="stylesheet" href="src/styles/save.css">
+    <link rel="stylesheet" href="src/styles/responsive.css">
+    <link rel="stylesheet" href="src/styles/animations.css">
+    <link rel="stylesheet" href="src/styles/scrollbar.css">
+    <link rel="stylesheet" href="src/styles/landing.css?v=20260413f">
+    <!-- Novo design Hero -->
+    <link rel="stylesheet" href="src/styles/hero-modern.css?v=20260413o">
+    
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="src/javascript/supabase-client.js"></script>
+    <script src="src/javascript/supabase-sync.js"></script>
+</head>
+<body>
+    <div class="landing-wrapper">
+        <div class="landing-glow landing-glow-left"></div>
+        <div class="landing-glow landing-glow-right"></div>
+
+    <header class="nav-header">
+        <nav class="nav-container">
+            <a href="#" class="logo">
+                <img src="src/img/Logo%20Trilista.png" alt="Trilista Logo">
+            </a>
+            
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#cidade">Sobre</a>
+                <a href="#buscar">Buscar</a>
+                <a href="#negocio">Produtos</a>
+                <a href="#auth">Entrar</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <canvas id="hero-bg-canvas"></canvas>
+            <div class="hero-overlay"></div>
+
+            <div class="hero-container">
+                <!-- Coluna da Esquerda: Conteúdo -->
+                <article class="hero-content">
+                    <span class="hero-tag">A Maneira Mais Simples</span>
+                    
+                    <h1 class="hero-title">
+                        Conecte sua cidade, clientes e sua <span>marca</span> em um só lugar.
+                    </h1>
+                    
+                    <p class="hero-description">
+                        Descubra empresas locais, fortaleça sua presença digital e crie uma página profissional com login e painel próprio em poucos minutos.
+                    </p>
+                    
+                    <ul class="hero-features">
+                        <li class="feature-item">
+                            <span class="feature-icon"><i class="fas fa-check"></i></span>
+                            Página profissional em minutos
+                        </li>
+                        <li class="feature-item">
+                            <span class="feature-icon"><i class="fas fa-check"></i></span>
+                            Visibilidade em escala local
+                        </li>
+                        <li class="feature-item">
+                            <span class="feature-icon"><i class="fas fa-check"></i></span>
+                            Painel de controle intuitivo
+                        </li>
+                    </ul>
+                </article>
+                
+                <!-- Coluna da Direita -->
+                <div class="hero-visual">
+                    <div class="placeholder-box"></div>
+                </div>
+            </div>
+        </section>
+
+            <section class="info-section" id="cidade" style="background-color: #ffffff; padding-top: 18px !important; padding-bottom: 50px !important;">
+                <div class="section-copy">
+                    <h2 style="font-size: 1.65rem; margin-top: 0; margin-bottom: 16px; color: #111827; font-family: 'Inter', sans-serif; letter-spacing: -0.03em; font-weight: 800;">O Trilista não é um catálogo.</h2>
+                    <p style="color: #374151; font-size: 0.95rem; line-height: 1.5; margin-bottom: 0.8rem;">
+                        É o lugar onde todas as informações de uma empresa se encontram.
+                    </p>
+                    <p style="color: #374151; font-size: 0.95rem; line-height: 1.5; margin-bottom: 0.8rem;">
+                        Com o Trilista, você não precisa mais procurar Instagram, WhatsApp, localização, cardápio, site ou telefone em vários lugares diferentes. Tudo fica organizado em um único link, simples e direto.
+                    </p>
+                    <p style="color: #374151; font-size: 0.95rem; line-height: 1.5; margin-bottom: 0.8rem;">
+                        O Trilista conecta pessoas às empresas de forma rápida, clara e sem confusão. Encontrou a empresa? Você já tem acesso a tudo o que precisa. Sem buscas. Sem desencontro de informações. Sem perder tempo.
+                    </p>
+                    <p style="color: #374151; font-size: 0.95rem; line-height: 1.5; margin-bottom: 0.5rem;">
+                        Trilista é o ponto de encontro entre quem procura e quem quer ser encontrado.
+                    </p>
+                    <p class="download-callout" style="color: #ef4444; font-weight: 600; margin-top: 0.8rem; margin-bottom: 0.8rem; font-size: 0.95rem;">
+                        Baixe o app e descubra como é fácil acessar tudo de um lugar só.
+                    </p>
+                    <div class="store-badges-row">
+                        <a href="#" class="store-badge-card"><img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Disponível no Google Play" height="36"></a>
+                        <a href="#" class="store-badge-card"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="Disponível na App Store" height="36"></a>
+                    </div>
+                </div>
+
+                <div class="stats-grid" style="gap: 30px 16px; align-items: center; margin-top: 10px;">
+                    <article class="stat-card" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0; background: none; border: none; box-shadow: none;">
+                        <i class="fa-solid fa-map-location-dot" style="font-size: 2.5rem; color: #4b5563; margin-bottom: 8px;"></i>
+                        <strong style="font-size: 2.2rem; color: #ffca28; line-height: 1; font-weight: 800; margin-bottom: 6px;">+300</strong>
+                        <span style="font-size: 0.85rem; color: #111827; line-height: 1.2; font-weight: 500;">cidades<br>abrangidas</span>
+                    </article>
+                    <article class="stat-card" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0; background: none; border: none; box-shadow: none;">
+                        <i class="fa-solid fa-store" style="font-size: 2.5rem; color: #4b5563; margin-bottom: 8px;"></i>
+                        <strong style="font-size: 2.2rem; color: #ffca28; line-height: 1; font-weight: 800; margin-bottom: 6px;">+500</strong>
+                        <span style="font-size: 0.85rem; color: #111827; line-height: 1.2; font-weight: 500;">estabelecimentos<br>cadastrados</span>
+                    </article>
+                    <article class="stat-card" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0; background: none; border: none; box-shadow: none;">
+                        <i class="fa-solid fa-users" style="font-size: 2.5rem; color: #4b5563; margin-bottom: 8px;"></i>
+                        <strong style="font-size: 2.2rem; color: #ffca28; line-height: 1; font-weight: 800; margin-bottom: 6px;">+5.000</strong>
+                        <span style="font-size: 0.85rem; color: #111827; line-height: 1.2; font-weight: 500;">usuários<br>ativos</span>
+                    </article>
+                    <article class="stat-card" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0; background: none; border: none; box-shadow: none;">
+                        <i class="fa-solid fa-clipboard-list" style="font-size: 2.5rem; color: #4b5563; margin-bottom: 8px;"></i>
+                        <strong style="font-size: 2.2rem; color: #ffca28; line-height: 1; font-weight: 800; margin-bottom: 6px;">+10.000</strong>
+                        <span style="font-size: 0.85rem; color: #111827; line-height: 1.2; font-weight: 500;">pesquisas realizadas<br>mensalmente</span>
+                    </article>
+                </div>
+            </section>
+
+            <section class="discovery-section" id="buscar">
+                <div class="discovery-shell">
+                    <div class="discovery-copy">
+                        <span class="section-eyebrow">Busque no Trilista</span>
+                        <h2>Seu cliente pode chegar até você já no primeiro contato com a home.</h2>
+                        <p>
+                            Crie uma área de descoberta para pesquisar empresas por nome ou categoria, com vitrines dinâmicas de negócios participantes e acesso rápido para conhecer cada página.
+                        </p>
+
+                        <div class="discovery-highlights">
+                            <div class="discovery-highlight">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <span>Busca por nome da empresa</span>
+                            </div>
+                            <div class="discovery-highlight">
+                                <i class="fa-solid fa-layer-group"></i>
+                                <span>Filtro por categoria</span>
+                            </div>
+                            <div class="discovery-highlight">
+                                <i class="fa-solid fa-shuffle"></i>
+                                <span>Participantes em destaque rodando automaticamente</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="discovery-panel">
+                        <form class="discovery-searchbar" id="landingSearchForm">
+                            <div class="discovery-field">
+                                <i class="fa-solid fa-store"></i>
+                                <input type="text" id="landingSearchInput" placeholder="Pesquisar por nome da empresa">
+                            </div>
+
+                            <div class="discovery-field discovery-select">
+                                <i class="fa-solid fa-tags"></i>
+                                <select id="landingCategorySelect">
+                                    <option value="">Todas as categorias</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="discovery-submit">Pesquisar</button>
+                        </form>
+
+
+                        <div class="discovery-results-head">
+                            <strong id="landingSearchSummary">Carregando empresas participantes...</strong>
+                            <button type="button" class="discovery-reset" id="landingSearchReset">Limpar filtros</button>
+                        </div>
+
+                        <div class="company-results-grid" id="landingCompanyResults"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="business-section" id="negocio">
+                <div class="business-header">
+                    <span class="section-eyebrow">Para negócios</span>
+                    <h2>Coloque seu negócio no Trilista.</h2>
+                    <p>
+                        Uma landing forte para atrair, um login simples para acessar e um painel para personalizar sua página com links, fotos, vídeos e identidade visual.
+                    </p>
+                </div>
+
+                <div class="benefit-showcase">
+                    <article class="benefit-panel">
+                        <div class="benefit-image benefit-image-one"></div>
+                        <div class="benefit-overlay">
+                            <h3>Visibilidade aprimorada</h3>
+                            <p>Destaque sua marca na comunidade local e seja encontrado com mais facilidade.</p>
+                        </div>
+                    </article>
+                    <article class="benefit-panel">
+                        <div class="benefit-image benefit-image-two"></div>
+                        <div class="benefit-overlay">
+                            <h3>Marketing efetivo</h3>
+                            <p>Promova links, ofertas, eventos e contatos em um ambiente muito mais organizado.</p>
+                        </div>
+                    </article>
+                    <article class="benefit-panel">
+                        <div class="benefit-image benefit-image-three"></div>
+                        <div class="benefit-overlay">
+                            <h3>Feedback instantâneo</h3>
+                            <p>Atualize a página sempre que quiser e acompanhe melhor o que seu público precisa.</p>
+                        </div>
+                    </article>
+                    <article class="benefit-panel">
+                        <div class="benefit-image benefit-image-four"></div>
+                        <div class="benefit-overlay">
+                            <h3>Conexão direta</h3>
+                            <p>Reúna WhatsApp, Instagram, site, catálogo, cardápio e muito mais em um só link.</p>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+
+            <section class="testimonial-section">
+                <div class="testimonial-header testimonial-ref-header">
+                    <h2>O QUE ESTÃO FALANDO DO TRILISTA</h2>
+                </div>
+
+                <div class="testimonial-grid ref-grid">
+                    <article class="testimonial-card">
+                        <div class="testimonial-avatar" style="background-image: url('https://randomuser.me/api/portraits/men/32.jpg');"></div>
+                        <h3>Marcos Silva</h3>
+                        <small>Mercadinho Central</small>
+                        <p>O Trilista mudou completamente como nossos clientes do bairro nos encontram. Antes precisavam pedir o cardápio no WhatsApp. Agora, nosso link do Trilista tem tudo muito bem organizado e as encomendas cresceram bastante!</p>
+                    </article>
+                    <article class="testimonial-card">
+                        <div class="testimonial-avatar" style="background-image: url('https://randomuser.me/api/portraits/women/44.jpg');"></div>
+                        <h3>Carla Mendonça</h3>
+                        <small>Estética & Beleza</small>
+                        <p>Minha experiência com o Trilista não poderia ser melhor. Ter uma página profissional pronta em minutos me poupou muito tempo. Todos os agendamentos agora passam por lá de forma super fluida e elegante.</p>
+                    </article>
+                    <article class="testimonial-card">
+                        <div class="testimonial-avatar" style="background-image: url('https://randomuser.me/api/portraits/men/46.jpg');"></div>
+                        <h3>Roberto Santos</h3>
+                        <small>Consultoria Financeira</small>
+                        <p>Eu não acreditava que um diretório local faria tanta diferença. Quando meus clientes buscam na cidade, minha empresa aparece forte na busca do Trilista. O painel é ridiculamente fácil de usar para qualquer pessoa.</p>
+                    </article>
+                    <article class="testimonial-card">
+                        <div class="testimonial-avatar" style="background-image: url('https://randomuser.me/api/portraits/women/65.jpg');"></div>
+                        <h3>Juliana Pires</h3>
+                        <small>Pizzaria Forno a Lenha</small>
+                        <p>Nós usávamos uma ferramenta americana super engessada. O Trilista é focado no negócio local, então a página fica linda logo de cara! As vendas do fim de semana aumentaram desde que consolidamos todo nosso delivery lá.</p>
+                    </article>
+                    <article class="testimonial-card">
+                        <div class="testimonial-avatar" style="background-image: url('https://randomuser.me/api/portraits/women/24.jpg');"></div>
+                        <h3>Amanda Torres</h3>
+                        <small>Loja de Roupas</small>
+                        <p>Divulgar as novas coleções sempre foi meio caótico entre tantos links na nossa bio do Instagram. O Trilista organizou tudo e deu a identidade visual limpa que minha marca merecia ter no mercado digital local.</p>
+                    </article>
+                    <article class="testimonial-card">
+                        <div class="testimonial-avatar" style="background-image: url('https://randomuser.me/api/portraits/men/85.jpg');"></div>
+                        <h3>André Costa</h3>
+                        <small>Academia Fitness</small>
+                        <p>A visibilidade regional do aplicativo é fantástica. Muitos alunos novos descobriram nossa academia fuçando no app. A página própria que disponibilizam bate de frente com sites caros e complicados, estou muito satisfeito!</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="auth-section auth-landing" id="auth">
+                <div class="auth-shell">
+                    <div class="auth-promo">
+                        <span class="section-eyebrow">Comece agora</span>
+                        <h2>Entre na sua conta ou crie sua página gratuita agora mesmo.</h2>
+                        <p>
+                            Continue com o mesmo fluxo de login e cadastro que você já usa hoje, mas dentro de uma landing mais forte, mais clara e mais preparada para converter.
+                        </p>
+
+                        <div class="auth-highlights">
+                            <div class="auth-highlight">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>Acesso imediato ao painel</span>
+                            </div>
+                            <div class="auth-highlight">
+                                <i class="fa-solid fa-palette"></i>
+                                <span>Personalização visual da página</span>
+                            </div>
+                            <div class="auth-highlight">
+                                <i class="fa-solid fa-share-nodes"></i>
+                                <span>Todos os links do negócio em um só lugar</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="auth-card">
+                        <div class="auth-header">
+                            <div class="auth-tabs">
+                                <button class="auth-tab active" onclick="switchTab('login')">Entrar</button>
+                                <button class="auth-tab" onclick="switchTab('signup')">Criar conta</button>
+                            </div>
+                        </div>
+
+                        <div class="auth-body">
+                            <div class="auth-form active" id="login-form">
+                                <h2>Bem-vindo de volta</h2>
+                                <p class="auth-subtitle">Entre para acessar seu painel, editar sua página e compartilhar seu link.</p>
+
+                                <form onsubmit="handleLogin(event)">
+                                    <div class="input-group">
+                                        <label>Email</label>
+                                        <div class="input-wrapper input-wrapper-email-domain">
+                                            <i class="fa-regular fa-envelope"></i>
+                                            <div class="email-domain-field">
+                                                <input type="text" id="login-email" placeholder="" autocomplete="off" required>
+                                                <span class="input-domain-preview" aria-hidden="true">
+                                                    <span id="login-email-measure" class="input-domain-measure"></span><span id="login-email-suffix" class="input-domain-suffix">@trilista.com</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="input-group">
+                                        <label>Senha</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-solid fa-lock"></i>
+                                            <input type="password" id="login-password" placeholder="********" required>
+                                            <button type="button" class="password-visibility-toggle" onclick="togglePasswordVisibility('login-password', this)" aria-label="Mostrar senha" title="Mostrar senha">
+                                                <i class="fa-regular fa-eye-slash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="forgot-password">
+                                        <a href="#" onclick="handleForgotPassword(event)">Esqueceu a senha?</a>
+                                    </div>
+
+                                    <button type="submit" class="btn auth-submit">Entrar no painel</button>
+                                    <div class="auth-divider"><span>ou</span></div>
+                                    <button type="button" class="btn auth-google-button" onclick="handleGoogleLogin()">
+                                        <i class="fa-brands fa-google"></i>
+                                        Entrar com Google
+                                    </button>
+                                </form>
+
+                            </div>
+
+                            <div class="auth-form" id="reset-form">
+                                <h2>Redefinir senha</h2>
+                                <p class="auth-subtitle">Abra o link enviado para o seu email de recuperacao e escolha uma nova senha.</p>
+
+                                <div class="auth-message" id="reset-message"></div>
+
+                                <form onsubmit="handleResetPassword(event)">
+                                    <div class="input-group">
+                                        <label>Nova senha</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-solid fa-lock"></i>
+                                            <input type="password" id="reset-password" placeholder="********" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="input-group">
+                                        <label>Confirmar nova senha</label>
+                                        <div class="input-wrapper">
+                                            <i class="fa-solid fa-shield-halved"></i>
+                                            <input type="password" id="reset-confirm" placeholder="********" required>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn auth-submit">Salvar nova senha</button>
+                                </form>
+
+                                <div class="forgot-password reset-back-link">
+                                    <a href="#" onclick="switchTab('login'); return false;">Voltar para o login</a>
+                                </div>
+                            </div>
+
+                            <div class="auth-form" id="signup-form">
+                                <h2>Crie sua conta gratuita</h2>
+                                <p class="auth-subtitle">Cadastre seu negócio, personalize sua página e comece a divulgar seus canais.</p>
+
+                                <form onsubmit="handleRegister(event)">
+                                    <button type="button" class="btn auth-google-button auth-google-button-top" onclick="handleGoogleLogin()">
+                                        <i class="fa-brands fa-google"></i>
+                                        Criar conta com Google
+                                    </button>
+
+                                    <div class="auth-divider auth-divider-signup"><span>ou continue com email</span></div>
+
+                                    <div class="input-row">
+                                        <div class="input-group">
+                                            <label>Nome da empresa</label>
+                                            <div class="input-wrapper">
+                                                <i class="fa-solid fa-store"></i>
+                                                <input type="text" id="register-empresa" placeholder="Sua loja" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="input-group">
+                                            <label>Seu nome</label>
+                                            <div class="input-wrapper">
+                                                <i class="fa-regular fa-id-card"></i>
+                                                <input type="text" id="register-nome" placeholder="João Silva" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="input-group">
+                                        <label>Email</label>
+                                        <div class="input-wrapper input-wrapper-email-domain">
+                                            <i class="fa-regular fa-envelope"></i>
+                                            <div class="email-domain-field">
+                                                <input type="text" id="register-email" placeholder="" autocomplete="off" required>
+                                                <span class="input-domain-preview" aria-hidden="true">
+                                                    <span id="register-email-measure" class="input-domain-measure"></span><span id="register-email-suffix" class="input-domain-suffix">@trilista.com</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="input-row">
+                                        <div class="input-group">
+                                            <label>Senha</label>
+                                            <div class="input-wrapper">
+                                                <i class="fa-solid fa-lock"></i>
+                                                <input type="password" id="register-password" placeholder="********" required>
+                                                <button type="button" class="password-visibility-toggle" onclick="togglePasswordVisibility('register-password', this)" aria-label="Mostrar senha" title="Mostrar senha">
+                                                    <i class="fa-regular fa-eye-slash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="input-group">
+                                            <label>Confirmar senha</label>
+                                            <div class="input-wrapper">
+                                                <i class="fa-solid fa-shield-halved"></i>
+                                                <input type="password" id="register-confirm" placeholder="********" required>
+                                                <button type="button" class="password-visibility-toggle" onclick="togglePasswordVisibility('register-confirm', this)" aria-label="Mostrar senha" title="Mostrar senha">
+                                                    <i class="fa-regular fa-eye-slash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div><button type="submit" class="btn auth-submit">Criar minha página grátis</button>
+
+                                    <p class="auth-terms">
+                                        Ao se cadastrar, você concorda com nossos Termos de Uso.
+                                    </p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="landing-footer">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo footer-logo">
+                        <img src="src/img/Logo Trilista.png" alt="Trilista Logo">
+                    </a>
+                    <p>Descubra negócios locais e crie uma página profissional com links, fotos, vídeos e identidade própria em um só lugar.</p>
+                </div>
+
+                <div class="footer-social">
+                    <div class="footer-contact-inline">
+                        <span class="footer-contact-label">Dúvidas? Entre em contato:</span>
+                        <div class="social-icons">
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                &copy; 2026 Trilista - a maneira mais simples de conectar cidade, negócios e clientes.
+            </div>
+        </footer>
+    </div>
+
+    <script src="src/javascript/auth.js?v=20260413d"></script>
+    <script src="src/javascript/db.js?v=20260413d"></script>
+    <!-- Script da animação importado para rodar com o Hero -->
+    <script src="src/javascript/hero-animation.js?v=20260413f"></script>
+    <script>
+        if (
+            typeof Auth !== 'undefined' &&
+            Auth.isAuthenticated() &&
+            !window.location.search.includes('mode=reset-password')
+        ) {
+            window.location.href = 'painel.html';
+        }
+
+        const REGISTER_EMAIL_DOMAIN = '@trilista.com';
+
+        function getEmailLocalPart(inputId) {
+            const emailInput = document.getElementById(inputId);
+            if (!emailInput) return '';
+
+            return String(emailInput.value || '')
+                .trim()
+                .toLowerCase()
+                .replace(/\s+/g, '')
+                .replace(/@.*/, '');
+        }
+
+        function syncEmailPreview(inputId, measureId, suffixId) {
+            const measure = document.getElementById(measureId);
+            const suffix = document.getElementById(suffixId);
+            if (!measure || !suffix) return;
+
+            const localPart = getEmailLocalPart(inputId);
+            measure.textContent = localPart;
+            suffix.classList.toggle('is-active', localPart.length > 0);
+        }
+
+        function bindEmailPreview(inputId, measureId, suffixId) {
+            const emailInput = document.getElementById(inputId);
+            if (!emailInput) return;
+
+            const syncPreview = () => syncEmailPreview(inputId, measureId, suffixId);
+            syncPreview();
+            emailInput.addEventListener('input', syncPreview);
+        }
+
+        function syncRegisterEmailPreview() {
+            syncEmailPreview('register-email', 'register-email-measure', 'register-email-suffix');
+        }
+
+        function syncLoginEmailPreview() {
+            syncEmailPreview('login-email', 'login-email-measure', 'login-email-suffix');
+        }
+
+        function getLoginEmailValue() {
+            const localPart = getEmailLocalPart('login-email');
+            return localPart ? `${localPart}${REGISTER_EMAIL_DOMAIN}` : '';
+        }
+
+        function bindRegisterEmailPreview() {
+            bindEmailPreview('register-email', 'register-email-measure', 'register-email-suffix');
+        }
+
+        function bindLoginEmailPreview() {
+            bindEmailPreview('login-email', 'login-email-measure', 'login-email-suffix');
+        }
+
+        function getRegisterEmailValue() {
+            const localPart = getEmailLocalPart('register-email');
+            return localPart ? `${localPart}${REGISTER_EMAIL_DOMAIN}` : '';
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+
+            if (tab === 'login') {
+                document.querySelector('.auth-tab').classList.add('active');
+                document.getElementById('login-form').classList.add('active');
+                document.querySelector('.auth-tabs').style.display = '';
+            } else if (tab === 'signup') {
+                document.querySelectorAll('.auth-tab')[1].classList.add('active');
+                document.getElementById('signup-form').classList.add('active');
+                document.querySelector('.auth-tabs').style.display = '';
+            } else if (tab === 'reset') {
+                document.getElementById('reset-form').classList.add('active');
+                document.querySelector('.auth-tabs').style.display = 'none';
+            }
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+
+            const email = getLoginEmailValue();
+            const senha = document.getElementById('login-password').value;
+
+            if (!email || !senha) {
+                alert('Preencha todos os campos');
+                return;
+            }
+
+            const result = await Auth.login(email, senha);
+
+            if (result.success) {
+                if (result.mustChangePassword) {
+                    alert(result.message);
+                }
+                window.location.href = 'painel.html';
+            } else {
+                alert(result.message);
+            }
+        }
+
+        async function handleRegister(event) {
+            event.preventDefault();
+
+            const nomeEmpresa = document.getElementById('register-empresa').value;
+            const nomeResponsavel = document.getElementById('register-nome').value;
+            const email = getRegisterEmailValue();
+            const senha = document.getElementById('register-password').value;
+            const confirmSenha = document.getElementById('register-confirm').value;
+
+            if (!nomeEmpresa || !nomeResponsavel || !email || !senha || !confirmSenha) {
+                alert('Preencha todos os campos');
+                return;
+            }
+
+            if (senha !== confirmSenha) {
+                alert('As senhas não coincidem');
+                return;
+            }
+
+            const result = await Auth.register({
+                nomeEmpresa,
+                nomeResponsavel,
+                email,
+                senha
+            });
+
+            if (result.success) {
+                alert('Cadastro realizado com sucesso! Faça login para continuar.');
+                switchTab('login');
+
+                document.getElementById('register-empresa').value = '';
+                document.getElementById('register-nome').value = '';
+                document.getElementById('register-email').value = '';
+                syncRegisterEmailPreview();
+                document.getElementById('register-password').value = '';
+                document.getElementById('register-confirm').value = '';
+            } else {
+                alert(result.message);
+            }
+        }
+
+        async function handleGoogleLogin() {
+            const result = await Auth.signInWithGoogle();
+            if (!result.success) {
+                alert(result.message);
+            }
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        const navSectionLinks = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
+        const navSections = navSectionLinks
+            .map(link => document.querySelector(link.getAttribute('href')))
+            .filter(Boolean);
+
+        function setActiveNavLink(activeId) {
+            navSectionLinks.forEach(link => {
+                const isActive = link.getAttribute('href') === `#${activeId}`;
+                link.classList.toggle('is-active', isActive);
+                if (isActive) {
+                    link.setAttribute('aria-current', 'page');
+                } else {
+                    link.removeAttribute('aria-current');
+                }
+            });
+        }
+
+        function updateActiveNavLink() {
+            const headerHeight = document.querySelector('.nav-header')?.offsetHeight || 0;
+            const triggerLine = window.scrollY + headerHeight + 80;
+            let activeSection = navSections[0];
+
+            navSections.forEach(section => {
+                if (section.offsetTop <= triggerLine) {
+                    activeSection = section;
+                }
+            });
+
+            if (activeSection && activeSection.id) {
+                setActiveNavLink(activeSection.id);
+            }
+        }
+
+        window.addEventListener('scroll', updateActiveNavLink, { passive: true });
+        window.addEventListener('load', updateActiveNavLink);
+        updateActiveNavLink();
+
+        function togglePasswordVisibility(inputId, trigger = null) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+
+            if (trigger) {
+                const icon = trigger.querySelector('i');
+                const isVisible = type === 'text';
+                trigger.setAttribute('aria-label', isVisible ? 'Ocultar senha' : 'Mostrar senha');
+                trigger.setAttribute('title', isVisible ? 'Ocultar senha' : 'Mostrar senha');
+
+                if (icon) {
+                    icon.className = isVisible ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash';
+                }
+            }
+        }
+
+        async function handleForgotPassword(event) {
+            event.preventDefault();
+
+            const email = prompt('Informe o email da sua conta:');
+            if (!email) return;
+
+            const result = await Auth.sendPasswordResetLink(email);
+            alert(result.message);
+        }
+
+        async function initializeRecoveryFlow() {
+            if (!Auth?.isRecoveryMode) return;
+
+            const inRecoveryMode = await Auth.isRecoveryMode();
+            if (!inRecoveryMode) return;
+
+            switchTab('reset');
+
+            const message = document.getElementById('reset-message');
+            if (message) {
+                message.textContent = 'Link validado. Defina sua nova senha para continuar.';
+                message.className = 'auth-message is-visible';
+            }
+        }
+
+        async function handleResetPassword(event) {
+            event.preventDefault();
+
+            const newPassword = document.getElementById('reset-password').value;
+            const confirmPassword = document.getElementById('reset-confirm').value;
+            const message = document.getElementById('reset-message');
+
+            if (!newPassword || !confirmPassword) {
+                alert('Preencha os dois campos de senha.');
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                alert('As senhas nao conferem.');
+                return;
+            }
+
+            const result = await Auth.updatePasswordWithRecovery(newPassword);
+
+            if (message) {
+                message.textContent = result.message;
+                message.className = `auth-message is-visible ${result.success ? 'is-success' : 'is-error'}`;
+            }
+
+            if (result.success) {
+                document.getElementById('reset-password').value = '';
+                document.getElementById('reset-confirm').value = '';
+                setTimeout(() => switchTab('login'), 1200);
+            }
+        }
+
+                async function bootstrapAuth() {
+            document.querySelector('#signup-form .fa-envelope-circle-check')?.closest('.input-group')?.remove();
+            bindLoginEmailPreview();
+            bindRegisterEmailPreview();
+
+            const oauthResult = await Auth.completePendingOAuth();
+
+            if (oauthResult?.handled) {
+                if (oauthResult.success) {
+                    window.location.href = 'painel.html';
+                    return;
+                }
+
+                if (oauthResult.message) {
+                    alert(oauthResult.message);
+                }
+            }
+
+            await initializeRecoveryFlow();
+        }
+
+        bootstrapAuth();
+
+        const landingFallbackStores = [
+            {
+                id: 'fallback-1',
+                name: 'Portal Soluções',
+                category: 'Marketing',
+                categories: ['Marketing', 'Designer'],
+                city: 'Sua cidade',
+                bio: 'Solução visual e digital para negócios que querem destacar seus canais.',
+                href: '#auth'
+            },
+            {
+                id: 'fallback-2',
+                name: 'Inova Drogarias',
+                category: 'Farmácia',
+                categories: ['Farmácia', 'Saúde'],
+                city: 'Sua cidade',
+                bio: 'Atendimento local com presença digital mais organizada para os clientes.',
+                href: '#auth'
+            },
+            {
+                id: 'fallback-3',
+                name: 'Studio Forma',
+                category: 'Salão / Estética',
+                categories: ['Salão / Estética', 'Beleza'],
+                city: 'Sua cidade',
+                bio: 'Uma página bonita para apresentar serviços, agenda e contatos em um só lugar.',
+                href: '#auth'
+            },
+            {
+                id: 'fallback-4',
+                name: 'Mercado Central',
+                category: 'Mercado',
+                categories: ['Mercado', 'Hortifruti'],
+                city: 'Sua cidade',
+                bio: 'Facilite a descoberta do seu negócio e concentre seus links em uma página única.',
+                href: '#auth'
+            }
+        ];
+
+        let landingStores = [];
+        let filteredLandingStores = [];
+        let landingRotationTick = 0;
+        let landingRotationTimer = null;
+
+        function normalizeSearchText(value) {
+            return (value || '')
+                .toString()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .trim();
+        }
+
+        function stripHtml(value) {
+            return (value || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+        }
+
+        function escapeHtml(value) {
+            return (value || '').toString()
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function getLandingUsers() {
+            try {
+                return JSON.parse(localStorage.getItem('trilista_users')) || [];
+            } catch (error) {
+                console.error('Erro ao ler usuários para landing:', error);
+                return [];
+            }
+        }
+
+        function getLandingStoreRecord(user) {
+            try {
+                if (!user || !user.dbKey) return null;
+
+                const dbRaw = localStorage.getItem(user.dbKey);
+                if (!dbRaw) return null;
+
+                const db = JSON.parse(dbRaw);
+                const profile = db.profile || {};
+                const categoryTexts = [
+                    profile.categoria1Text,
+                    profile.categoria2Text,
+                    profile.categoria3Text,
+                    profile.categoria4Text
+                ].filter(Boolean);
+
+                const fallbackCategories = [
+                    profile.categoria1,
+                    profile.categoria2,
+                    profile.categoria3,
+                    profile.categoria4
+                ].filter(Boolean);
+
+                const categories = (categoryTexts.length ? categoryTexts : fallbackCategories)
+                    .map(item => String(item).trim())
+                    .filter(Boolean);
+
+                const primaryCategory = categories[0] || 'Negócio local';
+                const locationParts = [profile.neighborhood, profile.city].filter(Boolean);
+
+                return {
+                    id: user.id,
+                    name: profile.storeName || user.nomeEmpresa || 'Negócio participante',
+                    category: primaryCategory,
+                    categories,
+                    city: profile.city || '',
+                    neighborhood: profile.neighborhood || '',
+                    location: locationParts.join(' - '),
+                    bio: stripHtml(profile.bio) || 'Empresa participante do Trilista pronta para ser encontrada por novos clientes.',
+                    coverPhoto: profile.coverPhoto || '',
+                    profilePhoto: profile.profilePhoto || '',
+                href: `loja.html?store=${encodeURIComponent(user.dbKey)}`
+                };
+            } catch (error) {
+                console.error('Erro ao montar empresa para landing:', error);
+                return null;
+            }
+        }
+
+        function loadLandingStores() {
+            const users = getLandingUsers().filter(user => user && user.status !== 'blocked');
+            const stores = users.map(getLandingStoreRecord).filter(Boolean);
+            return stores.length ? stores : landingFallbackStores.slice();
+        }
+
+        const todasCategoriasTrilista = [
+            'Açaí / Sorvete', 'Academia / Pilates / Esporte', 'Acessório / Som / Insulfilm', 'Açougue', 'Advocacia', 'Agência de Turismo', 'Alfaiate', 'Aluguel / Venda', 'Aluguel de Andaimes / Máquinas', 'Aluguel de Roupa', 'Aluguel de Stands', 'Antenas / Celular rural', 'Aquário', 'Arquitetura', 'Armarinho / Artesanato', 'Artesanato', 'Artigos', 'Artigos Religiosos', 'Artigos para festa', 'Associações', 'Auto Escola', 'Autoatendimento', 'Bar / Lanchonete / Pizzaria', 'Barbeiro', 'Bebidas / Distribuidora', 'Bicicleta', 'Borracharia', 'Buffet', 'Cama / Mesa / Banho', 'Caminhões / Pesados', 'Carro de Som', 'Cartório', 'Caça e Pesca', 'Cerimonial', 'Chaveiro', 'Churrasco', 'Cinema', 'Clínica', 'Comida Fitness', 'Comida Havaiana', 'Comida Japonesa', 'Comida Árabe', 'Compra / Venda', 'Concerto Geral', 'Conserto em Geral', 'Construção / Reforma', 'Consultoria Agrícola', 'Contabilidade', 'Corretor de Imóveis / Seguros', 'Corretora de Seguros', 'Costureiro', 'Curso / Treinamento', 'Decoração / Gesso', 'Dedetização', 'Dentista', 'Dermatologia', 'Designer', 'Designer / Publicidade', 'Despachante', 'Disk Cerveja', 'Doces / Sobremesa', 'Eletricista', 'Embalagens', 'Energia Solar', 'Engenharia / Construção', 'Equipamentos Gastronômico', 'Estética', 'Estofador', 'Faxineira', 'Financeiro / Empréstimo', 'Fisioterapia', 'Floricultura / Decoração', 'Fonoaudiólogo', 'Foto / Filmagem', 'Frango Assado', 'Frete', 'Funerária', 'Fábrica de Ração', 'Garçon', 'Gelo', 'Ginecologista / Obstetrícia', 'Graduação', 'Gráfica', 'Guincho', 'Higienização', 'Hospital', 'Hotel e Pousada', 'Imobiliária / Corretora', 'Instrumentos Musicais', 'Internet', 'Jardineiro', 'Joias / Relógios', 'Laboratório', 'Lan House', 'Lava-Jato', 'Lingerie / Sex Shop', 'Locação de Veículos', 'Loja de Computador / Manutenção', 'Luthier', 'Línguas', 'Madeira', 'Manicure / Pedicure', 'Manutenção Celular / Acessórios', 'Manutenção de Computador / Acessórios', 'Manutenção de Eletrodomésticos', 'Manutenção de Máquinas', 'Manutenção em Computador', 'Marmoraria', 'Massa', 'Material de Limpeza', 'Marketing', 'Mercado', 'Metalurgia', 'Motel', 'Moto', 'Mármore / Granito', 'Móveis / Eletromóveis', 'Móveis Planejados / Marcenaria', 'Músicos / Bandas', 'Nefrologia', 'Notícias', 'Nutricionista', 'Oftalmologista', 'Ortopedista', 'Otorrinolaringologista', 'Padaria', 'Palco / Som', 'Pamonha', 'Papelaria / Lan House', 'Pedreiro', 'Peixaria', 'Perfumaria / Cosmético', 'Pintor', 'Piscinas', 'Placa / Extintor', 'Plano de Saúde', 'Poupa / Suco', 'Presente / Brinquedo / 1,99', 'Produtos Eletrônicos', 'Produtos Naturais / Suplementos', 'Psicologia', 'Quiosque', 'Ração', 'Rádio', 'Refrigeração', 'Residencial / Apartamento / Aluguel', 'Restaurante', 'Roupa Fitness / Praia', 'Salão / Estética', 'Sapateiro', 'Segurança Eletrônica/TV', 'Segurança Ocupacional', 'Selaria', 'Serralheria', 'Shopping Piúma', 'Taxi', 'Tatuagem / Piercing', 'Tel. Úteis', 'Telefones Úteis', 'Tendas', 'Teste - Importação', 'Topografia / Ambiental', 'Torneiro Mecânico', 'Tosa e Banho', 'Transporte', 'Treino / Armas', 'UBER', 'UPLAJ', 'Uniforme / Camisa Personalizada', 'Variedade', 'Veterinário', 'Vidraçaria / Forro / Divisória', 'Água e Gás', 'Ótica'
+        ].sort((a,b) => a.localeCompare(b, 'pt-BR'));
+
+        function populateLandingCategories(stores) {
+            const select = document.getElementById('landingCategorySelect');
+            if (!select) return;
+
+            const currentValue = select.value;
+
+            select.innerHTML = '<option value="">Todas as categorias</option>';
+            todasCategoriasTrilista.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                select.appendChild(option);
+            });
+
+            if (todasCategoriasTrilista.includes(currentValue)) {
+                select.value = currentValue;
+            }
+        }
+
+        function filterLandingStores() {
+            const searchInput = document.getElementById('landingSearchInput');
+            const categorySelect = document.getElementById('landingCategorySelect');
+            const query = normalizeSearchText(searchInput ? searchInput.value : '');
+            const category = normalizeSearchText(categorySelect ? categorySelect.value : '');
+
+            filteredLandingStores = landingStores.filter(store => {
+                const haystack = normalizeSearchText([
+                    store.name,
+                    store.category,
+                    (store.categories || []).join(' '),
+                    store.city,
+                    store.neighborhood,
+                    store.bio
+                ].join(' '));
+
+                const matchesQuery = !query || haystack.includes(query);
+                const matchesCategory = !category || (store.categories || [store.category]).some(item => normalizeSearchText(item) === category);
+
+                return matchesQuery && matchesCategory;
+            });
+
+            renderLandingResults(filteredLandingStores);
+            renderParticipantStream(filteredLandingStores.length ? filteredLandingStores : landingStores);
+        }
+
+        function renderLandingResults(stores) {
+            const container = document.getElementById('landingCompanyResults');
+            const summary = document.getElementById('landingSearchSummary');
+            if (!container || !summary) return;
+
+            if (!stores.length) {
+                summary.textContent = 'Nenhuma empresa encontrada com esses filtros.';
+                container.innerHTML = `
+                    <article class="company-empty-state">
+                        <i class="fa-solid fa-compass"></i>
+                        <h3>Nenhum resultado no momento</h3>
+                        <p>Tente pesquisar por outro nome ou escolha uma categoria diferente para encontrar empresas participantes.</p>
+                    </article>
+                `;
+                return;
+            }
+
+            summary.textContent = `${stores.length} empresa${stores.length > 1 ? 's' : ''} encontrada${stores.length > 1 ? 's' : ''} no Trilista.`;
+
+            const htmlContent = stores.slice(0, 10).map((store, index) => {
+                const safeName = escapeHtml(store.name);
+                const safeCategory = escapeHtml(store.category);
+                const safeBio = escapeHtml(store.bio);
+                const safeLocation = escapeHtml(store.location || store.city || '');
+                const imageStyle = store.coverPhoto
+                    ? `style="background-image: linear-gradient(180deg, rgba(19, 23, 34, 0.08), rgba(19, 23, 34, 0.46)), url('${store.coverPhoto}');"`
+                    : '';
+                const avatarStyle = store.profilePhoto
+                    ? `style="background-image: url('${store.profilePhoto}');"`
+                    : '';
+                const accentClass = `accent-${(index % 4) + 1}`;
+                const locationMarkup = store.location || store.city
+                    ? `<div class="company-card-meta"><i class="fa-solid fa-location-dot"></i><span>${safeLocation}</span></div>`
+                    : '';
+
+                return `
+                    <a href="${store.href}" class="company-bubble">
+                        <div class="company-bubble-avatar-wrapper">
+                            <div class="company-bubble-avatar" ${avatarStyle}>${!store.profilePhoto ? safeName.charAt(0).toUpperCase() : ''}</div>
+                        </div>
+                        <strong class="company-bubble-name">${safeName}</strong>
+                        <small class="company-bubble-category">${safeCategory}</small>
+                    </a>
+                `;
+            }).join('');
+
+            const setHtml = `<div class="company-results-set">${htmlContent}</div>`;
+            const displayedCount = stores.slice(0, 10).length;
+            const isMobileViewport = window.innerWidth <= 640;
+            const setsNeeded = isMobileViewport
+                ? 1
+                : (displayedCount >= 4 ? Math.max(4, Math.ceil(20 / displayedCount)) : 1);
+            container.innerHTML = Array(setsNeeded).fill(setHtml).join('');
+        }
+
+        function renderParticipantStream(stores) {
+            const container = document.getElementById('participantStream');
+            if (!container) return;
+
+            const source = (stores && stores.length ? stores : landingStores).slice();
+            if (!source.length) {
+                container.innerHTML = '';
+                return;
+            }
+
+            const ordered = source
+                .map((store, index) => ({ store, order: (index + landingRotationTick) % source.length }))
+                .sort((a, b) => a.order - b.order)
+                .map(item => item.store);
+
+            const marqueeStores = ordered.concat(ordered).slice(0, Math.max(8, ordered.length * 2));
+
+            container.innerHTML = marqueeStores.map(store => `
+                <a href="${store.href}" class="participant-pill">
+                    <span class="participant-pill-dot"></span>
+                    <strong>${escapeHtml(store.name)}</strong>
+                    <small>${escapeHtml(store.category)}</small>
+                </a>
+            `).join('');
+        }
+
+        function initLandingDiscovery() {
+            landingStores = loadLandingStores();
+            populateLandingCategories(landingStores);
+            filteredLandingStores = landingStores.slice();
+            renderLandingResults(filteredLandingStores);
+            renderParticipantStream(landingStores);
+
+            const form = document.getElementById('landingSearchForm');
+            const input = document.getElementById('landingSearchInput');
+            const select = document.getElementById('landingCategorySelect');
+            const resetButton = document.getElementById('landingSearchReset');
+
+            if (form) {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    filterLandingStores();
+                });
+            }
+
+            if (input) {
+                input.addEventListener('input', filterLandingStores);
+            }
+
+            if (select) {
+                select.addEventListener('change', filterLandingStores);
+            }
+
+            if (resetButton) {
+                resetButton.addEventListener('click', function() {
+                    if (input) input.value = '';
+                    if (select) select.value = '';
+                    filterLandingStores();
+                });
+            }
+
+            if (landingRotationTimer) {
+                clearInterval(landingRotationTimer);
+            }
+
+            landingRotationTimer = setInterval(() => {
+                landingRotationTick = (landingRotationTick + 1) % Math.max(landingStores.length || 1, 1);
+                renderParticipantStream(filteredLandingStores.length ? filteredLandingStores : landingStores);
+            }, 3200);
+
+            const resultsContainer = document.getElementById('landingCompanyResults');
+            if (resultsContainer) {
+                if (window.landingScrollTimer) clearInterval(window.landingScrollTimer);
+                
+                let isHovering = false;
+                resultsContainer.addEventListener('mouseenter', () => isHovering = true);
+                resultsContainer.addEventListener('mouseleave', () => isHovering = false);
+                resultsContainer.addEventListener('touchstart', () => isHovering = true, {passive: true});
+                resultsContainer.addEventListener('touchend', () => setTimeout(() => isHovering = false, 2000));
+
+                window.landingScrollTimer = setInterval(() => {
+                    if (!isHovering && resultsContainer.scrollWidth > resultsContainer.clientWidth) {
+                        resultsContainer.scrollLeft += 1;
+                        
+                        const firstSet = resultsContainer.children[0];
+                        if (firstSet) {
+                            // O intervalo exato do salto invisível é a largura do bloco + o gap (24px)
+                            const shiftWidth = firstSet.offsetWidth + 24;
+                            if (resultsContainer.scrollLeft >= shiftWidth) {
+                                resultsContainer.style.scrollBehavior = 'auto'; // Deve ser imediato
+                                resultsContainer.scrollLeft -= shiftWidth;
+                            }
+                        }
+                    }
+                }, 45);
+            }
+        }
+
+        initLandingDiscovery();
+    </script>
+</body>
+</html>
+
+
+
+

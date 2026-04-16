@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Moderno</title>
+    <script src="https://unpkg.com/qr-code-styling@1.9.2/lib/qr-code-styling.js"></script>
+    <style>
+        :root {
+            --page-bg: #ffffff;
+            --text-main: #111111;
+            --text-muted: #6b7280;
+            --card-border: rgba(17, 17, 17, 0.08);
+            --card-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+            --button-bg: #111111;
+            --button-text: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            background: var(--page-bg);
+            color: var(--text-main);
+            font-family: Inter, "Segoe UI", Arial, sans-serif;
+        }
+
+        .qr-app {
+            width: min(100%, 460px);
+            padding: 32px;
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            background: #ffffff;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+
+        .qr-title {
+            margin: 0;
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+        }
+
+        .qr-subtitle {
+            margin: 10px 0 0;
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .qr-stage {
+            margin-top: 26px;
+            padding: 18px;
+            border-radius: 24px;
+            background: #ffffff;
+        }
+
+        .qr-frame {
+            width: min(100%, 340px);
+            margin: 0 auto;
+            border-radius: 28px;
+            background: #ffffff;
+        }
+
+        .qr-frame canvas,
+        .qr-frame svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 28px;
+            background: #ffffff;
+        }
+
+        .qr-actions {
+            margin-top: 24px;
+        }
+
+        .qr-button {
+            width: 100%;
+            min-height: 52px;
+            border: none;
+            border-radius: 16px;
+            background: var(--button-bg);
+            color: var(--button-text);
+            font-size: 0.98rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .qr-button:hover {
+            transform: translateY(-1px);
+            opacity: 0.95;
+        }
+
+        .qr-meta {
+            margin-top: 18px;
+            color: var(--text-muted);
+            font-size: 0.84rem;
+            line-height: 1.6;
+            word-break: break-word;
+        }
+    </style>
+</head>
+<body>
+    <main class="qr-app">
+        <h1 class="qr-title">QR Code Profissional</h1>
+        <p class="qr-subtitle">Gerado automaticamente com a URL atual, em estilo minimalista, com espaço central nativo para logo futura.</p>
+
+        <section class="qr-stage">
+            <div id="qrFrame" class="qr-frame"></div>
+        </section>
+
+        <div class="qr-actions">
+            <button id="downloadQrButton" class="qr-button" type="button">Baixar QR em PNG</button>
+        </div>
+
+        <p class="qr-meta">
+            URL atual:
+            <br>
+            <span id="currentUrl"></span>
+        </p>
+    </main>
+
+    <script>
+        const currentUrl = window.location.href;
+        document.getElementById('currentUrl').textContent = currentUrl;
+
+        const qrContainer = document.getElementById('qrFrame');
+        const downloadButton = document.getElementById('downloadQrButton');
+
+        // Ajuste este valor para aumentar ou reduzir a área central reservada para a logo.
+        // Exemplo: 0.20 = 20% da área útil do QR, 0.28 = 28%.
+        const LOGO_AREA_SIZE = 0.22;
+
+        // SVG totalmente transparente usado apenas para reservar a área central de forma nativa.
+        const transparentPlaceholder = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">' +
+            '<rect width="200" height="200" rx="48" fill="transparent"/>' +
+            '</svg>'
+        );
+
+        const qrCode = new QRCodeStyling({
+            width: 340,
+            height: 340,
+            type: 'canvas',
+            data: currentUrl,
+            margin: 8,
+            image: transparentPlaceholder,
+            dotsOptions: {
+                color: '#000000',
+                type: 'dots'
+            },
+            cornersSquareOptions: {
+                color: '#000000',
+                type: 'extra-rounded'
+            },
+            cornersDotOptions: {
+                color: '#000000',
+                type: 'dot'
+            },
+            backgroundOptions: {
+                color: '#ffffff'
+            },
+            imageOptions: {
+                hideBackgroundDots: true,
+                imageSize: LOGO_AREA_SIZE,
+                margin: 0,
+                crossOrigin: 'anonymous'
+            },
+            qrOptions: {
+                errorCorrectionLevel: 'H'
+            }
+        });
+
+        qrCode.append(qrContainer);
+
+        downloadButton.addEventListener('click', function() {
+            qrCode.download({
+                name: 'qr-code-moderno',
+                extension: 'png'
+            });
+        });
+    </script>
+</body>
+</html>

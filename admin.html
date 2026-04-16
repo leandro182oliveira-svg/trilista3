@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="src/javascript/supabase-client.js"></script>
+    <script src="src/javascript/supabase-sync.js"></script>
+    
+    <link rel="stylesheet" href="src/styles/styles.css">
+    <link rel="stylesheet" href="src/styles/config.css">
+    <link rel="stylesheet" href="src/styles/painel.css">
+    <style>
+        :root {
+            --admin-primary: #1e293b;
+            --admin-secondary: #334155;
+            --admin-accent: #3b82f6;
+            --admin-danger: #ef4444;
+            --admin-success: #10b981;
+        }
+
+        body {
+            background-color: #f1f5f9;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .admin-header {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--admin-accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.85rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
+
+        /* Tabs de Organização */
+        .admin-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+
+        .tab-item {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-item:hover {
+            background: #f1f5f9;
+            color: var(--admin-primary);
+        }
+
+        .tab-item.active {
+            background: var(--admin-accent);
+            color: white;
+        }
+
+        .tab-count {
+            font-size: 0.75rem;
+            background: rgba(0,0,0,0.1);
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+
+        .tab-item.active .tab-count {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .admin-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--admin-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        /* Novo Layout de Lista Compacta */
+        .user-list-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .user-list-header {
+            display: grid;
+            grid-template-columns: 2.5fr 2fr 100px 120px 180px;
+            padding: 1rem 1.5rem;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            gap: 1.5rem;
+        }
+
+        .user-list-item {
+            display: grid;
+            grid-template-columns: 2.5fr 2fr 100px 120px 180px;
+            padding: 0.75rem 1.5rem;
+            border-bottom: 1px solid #f1f5f9;
+            align-items: center;
+            transition: background-color 0.2s;
+            gap: 1.5rem;
+        }
+
+        .user-list-item:last-child {
+            border-bottom: none;
+        }
+
+        .user-list-item:hover {
+            background-color: #f8fafc;
+        }
+
+        .col-store {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .store-logo-sm {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 1.2rem;
+        }
+
+        .col-store-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            min-width: 0;
+        }
+
+        .col-store-info h3 {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--admin-primary);
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .col-text {
+            font-size: 0.85rem;
+            color: #64748b;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .col-stats {
+            display: flex;
+            gap: 0.4rem;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            flex-wrap: wrap;
+        }
+
+        .stat-pill {
+            background: #f8fafc;
+            padding: 1px 6px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .stat-pill i {
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+
+        .user-actions-compact {
+            display: flex;
+            gap: 0.35rem;
+            justify-content: flex-end;
+            position: relative;
+        }
+
+        .btn-action-sm {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+
+        .btn-edit-sm { background: #eff6ff; color: #3b82f6; }
+        .btn-edit-sm:hover { background: #3b82f6; color: white; }
+
+        .btn-impersonate-sm { background: #f5f3ff; color: #8b5cf6; }
+        .btn-impersonate-sm:hover { background: #8b5cf6; color: white; }
+
+        .btn-reset-sm { background: #fffbeb; color: #d97706; }
+        .btn-reset-sm:hover { background: #d97706; color: white; }
+
+        .btn-view-sm { background: #f8fafc; color: #64748b; }
+        .btn-view-sm:hover { background: #64748b; color: white; }
+        .btn-stats-sm { background: #fff7ed; color: #c2410c; }
+        .btn-stats-sm:hover { background: #c2410c; color: white; }
+        .btn-delete-sm:hover { background: #ef4444; color: white; }
+
+        .btn-status-sm { background: #f0fdf4; color: #10b981; }
+        .btn-status-sm.blocked { background: #fef2f2; color: #ef4444; }
+        .btn-status-sm:hover { background: #10b981; color: white; }
+        .btn-status-sm.blocked:hover { background: #ef4444; color: white; }
+
+        .store-menu {
+            position: relative;
+        }
+
+        .btn-gear-sm {
+            background: #eef2ff;
+            color: #4338ca;
+        }
+
+        .btn-gear-sm:hover,
+        .btn-gear-sm.is-open {
+            background: #4338ca;
+            color: white;
+        }
+
+        .store-menu-dropdown {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            min-width: 240px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 18px 36px rgba(15, 23, 42, 0.16);
+            padding: 0.45rem;
+            display: none;
+            z-index: 30;
+        }
+
+        .store-menu-dropdown.is-open {
+            display: block;
+        }
+
+        .store-menu-item {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 0.85rem;
+            border: none;
+            background: transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            color: #334155;
+            font-size: 0.88rem;
+            text-align: left;
+            transition: background-color 0.18s, color 0.18s;
+        }
+
+        .store-menu-item:hover {
+            background: #f8fafc;
+            color: var(--admin-primary);
+        }
+
+        .store-menu-item.danger {
+            color: #dc2626;
+        }
+
+        .store-menu-item.danger:hover {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        /* Modal de Edição */
+        .admin-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            border-radius: 12px;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #94a3b8;
+        }
+
+        /* Badges */
+        .badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+        .badge-admin { background: #fee2e2; color: #ef4444; }
+        .badge-seller { background: #fef3c7; color: #d97706; }
+        .badge-user { background: #e0f2fe; color: #0ea5e9; }
+
+        @media (max-width: 900px) {
+            .admin-container {
+                margin: 1rem auto;
+                padding: 0 0.75rem;
+            }
+
+            .admin-header {
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .header-top {
+                flex-wrap: wrap;
+                align-items: stretch;
+                gap: 0.75rem;
+            }
+
+            .header-top > * {
+                width: 100%;
+            }
+
+            .admin-tabs {
+                gap: 0.75rem;
+                overflow-x: auto;
+                padding-bottom: 0.75rem;
+                scrollbar-width: none;
+            }
+
+            .admin-tabs::-webkit-scrollbar {
+                display: none;
+            }
+
+            .tab-item {
+                flex: 0 0 auto;
+                white-space: nowrap;
+            }
+
+            .user-list-header {
+                display: none;
+            }
+
+            .user-list-item {
+                grid-template-columns: 1fr;
+                gap: 0.85rem;
+                padding: 1rem;
+            }
+
+            .col-text,
+            .col-store-info h3 {
+                white-space: normal;
+            }
+
+            .user-actions-compact {
+                justify-content: flex-start;
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .admin-title {
+                font-size: 1.2rem;
+            }
+
+            .search-input {
+                font-size: 0.9rem;
+            }
+
+            .modal-content {
+                width: calc(100% - 1rem);
+                padding: 1rem;
+            }
+        }
+    </style>
+    <title>Painel Administrativo - Trilista</title>
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <div class="header-top">
+                <div class="admin-title">
+                    <i class="fa-solid fa-user-shield"></i>
+                    Painel Administrativo
+                </div>
+                <div class="admin-stats-summary">
+                    <span id="totalUsers">0</span> usuários
+                </div>
+                <div id="adminActions">
+                    <!-- Botões de ação como "Novo Usuário" para Sellers -->
+                </div>
+                <button class="btn-small btn-outline" onclick="window.location.href='painel.html'">
+                    <i class="fa-solid fa-arrow-left"></i> Voltar ao Painel
+                </button>
+            </div>
+            <div class="search-container">
+                <i class="fa-solid fa-search search-icon"></i>
+                <input type="text" id="userSearch" class="search-input" placeholder="Pesquisar por loja, responsável ou email..." oninput="AdminManager.handleSearch(this.value)">
+            </div>
+        </header>
+
+        <div class="admin-tabs" id="adminTabs" style="display: none;">
+            <div class="tab-item active" onclick="AdminManager.switchTab('all')" id="tab-all">
+                <i class="fa-solid fa-users"></i> Todos
+                <span class="tab-count" id="count-all">0</span>
+            </div>
+            <div class="tab-item" onclick="AdminManager.switchTab('sellers')" id="tab-sellers">
+                <i class="fa-solid fa-user-tie"></i> Vendedores
+                <span class="tab-count" id="count-sellers">0</span>
+            </div>
+            <div class="tab-item" onclick="AdminManager.switchTab('users')" id="tab-users">
+                <i class="fa-solid fa-store"></i> Clientes (Lojas)
+                <span class="tab-count" id="count-users">0</span>
+            </div>
+        </div>
+
+        <div class="user-list-container">
+            <div class="user-list-header">
+                <div>Loja / Empresa</div>
+                <div>E-mail de Login</div>
+                <div>Nível</div>
+                <div>Estatísticas</div>
+                <div style="text-align: right;">Ações</div>
+            </div>
+            <div id="userGrid">
+                <!-- Usuários serão carregados aqui como linhas da lista -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Edição de Usuário -->
+    <div id="userModal" class="admin-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Editar Usuário</h2>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+            <div id="modalBody">
+                <!-- Conteúdo de edição -->
+            </div>
+            <div class="section-actions" style="margin-top: 2rem;">
+                <button class="btn-small btn-primary" onclick="saveUserChanges()">
+                    <i class="fa-solid fa-save"></i> Salvar Alterações
+                </button>
+                <button class="btn-small btn-outline" onclick="closeModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <input type="file" id="storeBackupImportInput" accept=".json,application/json" hidden>
+
+    <script src="src/javascript/auth.js?v=20260413d"></script>
+    <script>
+        // Verificação de permissão imediata
+        if (!Auth.isAuthenticated()) {
+            window.location.href = 'login.html';
+        } else if (!Auth.isAdmin() && !Auth.isSeller()) {
+            alert('Acesso negado. Você não tem permissão para acessar esta página.');
+            window.location.href = 'painel.html';
+        }
+    </script>
+    <script src="src/javascript/db.js?v=20260413d"></script>
+    <script>
+        // Lógica do Admin
+        const AdminManager = {
+            users: [],
+            filteredUsers: [],
+            currentTab: 'all', // 'all', 'sellers', 'users'
+            searchQuery: '',
+            currentUserEditing: null,
+            currentImportUserId: null,
+            modalSaveAction: 'saveUserChanges',
+
+            init() {
+                this.loadUsers();
+                this.setupUI();
+            },
+
+            setupUI() {
+                const currentUser = Auth.getCurrentUser();
+                const actionsContainer = document.getElementById('adminActions');
+                const tabsContainer = document.getElementById('adminTabs');
+                
+                if (currentUser.role === 'seller' || currentUser.role === 'admin') {
+                    actionsContainer.innerHTML = `
+                        <button class="btn-small btn-primary" onclick="AdminManager.createNewUserModal()" style="background: var(--admin-success);">
+                            <i class="fa-solid fa-plus"></i> Novo Cliente
+                        </button>
+                    `;
+                }
+
+                if (currentUser.role === 'admin') {
+                    tabsContainer.style.display = 'flex';
+                }
+
+                const importInput = document.getElementById('storeBackupImportInput');
+                if (importInput) {
+                    importInput.addEventListener('change', (event) => {
+                        this.handleImportFileSelection(event);
+                    });
+                }
+
+                document.addEventListener('click', (event) => {
+                    if (!event.target.closest('.store-menu')) {
+                        this.closeAllStoreMenus();
+                    }
+                });
+            },
+
+            createNewUserModal() {
+                this.currentUserEditing = null;
+                const modal = document.getElementById('userModal');
+                const modalTitle = document.getElementById('modalTitle');
+                const modalBody = document.getElementById('modalBody');
+                const currentUser = Auth.getCurrentUser();
+
+                modalTitle.textContent = 'Cadastrar Novo Cliente';
+                modalBody.innerHTML = `
+                    <div class="input-box">
+                        <label class="form-label">Nome da Empresa</label>
+                        <input type="text" id="new_nomeEmpresa" class="form-control" placeholder="Ex: Padaria do João">
+                    </div>
+                    <div class="input-box">
+                        <label class="form-label">Nome do Responsável</label>
+                        <input type="text" id="new_nomeResponsavel" class="form-control" placeholder="Ex: João Silva">
+                    </div>
+                    <div class="input-box">
+                        <label class="form-label">Email (Login)</label>
+                        <input type="email" id="new_email" class="form-control" placeholder="Ex: joao">
+                    </div>
+                    <div class="input-box">
+                        <label class="form-label">Senha Inicial</label>
+                        <input type="text" id="new_senha" class="form-control" value="123456">
+                    </div>
+                    ${currentUser.role === 'admin' ? `
+                    <div class="input-box">
+                        <label class="form-label">Nível de Acesso</label>
+                        <select id="new_role" class="form-control">
+                            <option value="user" selected>Usuário Comum</option>
+                            <option value="seller">Vendedor</option>
+                            <option value="admin">Administrador</option>
+                        </select>
+                    </div>
+                    ` : `
+                        <input type="hidden" id="new_role" value="user">
+                    `}
+                `;
+
+                // Alterar o botão de salvar do modal para chamar uma função de criação
+                const saveBtn = document.querySelector('#userModal .btn-primary');
+                saveBtn.setAttribute('onclick', 'AdminManager.saveNewUser()');
+
+                modal.style.display = 'flex';
+            },
+
+            async saveNewUser() {
+                const nomeEmpresa = document.getElementById('new_nomeEmpresa').value.trim();
+                const nomeResponsavel = document.getElementById('new_nomeResponsavel').value.trim();
+                let email = document.getElementById('new_email').value.trim();
+                const senha = document.getElementById('new_senha').value;
+                const role = document.getElementById('new_role').value;
+
+                if (!nomeEmpresa || !email || !senha) {
+                    alert('Preencha os campos obrigatórios: Empresa, Email e Senha.');
+                    return;
+                }
+
+                const result = await Auth.register({
+                    nomeEmpresa,
+                    nomeResponsavel,
+                    email,
+                    senha,
+                    role
+                });
+
+                if (result.success) {
+                    alert('Cliente cadastrado com sucesso!');
+                    this.closeModal();
+                    this.loadUsers();
+                } else {
+                    alert(result.message);
+                }
+            },
+
+            loadUsers() {
+                this.users = Auth.getAllUsers();
+                this.applyFilters();
+                this.updateTabCounts();
+                document.getElementById('totalUsers').textContent = this.users.length;
+            },
+
+            updateTabCounts() {
+                if (Auth.isAdmin()) {
+                    const all = this.users.length;
+                    const sellers = this.users.filter(u => u.role === 'seller').length;
+                    const users = this.users.filter(u => u.role === 'user').length;
+
+                    document.getElementById('count-all').textContent = all;
+                    document.getElementById('count-sellers').textContent = sellers;
+                    document.getElementById('count-users').textContent = users;
+                }
+            },
+
+            switchTab(tab) {
+                this.currentTab = tab;
+                
+                // Update UI classes
+                document.querySelectorAll('.tab-item').forEach(el => el.classList.remove('active'));
+                document.getElementById(`tab-${tab}`).classList.add('active');
+
+                this.applyFilters();
+            },
+
+            handleSearch(query) {
+                this.searchQuery = query.toLowerCase().trim();
+                this.applyFilters();
+            },
+
+            applyFilters() {
+                let result = [...this.users];
+
+                // 1. Filter by Tab (if admin)
+                if (Auth.isAdmin()) {
+                    if (this.currentTab === 'sellers') {
+                        result = result.filter(u => u.role === 'seller');
+                    } else if (this.currentTab === 'users') {
+                        result = result.filter(u => u.role === 'user');
+                    }
+                }
+
+                // 2. Filter by Search Query
+                if (this.searchQuery) {
+                    result = result.filter(user => {
+                        return (
+                            (user.nomeEmpresa && user.nomeEmpresa.toLowerCase().includes(this.searchQuery)) ||
+                            (user.nomeResponsavel && user.nomeResponsavel.toLowerCase().includes(this.searchQuery)) ||
+                            (user.email && user.email.toLowerCase().includes(this.searchQuery))
+                        );
+                    });
+                }
+
+                this.filteredUsers = result;
+                this.renderUsers();
+            },
+
+            renderUsers() {
+                const container = document.getElementById('userGrid');
+                container.innerHTML = '';
+
+                if (this.filteredUsers.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 3rem; background: white; color: #64748b;">
+                            <i class="fa-solid fa-search" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.2;"></i>
+                            <p>Nenhum usuário encontrado para sua busca.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const currentUser = Auth.getCurrentUser();
+
+                this.filteredUsers.forEach(user => {
+                    const dbRaw = localStorage.getItem(user.dbKey);
+                    const db = dbRaw ? JSON.parse(dbRaw) : null;
+                    
+                    const linksCount = db ? (db.links ? db.links.length : 0) : 0;
+                    const galleryCount = db ? (db.gallery ? db.gallery.length : 0) : 0;
+                    const videosCount = db ? (db.videos ? db.videos.length : 0) : 0;
+                    const viewsCount = db && db.stats ? db.stats.views || 0 : 0;
+
+                    let roleBadgeClass = 'badge-user';
+                    let roleLabel = 'USER';
+                    if (user.role === 'admin') {
+                        roleBadgeClass = 'badge-admin';
+                        roleLabel = 'ADMIN';
+                    } else if (user.role === 'seller') {
+                        roleBadgeClass = 'badge-seller';
+                        roleLabel = 'SELLER';
+                    }
+
+                    const row = document.createElement('div');
+                    row.className = 'user-list-item';
+                    
+                    const logoUrl = db && db.profile && db.profile.profilePhoto ? db.profile.profilePhoto : null;
+                    const logoHtml = logoUrl 
+                        ? `<img src="${logoUrl}" class="store-logo-sm" alt="Logo">`
+                        : `<div class="store-logo-sm"><i class="fa-solid fa-store"></i></div>`;
+
+                    row.innerHTML = `
+                        <div class="col-store">
+                            ${logoHtml}
+                            <div class="col-store-info">
+                                <h3>${user.nomeEmpresa || 'Sem Nome'}</h3>
+                                <span class="col-text" style="font-size: 0.75rem; color: #94a3b8;">Desde ${new Date(user.createdAt).toLocaleDateString()}</span>
+                            </div>
+                        </div>
+                        <div class="col-text" style="font-weight: 500;">${user.email}</div>
+                        <div>
+                            <span class="badge ${roleBadgeClass}">${roleLabel}</span>
+                        </div>
+                        <div class="col-stats">
+                            <span class="stat-pill" title="Visitas"><i class="fa-solid fa-eye"></i> ${viewsCount}</span>
+                            <span class="stat-pill" title="Links"><i class="fa-solid fa-link"></i> ${linksCount}</span>
+                            <span class="stat-pill" title="Fotos"><i class="fa-solid fa-image"></i> ${galleryCount}</span>
+                            <span class="stat-pill" title="Vídeos"><i class="fa-solid fa-video"></i> ${videosCount}</span>
+                        </div>
+                        <div class="user-actions-compact">
+                            ${user.role !== 'admin' ? `
+                            <button class="btn-action-sm btn-status-sm ${user.status === 'blocked' ? 'blocked' : ''}" onclick="AdminManager.toggleStatus(${user.id})" title="${user.status === 'blocked' ? 'Ativar Loja' : 'Bloquear Loja'}">
+                                <i class="fa-solid ${user.status === 'blocked' ? 'fa-lock' : 'fa-lock-open'}"></i>
+                            </button>
+                            ` : ''}
+                            <button class="btn-action-sm btn-stats-sm" onclick="AdminManager.editViews(${user.id})" title="Editar visualizações">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                            <button class="btn-action-sm btn-view-sm" onclick="AdminManager.viewPage('${user.dbKey}')" title="Ver Página">
+                                <i class="fa-solid fa-external-link"></i>
+                            </button>
+                            ${(currentUser.role === 'admin' && user.role !== 'admin') || (currentUser.role === 'seller' && user.id !== currentUser.id) ? `
+                            <button class="btn-action-sm btn-delete-sm" onclick="AdminManager.deleteUser(${user.id})" title="Excluir">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                            ` : ''}
+                            <div class="store-menu">
+                                <button class="btn-action-sm btn-gear-sm" type="button" onclick="AdminManager.toggleStoreMenu(event, ${user.id})" title="Acoes da loja">
+                                    <i class="fa-solid fa-gear"></i>
+                                </button>
+                                <div class="store-menu-dropdown" id="store-menu-${user.id}">
+                                    <button class="store-menu-item" type="button" onclick="AdminManager.impersonateUser(${user.id})">
+                                        <i class="fa-solid fa-right-to-bracket"></i>
+                                        Entrar no painel
+                                    </button>
+                                    <button class="store-menu-item" type="button" onclick="AdminManager.openStoreSettings(${user.id})">
+                                        <i class="fa-solid fa-user-gear"></i>
+                                        Emails e senha
+                                    </button>
+                                    <button class="store-menu-item" type="button" onclick="AdminManager.editUser(${user.id})">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                        Editar dados da loja
+                                    </button>
+                                    <button class="store-menu-item" type="button" onclick="AdminManager.exportStoreBackup(${user.id})">
+                                        <i class="fa-solid fa-download"></i>
+                                        Backup da loja
+                                    </button>
+                                    <button class="store-menu-item" type="button" onclick="AdminManager.openStoreImport(${user.id})">
+                                        <i class="fa-solid fa-upload"></i>
+                                        Importar backup
+                                    </button>
+                                    <button class="store-menu-item" type="button" onclick="AdminManager.viewPage('${user.dbKey}')">
+                                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                        Ver pagina
+                                    </button>
+                                    ${(currentUser.role === 'admin' && user.role !== 'admin') || (currentUser.role === 'seller' && user.id !== currentUser.id) ? `
+                                    <button class="store-menu-item danger" type="button" onclick="AdminManager.deleteUser(${user.id})">
+                                        <i class="fa-solid fa-trash"></i>
+                                        Excluir loja
+                                    </button>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(row);
+                });
+            },
+
+            toggleStoreMenu(event, userId) {
+                event.stopPropagation();
+
+                const menu = document.getElementById(`store-menu-${userId}`);
+                const trigger = event.currentTarget;
+                if (!menu || !trigger) return;
+
+                const shouldOpen = !menu.classList.contains('is-open');
+                this.closeAllStoreMenus();
+
+                if (shouldOpen) {
+                    menu.classList.add('is-open');
+                    trigger.classList.add('is-open');
+                }
+            },
+
+            closeAllStoreMenus() {
+                document.querySelectorAll('.store-menu-dropdown').forEach(menu => {
+                    menu.classList.remove('is-open');
+                });
+
+                document.querySelectorAll('.btn-gear-sm').forEach(button => {
+                    button.classList.remove('is-open');
+                });
+            },
+
+            openStoreSettings(userId) {
+                const user = this.users.find(u => u.id === userId);
+                if (!user) return;
+
+                this.closeAllStoreMenus();
+                this.currentUserEditing = user;
+
+                const modal = document.getElementById('userModal');
+                const modalTitle = document.getElementById('modalTitle');
+                const modalBody = document.getElementById('modalBody');
+                const saveBtn = document.querySelector('#userModal .btn-primary');
+
+                modalTitle.textContent = `Configurações da Loja`;
+                saveBtn.setAttribute('onclick', 'AdminManager.saveStoreSettings()');
+
+                modalBody.innerHTML = `
+                    <div class="input-box">
+                        <label class="form-label">Loja</label>
+                        <input type="text" class="form-control" value="${user.nomeEmpresa || ''}" disabled>
+                    </div>
+                    <div class="input-box">
+                        <label class="form-label">Email de login</label>
+                        <input type="email" id="settings_email" class="form-control" value="${user.email || ''}">
+                    </div>
+                    <div class="input-box">
+                        <label class="form-label">Google vinculado</label>
+                        <input type="text" class="form-control" value="${user.googleId ? 'Conectado' : 'Nao vinculado'}" disabled>
+                    </div>
+                    <div class="input-box">
+                        <label class="form-label">Status da conta</label>
+                        <select id="settings_status" class="form-control">
+                            <option value="active" ${user.status === 'active' ? 'selected' : ''}>Ativa</option>
+                            <option value="blocked" ${user.status === 'blocked' ? 'selected' : ''}>Bloqueada</option>
+                            <option value="disabled" ${user.status === 'disabled' ? 'selected' : ''}>Desativada</option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <label class="form-label" for="settings_force_password_change">Forcar troca de senha</label>
+                        <input type="checkbox" id="settings_force_password_change" ${user.forcePasswordChange ? 'checked' : ''}>
+                    </div>
+                    <div class="input-box">
+                        <label class="form-label">Nova senha</label>
+                        <input type="password" id="settings_new_password" class="form-control" placeholder="Deixe em branco para manter a atual">
+                    </div>
+                    <div class="input-box">
+                        <label class="form-label">Confirmar nova senha</label>
+                        <input type="password" id="settings_confirm_password" class="form-control" placeholder="Repita a nova senha">
+                    </div>
+                `;
+
+                modal.style.display = 'flex';
+            },
+
+            editUser(userId) {
+                const user = this.users.find(u => u.id === userId);
+                if (!user) return;
+
+                this.currentUserEditing = user;
+                const dbRaw = localStorage.getItem(user.dbKey);
+                const db = dbRaw ? JSON.parse(dbRaw) : null;
+                const currentUser = Auth.getCurrentUser();
+
+                const modal = document.getElementById('userModal');
+                const modalTitle = document.getElementById('modalTitle');
+                const modalBody = document.getElementById('modalBody');
+                
+                modalTitle.textContent = 'Editar Usuário';
+                // Restaurar botão de salvar para função de edição
+                const saveBtn = document.querySelector('#userModal .btn-primary');
+                saveBtn.setAttribute('onclick', 'AdminManager.saveUserChanges()');
+
+                modalBody.innerHTML = `
+                    <div class="input-box">
+                        <label class="form-label">Nome da Empresa</label>
+                        <input type="text" id="edit_nomeEmpresa" class="form-control" value="${user.nomeEmpresa || ''}">
+                    </div>
+                    <div class="input-box">
+                        <label class="form-label">Nome do Responsável</label>
+                        <input type="text" id="edit_nomeResponsavel" class="form-control" value="${user.nomeResponsavel || ''}">
+                    </div>
+                    <div class="input-box">
+                        <label class="form-label">Email (Login)</label>
+                        <input type="email" id="edit_email" class="form-control" value="${user.email || ''}">
+                    </div>
+                    ${currentUser.role === 'admin' ? `
+                    <div class="input-box">
+                        <label class="form-label">Nível de Acesso</label>
+                        <select id="edit_role" class="form-control">
+                            <option value="user" ${user.role === 'user' ? 'selected' : ''}>Usuário Comum</option>
+                            <option value="seller" ${user.role === 'seller' ? 'selected' : ''}>Vendedor</option>
+                            <option value="admin" ${user.role === 'admin' ? 'selected' : ''}>Administrador</option>
+                        </select>
+                    </div>
+                    ` : `
+                        <input type="hidden" id="edit_role" value="${user.role}">
+                    `}
+                    <hr style="margin: 2rem 0; border: 0; border-top: 1px solid #e2e8f0;">
+                    <h4>Dados da Página (Profile)</h4>
+                    <div class="input-box">
+                        <label class="form-label">Bio da Loja</label>
+                        <textarea id="edit_bio" class="form-control" rows="3">${db ? db.profile.bio : ''}</textarea>
+                    </div>
+                    <div class="input-box" style="margin-top: 1rem;">
+                        <label class="form-label">Dados Brutos (JSON)</label>
+                        <textarea id="edit_raw_db" class="form-control" rows="10" style="font-family: monospace; font-size: 0.8rem;">${dbRaw || ''}</textarea>
+                    </div>
+                `;
+
+                modal.style.display = 'flex';
+            },
+
+            editViews(userId) {
+                const user = this.users.find(u => u.id === userId);
+                if (!user) return;
+
+                this.currentUserEditing = user;
+                const dbRaw = localStorage.getItem(user.dbKey);
+                const db = dbRaw ? JSON.parse(dbRaw) : null;
+                const viewsCount = db && db.stats ? Number(db.stats.views || 0) : 0;
+
+                const modal = document.getElementById('userModal');
+                const modalTitle = document.getElementById('modalTitle');
+                const modalBody = document.getElementById('modalBody');
+                const saveBtn = document.querySelector('#userModal .btn-primary');
+
+                modalTitle.textContent = 'Editar visualizações';
+                saveBtn.setAttribute('onclick', 'AdminManager.saveViewsChanges()');
+
+                modalBody.innerHTML = `
+                    <div class="input-box">
+                        <label class="form-label">Loja</label>
+                        <input type="text" class="form-control" value="${user.nomeEmpresa || ''}" disabled>
+                    </div>
+                    <div class="input-box">
+                        <label class="form-label">Número de visualizações</label>
+                        <input type="number" id="edit_views_count" class="form-control" min="0" step="1" value="${viewsCount}">
+                    </div>
+                    <div class="input-box">
+                        <label class="form-label">Última visualização</label>
+                        <input type="text" class="form-control" value="${db && db.stats && db.stats.lastView ? new Date(db.stats.lastView).toLocaleString() : 'Nenhuma'}" disabled>
+                    </div>
+                `;
+
+                modal.style.display = 'flex';
+            },
+
+            async saveUserChanges() {
+                if (!this.currentUserEditing) return;
+
+                const user = this.currentUserEditing;
+                const updatedData = {
+                    nomeEmpresa: document.getElementById('edit_nomeEmpresa').value,
+                    nomeResponsavel: document.getElementById('edit_nomeResponsavel').value,
+                    email: document.getElementById('edit_email').value,
+                    role: document.getElementById('edit_role').value
+                };
+
+                // Atualizar usuário via Auth
+                const result = await Auth.updateUser(user.id, updatedData);
+                if (!result.success) {
+                    alert(result.message);
+                    return;
+                }
+
+                // Atualizar Profile no DB do usuário
+                const dbRawInput = document.getElementById('edit_raw_db').value;
+                if (dbRawInput) {
+                    try {
+                        const db = JSON.parse(dbRawInput);
+                        db.profile.storeName = updatedData.nomeEmpresa;
+                        db.profile.bio = document.getElementById('edit_bio').value;
+                        db._updatedAt = new Date().toISOString();
+                        localStorage.setItem(user.dbKey, JSON.stringify(db));
+                    } catch (e) {
+                        alert('Erro ao salvar JSON: Certifique-se de que é um JSON válido.');
+                        return;
+                    }
+                }
+
+                alert('Alterações salvas com sucesso!');
+                this.closeModal();
+                this.loadUsers();
+            },
+
+            saveViewsChanges() {
+                if (!this.currentUserEditing) return;
+
+                const user = this.currentUserEditing;
+                const nextViews = Math.max(0, parseInt(document.getElementById('edit_views_count')?.value, 10) || 0);
+                const dbRaw = localStorage.getItem(user.dbKey);
+                const db = dbRaw ? JSON.parse(dbRaw) : {};
+
+                if (!db.stats || typeof db.stats !== 'object') {
+                    db.stats = { views: 0, lastView: null };
+                }
+
+                db.stats.views = nextViews;
+                db._updatedAt = new Date().toISOString();
+                localStorage.setItem(user.dbKey, JSON.stringify(db));
+
+                alert('Visualizações atualizadas com sucesso!');
+                this.closeModal();
+                this.loadUsers();
+            },
+
+            async saveStoreSettings() {
+                if (!this.currentUserEditing) return;
+
+                const user = this.currentUserEditing;
+                const email = document.getElementById('settings_email')?.value?.trim() || '';
+                const status = document.getElementById('settings_status')?.value || 'active';
+                const forcePasswordChange = Boolean(document.getElementById('settings_force_password_change')?.checked);
+                const newPassword = document.getElementById('settings_new_password')?.value || '';
+                const confirmPassword = document.getElementById('settings_confirm_password')?.value || '';
+
+                if (!email) {
+                    alert('Preencha o email da conta.');
+                    return;
+                }
+
+                const updateResult = await Auth.updateUser(user.id, { email, status, forcePasswordChange });
+                if (!updateResult.success) {
+                    alert(updateResult.message);
+                    return;
+                }
+
+                if (newPassword || confirmPassword) {
+                    if (newPassword.length < 6) {
+                        alert('A nova senha precisa ter pelo menos 6 caracteres.');
+                        return;
+                    }
+
+                    if (newPassword !== confirmPassword) {
+                        alert('As senhas nao conferem.');
+                        return;
+                    }
+
+                    const passwordResult = await Auth.resetUserPassword(user.id, newPassword, { forcePasswordChange: true });
+                    if (!passwordResult.success) {
+                        alert(passwordResult.message);
+                        return;
+                    }
+                }
+
+                alert('Credenciais da loja atualizadas com sucesso!');
+                this.closeModal();
+                this.loadUsers();
+            },
+
+            exportStoreBackup(userId) {
+                const user = this.users.find(u => u.id === userId);
+                if (!user) return;
+
+                this.closeAllStoreMenus();
+
+                const raw = localStorage.getItem(user.dbKey);
+                if (!raw) {
+                    alert('Nenhum dado encontrado para exportar nesta loja.');
+                    return;
+                }
+
+                try {
+                    const db = JSON.parse(raw);
+                    const safeStoreName = String(db?.profile?.storeName || user.nomeEmpresa || 'minha-loja')
+                        .normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, '')
+                        .replace(/[^a-zA-Z0-9]+/g, '-')
+                        .replace(/^-+|-+$/g, '')
+                        .toLowerCase();
+                    const exportDate = new Date().toISOString().slice(0, 10);
+                    const blob = new Blob([JSON.stringify(db, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${safeStoreName || 'minha-loja'}_backup_${exportDate}.json`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                } catch (error) {
+                    alert('Nao foi possivel gerar o backup desta loja.');
+                }
+            },
+
+            openStoreImport(userId) {
+                const user = this.users.find(u => u.id === userId);
+                if (!user) return;
+
+                this.closeAllStoreMenus();
+                this.currentImportUserId = userId;
+
+                const input = document.getElementById('storeBackupImportInput');
+                if (input) {
+                    input.value = '';
+                    input.click();
+                }
+            },
+
+            async handleImportFileSelection(event) {
+                const file = event.target?.files?.[0];
+                if (!file || !this.currentImportUserId) return;
+
+                const user = this.users.find(u => u.id === this.currentImportUserId);
+                this.currentImportUserId = null;
+
+                if (!user) return;
+
+                const confirmed = confirm(`Importar este backup para a loja ${user.nomeEmpresa}? Isso substituira os dados atuais da loja.`);
+                if (!confirmed) {
+                    event.target.value = '';
+                    return;
+                }
+
+                try {
+                    const content = await file.text();
+                    const data = JSON.parse(content);
+
+                    if (!data || !data._version) {
+                        throw new Error('Arquivo de backup invalido.');
+                    }
+
+                    data._updatedAt = new Date().toISOString();
+                    localStorage.setItem(user.dbKey, JSON.stringify(data));
+
+                    if (window.TrilistaSupabaseSync && window.TrilistaSupabaseSync.isConfigured()) {
+                        await window.TrilistaSupabaseSync.upsertStorePage(user.id, user.dbKey, data);
+                        await window.TrilistaSupabaseSync.syncNormalizedStoreData(user.id, user.dbKey, data);
+                    }
+
+                    alert('Backup importado com sucesso para a loja.');
+                    this.loadUsers();
+                } catch (error) {
+                    alert(error.message || 'Nao foi possivel importar o backup.');
+                } finally {
+                    event.target.value = '';
+                }
+            },
+
+            deleteUser(userId) {
+                if (!confirm('Tem certeza que deseja excluir este usuário e todos os seus dados? Esta ação não pode ser desfeita.')) return;
+
+                const result = Auth.deleteUser(userId);
+                if (result.success) {
+                    this.loadUsers();
+                } else {
+                    alert(result.message);
+                }
+            },
+
+            impersonateUser(userId) {
+                const result = Auth.impersonateUser(userId);
+                if (result.success) {
+                    window.location.href = 'painel.html';
+                } else {
+                    alert(result.message);
+                }
+            },
+
+            async resetPassword(userId) {
+                const user = this.users.find(u => u.id === userId);
+                if (!user) return;
+
+                const newPassword = prompt(`Digite a nova senha para ${user.nomeEmpresa}:`, '');
+                if (newPassword === null) return; // Cancelado
+
+                if (newPassword.length < 6) {
+                    alert('A senha deve ter pelo menos 6 caracteres.');
+                    return;
+                }
+
+                const result = await Auth.resetUserPassword(userId, newPassword, { forcePasswordChange: true });
+                if (result.success) {
+                    alert('Senha alterada com sucesso!');
+                } else {
+                    alert(result.message);
+                }
+            },
+
+            async toggleStatus(userId) {
+                const result = await Auth.toggleUserStatus(userId);
+                if (result.success) {
+                    this.loadUsers();
+                } else {
+                    alert(result.message);
+                }
+            },
+
+            viewPage(dbKey) {
+                // Para visualizar, podemos simular um login temporário ou abrir a preview com o dbKey
+                // Aqui vamos apenas alertar por enquanto, ou podemos abrir preview.html?db=... se o preview suportar
+                window.open(`preview.html?dbKey=${dbKey}`, '_blank');
+            },
+
+            closeModal() {
+                this.closeAllStoreMenus();
+                document.getElementById('userModal').style.display = 'none';
+                this.currentUserEditing = null;
+            }
+        };
+
+        function closeModal() { AdminManager.closeModal(); }
+        function saveUserChanges() { AdminManager.saveUserChanges(); }
+
+        // Inicializar
+        AdminManager.init();
+    </script>
+</body>
+</html>
+
+

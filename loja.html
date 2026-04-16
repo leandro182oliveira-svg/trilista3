@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - Minha Loja</title>
+    
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="src/styles/perfil_completo.css?v=20260413n">
+    <link rel="stylesheet" href="src/styles/tema-classico.css">
+    <link rel="stylesheet" href="src/styles/tema-pink.css">
+    <link rel="stylesheet" href="src/styles/tema-dark.css">
+    <link rel="stylesheet" href="src/styles/tema-custom.css">
+    <link rel="stylesheet" href="src/styles/carousel.css">
+    <link rel="stylesheet" href="src/styles/gallery.css">
+    <link rel="stylesheet" href="src/styles/videos.css">
+    
+    <!-- Supabase Client (DEVE estar antes de auth.js e db.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="src/javascript/supabase-client.js"></script>
+    <script src="src/javascript/supabase-sync.js?v=20260413b"></script>
+    
+    <!-- Scripts Base -->
+    <script src="src/javascript/auth.js?v=20260413b"></script>
+    <script src="src/javascript/db.js?v=20260413c"></script>
+</head>
+<body>
+    <!-- Camada de Fundo Customizado (Fora do container para ocupar a tela toda) -->
+    <div id="previewBgLayer" class="preview-bg-layer"></div>
+
+    <div class="perfil-container" id="perfil-container">
+        <!-- Banner/Capa -->
+        <header class="perfil-header">
+            <div class="perfil-cover" id="perfil-cover"></div>
+            
+            <div class="perfil-info-wrapper">
+                <!-- Foto de Perfil sobreposta -->
+                <div class="perfil-avatar" id="perfil-avatar">
+                    <img id="avatar-img" src="src/img/logo.png" alt="Logo da Loja" style="display: none;">
+                    <div class="avatar-placeholder" id="avatar-placeholder">
+                        <i class="fa-solid fa-store"></i>
+                    </div>
+                </div>
+                
+                <h1 class="perfil-nome" id="perfil-nome">Carregando...</h1>
+                <p class="perfil-bio" id="perfil-bio"></p>
+                
+                <!-- EndereÃ§o com Ã­cone -->
+                <div class="perfil-endereco" id="perfil-endereco" style="display: none;">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span id="endereco-texto"></span>
+                </div>
+
+                <div class="perfil-view-counter" id="perfil-view-counter" style="display: none;">
+                    <i class="fa-solid fa-eye"></i>
+                    <span id="perfil-view-counter-value">0</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="perfil-content">
+            <!-- SeÃ§Ã£o Links & Contatos -->
+            <section class="perfil-section" id="section-links" style="display: none;">
+                <div class="section-header-inline">
+                    <h2 class="section-title">Links & Contatos</h2>
+                    <div class="contact-card-download" id="contact-card-download" style="display: none;">
+                        <a id="saveContactBtn" class="contact-card-download__button" href="#">
+                            <i class="fa-solid fa-address-book"></i>
+                            <span>Salvar contato</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="links-grid" id="links-grid">
+                    <!-- Links serÃ£o inseridos via JS -->
+                </div>
+            </section>
+
+            <!-- Galeria de Imagens -->
+            <section class="perfil-section" id="section-gallery" style="display: none;">
+                <div class="gallery-header">
+                    <h2 class="section-title">Galeria</h2>
+                    <div class="gallery-controls">
+                        <div class="view-selector">
+                            <select id="gallery-view-mode" onchange="changeGalleryViewMode(this.value)">
+                                <option value="1">1 imagem</option>
+                                <option value="4">4 imagens</option>
+                                <option value="6">6 imagens</option>
+                            </select>
+                        </div>
+                        <button type="button" class="gallery-open-feed-btn" onclick="openGalleryFeed()">
+                            Ver galeria
+                        </button>
+                    </div>
+                </div>
+                <div class="gallery-carousel" id="phoneGallery">
+                    <div class="carousel-container">
+                        <div class="carousel-track" id="gallery-track">
+                            <!-- Slides serão inseridos via JS -->
+                        </div>
+                        <!-- Botões de navegação -->
+                        <button class="carousel-btn prev-btn" id="galleryPrevBtn" onclick="prevGallerySlide()">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <button class="carousel-btn next-btn" id="galleryNextBtn" onclick="nextGallerySlide()">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                        <!-- Indicadores -->
+                        <div class="carousel-indicators" id="gallery-indicators"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Vídeos -->
+            <section class="perfil-section" id="section-videos" style="display: none;">
+                <h2 class="section-title">Vídeos</h2>
+                <div class="video-carousel" onmouseenter="stopVideoAutoplay()" onmouseleave="startVideoAutoplay()">
+                    <div class="video-track" id="video-track">
+                        <!-- Vídeos serão inseridos via JS -->
+                    </div>
+                    <button class="video-nav-btn video-prev" onclick="moveVideoSlide(-1)">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button class="video-nav-btn video-next" onclick="moveVideoSlide(1)">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                    <div class="video-indicators" id="video-indicators"></div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="perfil-footer">
+            <p>&copy; 2026 Minha Loja Incrível. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <!-- Galeria Completa -->
+    <div id="lightbox" class="lightbox gallery-feed-modal">
+        <button type="button" class="lightbox-close gallery-feed-close" onclick="closeGalleryFeed()">&times;</button>
+        <div class="gallery-feed-modal-shell">
+            <div class="gallery-feed-modal-header">
+                <h3>Galeria</h3>
+                <p>Mais recentes no topo</p>
+            </div>
+            <div class="gallery-feed-modal-scroll" id="gallery-feed-full"></div>
+        </div>
+    </div>
+
+    <script>
+        // Carregamento dinÃ¢mico dos dados
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!window.TrilistaDB) {
+                console.error('Banco de dados nÃ£o carregado');
+                return;
+            }
+
+            // Identificar qual loja carregar
+            const urlParams = new URLSearchParams(window.location.search);
+            const storeKey = urlParams.get('store');
+
+            if (storeKey && window.TrilistaSupabaseSync && window.TrilistaSupabaseSync.isConfigured()) {
+                try {
+                    await window.TrilistaSupabaseSync.loadStoreByDbKeyFromSupabase(storeKey);
+                } catch (error) {
+                    console.warn('Nao foi possivel hidratar a loja via Supabase:', error.message);
+                }
+            }
+            
+            let data;
+            try {
+                // Se houver uma chave na URL, carrega aquela loja especÃ­fica
+                // Se nÃ£o houver, tenta carregar a loja do usuÃ¡rio logado (modo preview)
+                data = TrilistaDB.getDB(storeKey);
+            } catch (e) {
+                console.error('Erro ao carregar dados:', e);
+            }
+
+            if (!data) {
+                document.getElementById('perfil-nome').textContent = 'Perfil não encontrado';
+                document.body.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: center; height: 100vh; flex-direction: column; font-family: sans-serif; text-align: center; padding: 20px;">
+                        <i class="fa-solid fa-store-slash" style="font-size: 48px; color: #cbd5e0; margin-bottom: 20px;"></i>
+                        <h1 style="color: #1e293b;">Loja não encontrada</h1>
+                        <p style="color: #64748b;">Verifique o link ou certifique-se de que a loja está configurada.</p>
+                        <a href="index.html" style="margin-top: 20px; color: #667eea; text-decoration: none; font-weight: 600;">Voltar ao Início</a>
+                    </div>
+                `;
+                return;
+            }
+
+            // 1. Renderizar Perfil
+            const profile = data.profile;
+            if (profile) {
+                const normalizedStoreName = normalizePublicText(profile.storeName, 'Minha Loja');
+                const normalizedBio = normalizePublicText(profile.bio, '');
+
+                document.getElementById('perfil-nome').textContent = normalizedStoreName;
+                document.getElementById('perfil-bio').innerHTML = normalizedBio;
+                profile.storeName = normalizedStoreName;
+                profile.bio = normalizedBio;
+                
+                // Capa
+                if (profile.coverPhoto) {
+                    const cover = document.getElementById('perfil-cover');
+                    cover.style.backgroundImage = `url(${profile.coverPhoto})`;
+                    cover.classList.add('has-cover');
+                }
+
+                // Foto de Perfil
+                if (profile.profilePhoto) {
+                    const avatarImg = document.getElementById('avatar-img');
+                    const placeholder = document.getElementById('avatar-placeholder');
+                    avatarImg.src = profile.profilePhoto;
+                    avatarImg.style.display = 'block';
+                    placeholder.style.display = 'none';
+                }
+
+                // EndereÃ§o
+                if (profile.address || profile.city) {
+                    const enderecoSec = document.getElementById('perfil-endereco');
+                    const enderecoTxt = document.getElementById('endereco-texto');
+                    let addrParts = [];
+                    
+                    if (profile.address) addrParts.push(profile.address);
+                    if (profile.neighborhood) addrParts.push(profile.neighborhood);
+                    if (profile.city) addrParts.push(profile.city);
+                    
+                    const fullAddr = addrParts.join(' - ');
+                    
+                    if (fullAddr) {
+                        enderecoSec.style.display = 'flex';
+                        enderecoTxt.textContent = fullAddr;
+                    }
+                }
+            }
+
+            const contactData = TrilistaDB.getContactCardData(storeKey);
+            setupSaveContactButton(contactData);
+
+            function renderViewCounter(profileData, statsData) {
+                const counter = document.getElementById('perfil-view-counter');
+                const counterValue = document.getElementById('perfil-view-counter-value');
+                if (!counter || !counterValue) return;
+
+                const isCounterVisible = profileData && (
+                    profileData.showViewCounter === true ||
+                    profileData.showViewCounter === 'true' ||
+                    profileData.showViewCounter === 1 ||
+                    profileData.showViewCounter === '1'
+                );
+
+                if (!isCounterVisible) {
+                    counter.style.display = 'none';
+                    return;
+                }
+
+                counterValue.textContent = String(Number(statsData?.views || 0));
+                counter.style.display = 'inline-flex';
+            }
+
+            // 2. Renderizar Links
+            const links = data.links || [];
+            if (links.length > 0 || (contactData && contactData.hasMinimumData)) {
+                const linksSection = document.getElementById('section-links');
+                const linksGrid = document.getElementById('links-grid');
+                linksSection.style.display = 'block';
+                linksGrid.innerHTML = links.map(link => {
+                    const info = getLinkInfo(link.type, link);
+                    const url = getLinkUrl(link);
+                    const template = data.template || {};
+                    const isCustom = template.name === 'custom';
+                    const isCompact = template.linkMode === 'compact';
+                    const hasCustomBg = isCustom && link.customColor;
+                    const hasCustomText = isCustom && link.customTextColor;
+                    const borderAccentStyle = isCustom
+                        ? 'border-left: none;'
+                        : `border-left-color: ${info.color || '#667eea'};`;
+                    
+                    let itemBgStyle = isCompact ? 'background: transparent !important;' : '';
+                    let itemColorStyle = '';
+                    let iconBgStyle = '';
+                    let iconColorStyle = '';
+
+                    if (isCustom) {
+                        if (isCompact) {
+                            iconBgStyle = hasCustomBg
+                                ? `background: ${link.customColor} !important;`
+                                : `background: color-mix(in srgb, var(--theme-button-icon-bg, #6366F1), transparent calc(100% - var(--theme-button-icon-opacity-percent, 100%))) !important;`;
+                            iconColorStyle = hasCustomText
+                                ? `color: ${link.customTextColor} !important;`
+                                : `color: var(--theme-icon-color, var(--theme-button-text, #ffffff)) !important;`;
+                        } else {
+                            itemBgStyle = hasCustomBg
+                                ? `background: ${link.customColor} !important;`
+                                : `background: var(--theme-button-list-bg, #ffffff);`;
+                            itemColorStyle = hasCustomText
+                                ? `color: ${link.customTextColor} !important;`
+                                : `color: var(--theme-button-list-text, #1F2937);`;
+                            iconBgStyle = `background: transparent !important;`;
+                            iconColorStyle = hasCustomText
+                                ? `color: ${link.customTextColor} !important;`
+                                : `color: var(--theme-icon-color, var(--theme-button-icon-bg, var(--theme-primary, #6366F1))) !important;`;
+                        }
+                    } else {
+                        itemBgStyle = isCompact ? 'background: transparent !important;' : `background: var(--theme-button-list-bg, #ffffff);`;
+                        itemColorStyle = `color: var(--theme-button-list-text, var(--theme-text-color, #1F2937));`;
+                        iconBgStyle = `background: ${info.color || '#667eea'} !important;`;
+                        iconColorStyle = `color: #ffffff !important;`;
+                    }
+
+                    return `
+                        <a href="${url}" class="link-button phone-link-item" target="_blank" rel="noopener noreferrer"
+                           style="text-decoration: none; ${borderAccentStyle} ${itemBgStyle} ${itemColorStyle}">
+                            <div class="link-icon phone-link-icon ${link.type || ''}" style="${iconBgStyle} ${iconColorStyle}">
+                                <i class="${info.style} ${info.icon}"></i>
+                            </div>
+                            <div class="link-text phone-link-text">
+                                <div class="phone-link-title" style="${itemColorStyle}">${getLinkLabel(link)}</div>
+                            </div>
+                            <div class="link-arrow phone-link-arrow">
+                                <i class="fa-solid fa-chevron-right" style="${itemColorStyle}"></i>
+                            </div>
+                        </a>
+                    `;
+                }).join('');
+            }
+
+            // 3. Renderizar Galeria
+            const gallery = data.gallery || [];
+            if (gallery.length > 0) {
+                const gallerySection = document.getElementById('section-gallery');
+                gallerySection.style.display = 'block';
+                renderGalleryCarousel(gallery);
+            }
+
+            // 4. Renderizar VÃ­deos (Carrossel)
+            const videos = data.videos || [];
+            if (videos.length > 0) {
+                const videosSection = document.getElementById('section-videos');
+                const videoTrack = document.getElementById('video-track');
+                const indicators = document.getElementById('video-indicators');
+                videosSection.style.display = 'block';
+                
+                videoTrack.innerHTML = videos.map((video, index) => {
+                    let content = '';
+                    if (video.type === 'link') {
+                        const embedUrl = getEmbedUrl(video.url);
+                        content = `<iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>`;
+                    } else if (video.type === 'upload' && video.data) {
+                        content = `<video src="${video.data}" controls></video>`;
+                    }
+                    
+                    return `
+                        <div class="video-slide">
+                            ${content}
+                            ${video.caption ? `<div class="video-slide-caption">${video.caption}</div>` : ''}
+                        </div>
+                    `;
+                }).join('');
+
+                // Gerar indicadores
+                if (videos.length > 1) {
+                    indicators.innerHTML = videos.map((_, i) => `
+                        <button class="video-indicator ${i === 0 ? 'active' : ''}" onclick="goToVideoSlide(${i})"></button>
+                    `).join('');
+                } else {
+                    document.querySelector('.video-prev').style.display = 'none';
+                    document.querySelector('.video-next').style.display = 'none';
+                }
+                
+                window.currentVideoSlide = 0;
+                window.totalVideos = videos.length;
+                startVideoAutoplay();
+            }
+            let currentStats = data.stats || { views: 0, lastView: null };
+            if (window.TrilistaDB && !Auth.isImpersonating()) {
+                TrilistaDB.recordView(storeKey);
+                const updatedData = TrilistaDB.getDB(storeKey);
+                currentStats = updatedData?.stats || currentStats;
+            }
+
+            renderViewCounter(profile, currentStats);
+
+            // 6. Aplicar Tema/Template se existir
+            if (data.template) {
+                applyTemplate(data.template);
+            }
+        });
+
+        // LÃ³gica do Carrossel de VÃ­deos
+        let videoAutoplayInterval;
+
+        function startVideoAutoplay() {
+            stopVideoAutoplay();
+            if (window.totalVideos > 1) {
+                videoAutoplayInterval = setInterval(() => {
+                    moveVideoSlide(1);
+                }, 4000); // 4 segundos
+            }
+        }
+
+        function stopVideoAutoplay() {
+            if (videoAutoplayInterval) {
+                clearInterval(videoAutoplayInterval);
+            }
+        }
+
+        function moveVideoSlide(direction) {
+            if (!window.totalVideos || window.totalVideos <= 1) return;
+            
+            window.currentVideoSlide = (window.currentVideoSlide + direction + window.totalVideos) % window.totalVideos;
+            updateVideoCarousel();
+        }
+
+        function goToVideoSlide(index) {
+            stopVideoAutoplay();
+            window.currentVideoSlide = index;
+            updateVideoCarousel();
+            startVideoAutoplay();
+        }
+
+        function updateVideoCarousel() {
+            const track = document.getElementById('video-track');
+            const indicators = document.querySelectorAll('.video-indicator');
+            
+            if (track) {
+                track.style.transform = `translateX(-${window.currentVideoSlide * 100}%)`;
+            }
+            
+            indicators.forEach((ind, i) => {
+                ind.classList.toggle('active', i === window.currentVideoSlide);
+            });
+
+            // Pausar vÃ­deos ao trocar de slide
+            const slides = track.querySelectorAll('.video-slide');
+            slides.forEach((slide, i) => {
+                const video = slide.querySelector('video');
+                const iframe = slide.querySelector('iframe');
+                
+                if (i !== window.currentVideoSlide) {
+                    if (video) video.pause();
+                    if (iframe) {
+                        const src = iframe.src;
+                        iframe.src = '';
+                        iframe.src = src;
+                    }
+                }
+            });
+        }
+
+        // Logica da Galeria em feed vertical
+        function escapeHtml(value) {
+            return String(value || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function getOrderedGalleryItems(gallery) {
+            return (gallery || [])
+                .map((item, index) => ({ item, index }))
+                .sort((a, b) => {
+                    const timeA = Number(a.item.createdAt || a.item.id || 0);
+                    const timeB = Number(b.item.createdAt || b.item.id || 0);
+                    if (timeA !== timeB) return timeB - timeA;
+                    return b.index - a.index;
+                })
+                .map(({ item }) => item);
+        }
+
+        function createGalleryStoryCard(item, modal = false) {
+            const src = item.data || item.url || '';
+            const storeName = document.getElementById('perfil-nome')?.textContent?.trim() || 'Sua loja';
+            const avatarImg = document.querySelector('.perfil-avatar img')?.getAttribute('src') || '';
+            const avatarMarkup = avatarImg
+                ? `<img src="${avatarImg}" alt="${escapeHtml(storeName)}">`
+                : `<span class="gallery-story-avatar-fallback"><i class="fa-solid fa-store"></i></span>`;
+            const caption = item.caption && item.caption.trim()
+                ? `<div class="gallery-story-text"><p>${escapeHtml(item.caption)}</p></div>`
+                : '';
+            const action = modal ? '' : ` onclick="openGalleryFeed()"`;
+            return `
+                <article class="gallery-story-card"${action}>
+                    <div class="gallery-story-head">
+                        <div class="gallery-story-avatar">${avatarMarkup}</div>
+                        <div class="gallery-story-meta">
+                            <strong>${escapeHtml(storeName)}</strong>
+                            <span>Galeria</span>
+                        </div>
+                    </div>
+                    ${caption}
+                    <div class="gallery-story-media">
+                        <img src="${src}" alt="${escapeHtml(item.caption || 'Imagem da galeria')}">
+                    </div>
+                </article>
+            `;
+        }
+
+        let window_currentGallerySlide = 0;
+        let window_galleryData = [];
+        let window_galleryViewMode = 4;
+
+        function getDefaultGalleryViewMode(totalItems) {
+            if (totalItems >= 6) return 6;
+            if (totalItems >= 4) return 4;
+            return 1;
+        }
+
+        function chunkGalleryItems(items, size) {
+            const chunks = [];
+            for (let index = 0; index < items.length; index += size) {
+                chunks.push(items.slice(index, index + size));
+            }
+            return chunks;
+        }
+
+        function renderGalleryCarousel(gallery) {
+            const track = document.getElementById('gallery-track');
+            const fullFeed = document.getElementById('gallery-feed-full');
+            const indicators = document.getElementById('gallery-indicators');
+            const viewModeSelect = document.getElementById('gallery-view-mode');
+            if (!track) return;
+
+            window_galleryData = getOrderedGalleryItems(gallery);
+            window_galleryViewMode = getDefaultGalleryViewMode(window_galleryData.length);
+
+            if (viewModeSelect) {
+                viewModeSelect.value = String(window_galleryViewMode);
+            }
+
+            if (!window_galleryData.length) {
+                track.innerHTML = `
+                    <div class="empty-gallery-state">
+                        <i class="fa-solid fa-images"></i>
+                        <p>Nenhuma foto na galeria</p>
+                    </div>
+                `;
+                if (indicators) indicators.innerHTML = '';
+                const prevBtn = document.getElementById('galleryPrevBtn');
+                const nextBtn = document.getElementById('galleryNextBtn');
+                if (prevBtn) prevBtn.style.display = 'none';
+                if (nextBtn) nextBtn.style.display = 'none';
+                
+                if (fullFeed) {
+                    fullFeed.innerHTML = `
+                        <div class="gallery-feed-empty">
+                            <i class="fa-solid fa-images"></i>
+                            <p>Nenhuma foto publicada ainda.</p>
+                        </div>
+                    `;
+                }
+                return;
+            }
+
+            // Renderizar galeria completa no modal
+            if (fullFeed) {
+                fullFeed.innerHTML = window_galleryData
+                    .map((item, index) => createGalleryStoryCard(item, true, index))
+                    .join('');
+            }
+
+            window_currentGallerySlide = 0;
+            updateGallerySlides();
+        }
+
+        function createGalleryStoryCard(item, modal = false, index = 0) {
+            // Tentar múltiplas fontes de dados para a imagem
+            const src = item.data || item.url || item.src || '';
+            const storeName = document.getElementById('perfil-nome')?.textContent?.trim() || 'Sua loja';
+            const avatarImg = document.querySelector('.perfil-avatar img')?.getAttribute('src') || '';
+            const avatarMarkup = avatarImg
+                ? `<img src="${avatarImg}" alt="${escapeHtml(storeName)}">`
+                : `<span class="gallery-story-avatar-fallback"><i class="fa-solid fa-store"></i></span>`;
+            const caption = item.caption && item.caption.trim()
+                ? `<div class="gallery-story-text"><p>${escapeHtml(item.caption)}</p></div>`
+                : '';
+            const action = modal ? '' : ` onclick="openGalleryFeed()"`;
+            
+            // Se não houver imagem, mostrar placeholder
+            if (!src) {
+                return `
+                    <article class="gallery-story-card"${action}>
+                        <div class="gallery-story-head">
+                            <div class="gallery-story-avatar">${avatarMarkup}</div>
+                            <div class="gallery-story-meta">
+                                <strong>${escapeHtml(storeName)}</strong>
+                                <span>Galeria</span>
+                            </div>
+                        </div>
+                        ${caption}
+                        <div class="gallery-story-media" style="background: #f8fafc; display: flex; align-items: center; justify-content: center; height: 300px;">
+                            <div style="text-align: center; color: #94a3b8;">
+                                <i class="fa-solid fa-image" style="font-size: 48px; opacity: 0.3; margin-bottom: 10px; display: block;"></i>
+                                <span style="font-size: 12px;">Imagem indisponível</span>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }
+            
+            return `
+                <article class="gallery-story-card"${action}>
+                    <div class="gallery-story-head">
+                        <div class="gallery-story-avatar">${avatarMarkup}</div>
+                        <div class="gallery-story-meta">
+                            <strong>${escapeHtml(storeName)}</strong>
+                            <span>Galeria</span>
+                        </div>
+                    </div>
+                    ${caption}
+                    <div class="gallery-story-media">
+                        <img src="${src}" alt="${escapeHtml(item.caption || 'Imagem da galeria')}" onerror="console.error('Erro ao carregar imagem no modal:', this.src)">
+                    </div>
+                </article>
+            `;
+        }
+
+        function prevGallerySlide() {
+            if (window_galleryData.length <= 1) return;
+            window_currentGallerySlide = (window_currentGallerySlide - 1 + window_galleryData.length) % window_galleryData.length;
+            updateGalleryCarousel();
+        }
+
+        function nextGallerySlide() {
+            if (window_galleryData.length <= 1) return;
+            window_currentGallerySlide = (window_currentGallerySlide + 1) % window_galleryData.length;
+            updateGalleryCarousel();
+        }
+
+        function goToGallerySlide(index) {
+            if (index >= 0 && index < window_galleryData.length) {
+                window_currentGallerySlide = index;
+                updateGalleryCarousel();
+            }
+        }
+
+        function updateGalleryCarousel() {
+            const track = document.getElementById('gallery-track');
+            const indicators = document.querySelectorAll('.carousel-indicator');
+            
+            if (!track) return;
+            
+            // Mover track com animação
+            track.style.transform = `translateX(-${window_currentGallerySlide * 100}%)`;
+            
+            // Atualizar indicadores
+            indicators.forEach((indicator, index) => {
+                if (index === window_currentGallerySlide) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+        }
+
+        function updateGallerySlides() {
+            const track = document.getElementById('gallery-track');
+            const indicators = document.getElementById('gallery-indicators');
+            const prevBtn = document.getElementById('galleryPrevBtn');
+            const nextBtn = document.getElementById('galleryNextBtn');
+
+            if (!track) return;
+
+            const itemsPerSlide = Math.max(1, Number(window_galleryViewMode) || 1);
+            const slides = chunkGalleryItems(window_galleryData, itemsPerSlide);
+
+            track.innerHTML = slides.map((slideItems, slideIndex) => {
+                if (itemsPerSlide === 1) {
+                    const item = slideItems[0];
+                    const src = item?.data || item?.url || item?.src || '';
+
+                    if (!src) {
+                        return `
+                            <div class="carousel-slide" data-index="${slideIndex}">
+                                <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #f1f5f9; color: #94a3b8;">
+                                    <i class="fa-solid fa-image" style="font-size: 48px; opacity: 0.3;"></i>
+                                </div>
+                            </div>
+                        `;
+                    }
+
+                    return `
+                        <div class="carousel-slide" data-index="${slideIndex}">
+                            <img src="${src}" alt="${escapeHtml(item?.name || `Foto ${slideIndex + 1}`)}" onerror="console.error('Erro ao carregar imagem:', this.src)">
+                        </div>
+                    `;
+                }
+
+                const gridItems = slideItems.map((item, itemIndex) => {
+                    const src = item?.data || item?.url || item?.src || '';
+                    const itemNumber = (slideIndex * itemsPerSlide) + itemIndex + 1;
+
+                    if (!src) {
+                        return `
+                            <div class="gallery-item">
+                                <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #f1f5f9; color: #94a3b8;">
+                                    <i class="fa-solid fa-image" style="font-size: 32px; opacity: 0.3;"></i>
+                                </div>
+                            </div>
+                        `;
+                    }
+
+                    return `
+                        <div class="gallery-item" onclick="openGalleryFeed()">
+                            <img src="${src}" alt="${escapeHtml(item?.caption || item?.name || `Foto ${itemNumber}`)}" onerror="console.error('Erro ao carregar imagem:', this.src)">
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="carousel-slide" data-index="${slideIndex}">
+                        <div class="gallery-slide-grid view-${itemsPerSlide}">
+                            ${gridItems}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            if (indicators) {
+                indicators.innerHTML = slides.map((_, index) => `
+                    <button class="carousel-indicator ${index === window_currentGallerySlide ? 'active' : ''}"
+                            onclick="goToGallerySlide(${index})"></button>
+                `).join('');
+            }
+
+            if (slides.length > 1) {
+                if (prevBtn) prevBtn.style.display = 'block';
+                if (nextBtn) nextBtn.style.display = 'block';
+            } else {
+                if (prevBtn) prevBtn.style.display = 'none';
+                if (nextBtn) nextBtn.style.display = 'none';
+            }
+
+            if (window_currentGallerySlide >= slides.length) {
+                window_currentGallerySlide = 0;
+            }
+
+            updateGalleryCarousel();
+        }
+
+        function changeGalleryViewMode(value) {
+            window_galleryViewMode = Math.max(1, Number(value) || 1);
+            window_currentGallerySlide = 0;
+            updateGallerySlides();
+        }
+        function moveGallerySlide() {}
+        function startGalleryAutoplay() {}
+        function stopGalleryAutoplay() {}
+
+        function openGalleryFeed() {
+            const lightbox = document.getElementById('lightbox');
+            if (!lightbox) return;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeGalleryFeed() {
+            const lightbox = document.getElementById('lightbox');
+            if (!lightbox) return;
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function escapeVCard(value) {
+            return String(value || '')
+                .replace(/\\/g, '\\\\')
+                .replace(/\r?\n/g, '\\n')
+                .replace(/;/g, '\\;')
+                .replace(/,/g, '\\,');
+        }
+
+        function createVCard(contact) {
+            return [
+                'BEGIN:VCARD',
+                'VERSION:3.0',
+                'FN:' + escapeVCard(contact.name),
+                'N:' + escapeVCard(contact.name) + ';;;;',
+                contact.phone ? 'TEL;TYPE=CELL,VOICE:' + escapeVCard(contact.phone) : '',
+                contact.email ? 'EMAIL;TYPE=INTERNET:' + escapeVCard(contact.email) : '',
+                contact.address ? 'ADR;TYPE=WORK:;;' + escapeVCard(contact.address) + ';;;;' : '',
+                'END:VCARD'
+            ].filter(Boolean).join('\r\n');
+        }
+
+        function setupSaveContactButton(contact) {
+            const wrapper = document.getElementById('contact-card-download');
+            const button = document.getElementById('saveContactBtn');
+            if (!wrapper || !button || !contact || !contact.hasMinimumData) return;
+
+            const vCard = createVCard(contact);
+            const blob = new Blob([vCard], { type: 'text/vcard;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const safeName = (contact.name || 'contato')
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-zA-Z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '')
+                .toLowerCase();
+
+            button.href = url;
+            button.download = `${safeName || 'contato'}.vcf`;
+            wrapper.style.display = 'block';
+
+            window.addEventListener('pagehide', () => URL.revokeObjectURL(url), { once: true });
+        }
+
+        function getEmbedUrl(url) {
+            if (!url) return '';
+            
+            // YouTube
+            const ytRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+            const ytMatch = url.match(ytRegex);
+            if (ytMatch) return `https://www.youtube.com/embed/${ytMatch[1]}`;
+            
+            // Vimeo
+            const vimeoRegex = /(?:vimeo\.com\/|player\.vimeo\.com\/video\/)([0-9]+)/;
+            const vimeoMatch = url.match(vimeoRegex);
+            if (vimeoMatch) return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
+            
+            return url;
+        }
+
+        const customIconOptions = [
+            { key: 'link', label: 'Link', icon: 'fa-link', style: 'fa-solid', color: '#0F766E' },
+            { key: 'globe', label: 'Site', icon: 'fa-globe', style: 'fa-solid', color: '#8B5CF6' },
+            { key: 'message', label: 'Mensagem', icon: 'fa-message', style: 'fa-solid', color: '#2563EB' },
+            { key: 'phone', label: 'Telefone', icon: 'fa-phone', style: 'fa-solid', color: '#3B82F6' },
+            { key: 'envelope', label: 'E-mail', icon: 'fa-envelope', style: 'fa-solid', color: '#EF4444' },
+            { key: 'location', label: 'Localizacao', icon: 'fa-location-dot', style: 'fa-solid', color: '#10B981' },
+            { key: 'telegram', label: 'Telegram', icon: 'fa-telegram', style: 'fa-brands', color: '#229ED9' },
+            { key: 'linkedin', label: 'LinkedIn', icon: 'fa-linkedin', style: 'fa-brands', color: '#0A66C2' },
+            { key: 'youtube', label: 'YouTube', icon: 'fa-youtube', style: 'fa-brands', color: '#FF0000' },
+            { key: 'tiktok', label: 'TikTok', icon: 'fa-tiktok', style: 'fa-brands', color: '#111111' },
+            { key: 'x-twitter', label: 'X / Twitter', icon: 'fa-x-twitter', style: 'fa-brands', color: '#111111' },
+            { key: 'discord', label: 'Discord', icon: 'fa-discord', style: 'fa-brands', color: '#5865F2' },
+            { key: 'github', label: 'GitHub', icon: 'fa-github', style: 'fa-brands', color: '#111111' },
+            { key: 'cart', label: 'Loja', icon: 'fa-cart-shopping', style: 'fa-solid', color: '#F59E0B' }
+        ];
+
+        function resolveCustomIconOption(choice) {
+            const normalized = String(choice || '').trim().toLowerCase();
+            return customIconOptions.find((option) => option.key === normalized) || customIconOptions[0];
+        }
+
+        function getLinkInfo(type, link) {
+            const linkTypes = {
+                whatsapp: { icon: 'fa-whatsapp', style: 'fa-brands', name: 'WhatsApp', color: '#25D366' },
+                instagram: { icon: 'fa-instagram', style: 'fa-brands', name: 'Instagram', color: '#E4405F' },
+                telefone: { icon: 'fa-phone', style: 'fa-solid', name: 'Telefone', color: '#3B82F6' },
+                site: { icon: 'fa-globe', style: 'fa-solid', name: 'Site', color: '#8B5CF6' },
+                facebook: { icon: 'fa-facebook', style: 'fa-brands', name: 'Facebook', color: '#1877F2' },
+                email: { icon: 'fa-envelope', style: 'fa-solid', name: 'E-mail', color: '#EF4444' },
+                maps: { icon: 'fa-map-location-dot', style: 'fa-solid', name: 'Google Maps', color: '#34D399' },
+                custom: { icon: 'fa-link', style: 'fa-solid', name: 'Personalizado', color: '#0F766E' }
+            };
+            if (type === 'custom' && link && link.customIconKey) {
+                const customIcon = resolveCustomIconOption(link.customIconKey);
+                return { ...linkTypes.custom, ...customIcon };
+            }
+            return linkTypes[type] || { icon: 'fa-link', style: 'fa-solid', name: 'Link', color: '#667eea' };
+        }
+
+        function getLinkLabel(link) {
+            const info = getLinkInfo(link && link.type, link);
+            return (link && link.customName && link.customName.trim()) || info.name || 'Link';
+        }
+
+        function getLinkUrl(link) {
+            if (!link || !link.value) return '#';
+            const val = String(link.value);
+            const num = val.replace(/\D/g, '');
+            switch(link.type) {
+                case 'whatsapp':
+                    return 'https://wa.me/55' + num;
+                case 'telefone':
+                    return 'tel:+55' + num;
+                case 'instagram':
+                    const user = val.replace('@', '').trim();
+                    return 'https://www.instagram.com/' + user + '/';
+                case 'facebook':
+                    return val.startsWith('http') ? val : 'https://' + val;
+                case 'site':
+                    return val.startsWith('http') ? val : 'https://' + val;
+                case 'email':
+                    return 'mailto:' + val;
+                case 'maps':
+                    if (val.startsWith('http')) return val;
+                    return 'https://www.google.com/maps/search/' + encodeURIComponent(val);
+                case 'custom':
+                    return val.startsWith('http') ? val : 'https://' + val;
+                default:
+                    return '#';
+            }
+        }
+
+        function applyTemplate(template) {
+            if (!template) return;
+            const root = document.documentElement;
+            const container = document.getElementById('perfil-container');
+            const bgLayer = document.getElementById('previewBgLayer');
+            const cover = document.getElementById('perfil-cover');
+            document.body.classList.remove('theme-classico', 'theme-pink', 'theme-dark', 'theme-custom');
+            container.classList.remove('links-compact', 'has-custom-bg');
+
+            if (cover) {
+                cover.classList.remove('cover-shape-rect', 'cover-shape-curve-down', 'cover-shape-curve-up');
+                const shapeClassMap = {
+                    rect: 'cover-shape-rect',
+                    'curve-down': 'cover-shape-curve-down',
+                    'curve-up': 'cover-shape-curve-up'
+                };
+                cover.classList.add(shapeClassMap[template.coverShape || 'rect'] || 'cover-shape-rect');
+
+                if (cover.classList.contains('has-cover')) {
+                    const configuredHeight = parseInt(template.coverHeight, 10) || 180;
+                    const coverHeight = Math.min(460, Math.max(180, Math.round(configuredHeight * 1.4)));
+                    const overlap = Math.round(coverHeight * 0.3);
+                    cover.style.height = `${coverHeight}px`;
+                    cover.style.marginBottom = `-${overlap}px`;
+                } else {
+                    cover.style.height = '';
+                    cover.style.marginBottom = '';
+                }
+            }
+            
+            if (template.name === 'classico') {
+                document.body.classList.add('theme-classico');
+            } else if (template.name === 'pink') {
+                document.body.classList.add('theme-pink');
+            } else if (template.name === 'dark') {
+                document.body.classList.add('theme-dark');
+            } else if (template.name === 'custom') {
+                document.body.classList.add('theme-custom');
+                // Aplicar cores customizadas
+                if (template.bgColor) {
+                    root.style.setProperty('--theme-bg', template.bgColor);
+                    // Se houver imagem de fundo, o container deve ser transparente
+                    if (template.bgType !== 'image') {
+                        container.style.backgroundColor = template.bgColor;
+                        document.body.style.backgroundColor = template.bgColor;
+                    } else {
+                        container.style.backgroundColor = 'transparent';
+                        document.body.style.backgroundColor = template.bgColor;
+                    }
+                }
+                
+                if (template.textColor) root.style.setProperty('--theme-text-color', template.textColor);
+                if (template.fontFamily) root.style.setProperty('--theme-font-family', template.fontFamily);
+                if (template.btnIconColorBg || template.btnColor) {
+                    root.style.setProperty('--theme-primary', template.btnIconColorBg || template.btnColor);
+                }
+                if (template.btnTextColor) {
+                    root.style.setProperty('--theme-primary-text', template.btnTextColor);
+                }
+                
+                // Propriedades de Texto Adicionais
+                if (template.fontSize) root.style.setProperty('--theme-font-size', `${template.fontSize}px`);
+                if (template.lineHeight) root.style.setProperty('--theme-line-height', template.lineHeight);
+                if (template.letterSpacing) root.style.setProperty('--theme-letter-spacing', `${template.letterSpacing}px`);
+                if (template.headerAlign) root.style.setProperty('--theme-header-align', template.headerAlign);
+                if (template.fontWeight) root.style.setProperty('--theme-font-weight', template.fontWeight);
+                if (template.textShadow) {
+                    root.style.setProperty('--theme-text-shadow', '0px 2px 4px rgba(0,0,0,0.3)');
+                } else {
+                    root.style.setProperty('--theme-text-shadow', 'none');
+                }
+
+                if (template.btnColor) root.style.setProperty('--theme-button-bg', template.btnColor);
+                if (template.btnListColor || template.btnColor) {
+                    root.style.setProperty('--theme-button-list-bg', template.btnListColor || template.btnColor);
+                }
+                root.style.setProperty(
+                    '--theme-segment-bg',
+                    template.linkMode === 'compact'
+                        ? (template.btnIconColorBg || template.btnColor || '#6366F1')
+                        : (template.btnListColor || template.btnColor || '#6366F1')
+                );
+                if (template.btnTextColor) {
+                    root.style.setProperty('--theme-button-text', template.btnTextColor);
+                    root.style.setProperty('--theme-button-list-text', template.btnTextColor);
+                    root.style.setProperty('--theme-segment-text', template.btnTextColor);
+                }
+                if (template.btnIconBg || template.btnIconColorBg) {
+                    root.style.setProperty('--theme-button-icon-bg', template.btnIconBg || template.btnIconColorBg);
+                }
+                if (template.btnIconColor) root.style.setProperty('--theme-icon-color', template.btnIconColor);
+                if (template.btnIconOpacity !== undefined && template.btnIconOpacity !== null) {
+                    root.style.setProperty('--theme-button-icon-opacity-percent', `${Math.round(template.btnIconOpacity * 100)}%`);
+                }
+
+                // ConfiguraÃ§Ã£o de Fundo (Camada)
+                if (bgLayer) {
+                    if (template.bgType === 'image' && template.bgImage) {
+                        // Ativar container semi-transparente para contraste se for imagem
+                        container.classList.add('has-custom-bg');
+                        container.style.backgroundImage = `linear-gradient(rgba(255,255,255,0.78), rgba(255,255,255,0.78)), url(${template.bgImage})`;
+                        container.style.backgroundSize = `${template.bgZoom || 100}%`;
+                        container.style.backgroundPosition = template.bgRepeat ? (template.bgPosition || 'center') : 'center center';
+                        container.style.backgroundRepeat = template.bgRepeat ? 'repeat' : 'no-repeat';
+                        document.body.style.backgroundImage = 'none';
+                        document.body.style.backgroundSize = '';
+                        document.body.style.backgroundPosition = '';
+                        document.body.style.backgroundRepeat = '';
+                        document.body.style.backgroundAttachment = '';
+                        
+                        bgLayer.style.backgroundImage = 'none';
+                        bgLayer.style.backgroundColor = 'transparent';
+                        bgLayer.style.backgroundSize = '';
+                        bgLayer.style.opacity = 0;
+                        bgLayer.style.backgroundRepeat = 'no-repeat';
+                        bgLayer.style.backgroundPosition = 'center center';
+                        bgLayer.classList.remove('bg-repeat');
+                    } else {
+                        container.classList.remove('has-custom-bg');
+                        container.style.backgroundImage = 'none';
+                        container.style.backgroundSize = '';
+                        container.style.backgroundPosition = '';
+                        container.style.backgroundRepeat = '';
+                        document.body.style.backgroundImage = 'none';
+                        document.body.style.backgroundSize = '';
+                        document.body.style.backgroundPosition = '';
+                        document.body.style.backgroundRepeat = '';
+                        document.body.style.backgroundAttachment = '';
+                        bgLayer.style.backgroundImage = 'none';
+                        bgLayer.style.backgroundColor = 'transparent';
+                        bgLayer.style.opacity = 0;
+                    }
+                }
+
+                // Aplicar modo compacto se selecionado
+                if (template.linkMode === 'compact') {
+                    container.classList.add('links-compact');
+                }
+
+                // Logo (Tamanho e PosiÃ§Ã£o)
+                const avatar = document.getElementById('perfil-avatar');
+                if (avatar) {
+                    const baseSize = 100;
+                    const baseMargin = 12;
+                    const yOffset = parseInt(template.logoYOffset || 0);
+                    const scale = (template.logoSize || 100) / 100;
+                    const scaledGrowth = Math.max(0, ((baseSize * scale) - baseSize) / 2);
+                    const extraSpacing = Math.max(0, yOffset) + scaledGrowth;
+                    
+                    avatar.style.setProperty('transform', `translateY(${yOffset}px) scale(${scale})`, 'important');
+                    avatar.style.zIndex = "10";
+                    avatar.style.marginBottom = `${Math.round(baseMargin + extraSpacing)}px`;
+                }
+            } else {
+                const presetThemes = {
+                    classico: {
+                        bg: '#FFC82C',
+                        text: '#000000',
+                        primary: '#FFC82C',
+                        buttonBg: '#000000',
+                        buttonText: '#000000',
+                        buttonListBg: '#ffffff',
+                        buttonListText: '#000000',
+                        fontFamily: "'Montserrat', sans-serif"
+                    },
+                    pink: {
+                        bg: '#fff0f6',
+                        text: '#6b0f1e',
+                        primary: '#d63384',
+                        buttonBg: '#ffffff',
+                        buttonText: '#000000',
+                        buttonListBg: '#ffffff',
+                        buttonListText: '#000000',
+                        fontFamily: "'Montserrat', sans-serif"
+                    },
+                    dark: {
+                        bg: '#000000',
+                        text: '#ffffff',
+                        primary: '#667eea',
+                        buttonBg: '#ffffff',
+                        buttonText: '#1F2937',
+                        buttonListBg: '#ffffff',
+                        buttonListText: '#1F2937',
+                        fontFamily: "'Segoe UI', sans-serif"
+                    }
+                };
+
+                const preset = presetThemes[template.name] || presetThemes.classico;
+                root.style.setProperty('--theme-bg', preset.bg);
+                root.style.setProperty('--theme-text-color', preset.text);
+                root.style.setProperty('--theme-primary', preset.primary);
+                root.style.setProperty('--theme-button-bg', preset.buttonBg);
+                root.style.setProperty('--theme-button-text', preset.buttonText);
+                root.style.setProperty('--theme-button-list-bg', preset.buttonListBg);
+                root.style.setProperty('--theme-button-list-text', preset.buttonListText);
+                root.style.setProperty('--theme-font-family', preset.fontFamily);
+                document.body.style.backgroundColor = preset.bg;
+                document.body.style.backgroundImage = 'none';
+                document.body.style.backgroundSize = '';
+                document.body.style.backgroundPosition = '';
+                document.body.style.backgroundRepeat = '';
+                document.body.style.backgroundAttachment = '';
+                container.style.backgroundColor = preset.bg;
+                container.style.backgroundImage = 'none';
+                container.style.backgroundSize = '';
+                container.style.backgroundPosition = '';
+                container.style.backgroundRepeat = '';
+
+                if (bgLayer) {
+                    bgLayer.style.backgroundImage = 'none';
+                    bgLayer.style.backgroundColor = preset.bg;
+                    bgLayer.style.opacity = 1;
+                    bgLayer.style.backgroundRepeat = 'no-repeat';
+                    bgLayer.style.backgroundPosition = 'center center';
+                    bgLayer.classList.remove('bg-repeat');
+                }
+            }
+        }
+
+        function normalizePublicText(value, fallback = '') {
+            if (typeof value !== 'string') {
+                return fallback;
+            }
+
+            const knownBrokenDefaults = [
+                'Bem-vindo Ã  minha loja! Aqui vocÃª encontra os melhores produtos.',
+                'Bem-vindo ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â  minha loja! Aqui vocÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âª encontra os melhores produtos.',
+                'Bem-vindo ÃƒÆ’Ã‚Â  minha loja! Aqui vocÃƒÆ’Ã‚Âª encontra os melhores produtos.'
+            ];
+
+            if (knownBrokenDefaults.includes(value.trim())) {
+                return 'Bem-vindo à minha loja! Aqui você encontra os melhores produtos.';
+            }
+
+            let repaired = value;
+            for (let index = 0; index < 3; index += 1) {
+                if (!/(?:Ã.|Â.|�)/.test(repaired)) {
+                    break;
+                }
+
+                try {
+                    repaired = decodeURIComponent(escape(repaired));
+                } catch (error) {
+                    break;
+                }
+            }
+
+            return repaired.trim() || fallback;
+        }
+
+        document.getElementById('lightbox')?.addEventListener('click', (e) => {
+            if (e.target && e.target.id === 'lightbox') {
+                closeGalleryFeed();
+            }
+        });
+    </script>
+</body>
+</html>
+
+

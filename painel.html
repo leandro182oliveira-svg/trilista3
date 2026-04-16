@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;600;700&family=Montserrat:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;700&family=Roboto+Mono:wght@400;700&family=Pacifico&family=Bebas+Neue&family=Lora:ital,wght@0,400;0,700;1,400&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/styles/styles.css">
+    <link rel="stylesheet" href="src/styles/config.css">
+    <link rel="stylesheet" href="src/styles/preview.css?v=20260413c">
+    <link rel="stylesheet" href="src/styles/links.css">
+    <link rel="stylesheet" href="src/styles/tema-classico.css">
+    <link rel="stylesheet" href="src/styles/tema-pink.css">
+    <link rel="stylesheet" href="src/styles/tema-dark.css">
+    <link rel="stylesheet" href="src/styles/tema-custom.css">
+    <link rel="stylesheet" href="src/styles/gallery.css">
+    <link rel="stylesheet" href="src/styles/videos.css">
+    <link rel="stylesheet" href="src/styles/carousel.css">
+    <link rel="stylesheet" href="src/styles/save.css">
+    <link rel="stylesheet" href="src/styles/responsive.css">
+    <link rel="stylesheet" href="src/styles/animations.css">
+    <link rel="stylesheet" href="src/styles/scrollbar.css">
+    <link rel="stylesheet" href="src/styles/landing.css">
+    <link rel="stylesheet" href="src/styles/painel.css">
+    <title>Configurar Loja - Trilista</title>
+    
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="src/javascript/supabase-client.js"></script>
+    <script src="src/javascript/supabase-sync.js"></script>
+</head>
+<body>
+    <!-- Barra de Impersonação (Modo Suporte) -->
+    <div id="impersonationBar" style="display: none; position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 0.5rem 1rem; border-radius: 50px; z-index: 10000; font-size: 0.85rem; align-items: center; gap: 1rem; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); white-space: nowrap;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fa-solid fa-user-secret" style="color: #8b5cf6;"></i>
+            <span>Suporte: <strong id="impersonatedUserName"></strong></span>
+        </div>
+        <button onclick="Auth.stopImpersonating(); window.location.href='admin.html';" style="background: #ef4444; color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 20px; cursor: pointer; font-weight: 700; font-size: 0.75rem; transition: opacity 0.2s;">
+            Sair do modo suporte
+        </button>
+    </div>
+
+    <div class="container">
+        <!-- Configurações -->
+        <section class="config-section">
+            <div class="section-header">
+                <h1 class="section-title" id="panelTitle">
+                    <span class="panel-title-copy">
+                        <img src="src/img/Logo Trilista.png" alt="Trilista" class="panel-title-logo">
+                        <span class="panel-title-greeting">Bem-vindo</span>
+                        <span class="panel-title-name">Trilista - Minha Loja</span>
+                    </span>
+                </h1>
+                <div class="header-btn-grid" id="headerButtons">
+                    <!-- Botão Admin aparece aqui via JS -->
+                    <div id="adminLinkContainer" style="display: contents;"></div>
+                    
+                    <button class="btn-small btn-primary" onclick="togglePreview()" id="btnTogglePreview">
+                        <i class="fa-solid fa-eye"></i>
+                        Visualizar
+                    </button>
+                    
+                    <button class="btn-small btn-primary" onclick="copyPageLink()" title="Link da página">
+                        <i class="fa-solid fa-copy"></i>
+                        Compartilhar página
+                    </button>
+                    
+                    <button class="btn-small btn-primary" onclick="QRCodeManager.generateStyledQR()" title="Gerar QR Code">
+                        <i class="fa-solid fa-qrcode"></i>
+                        Gerar QR Code
+                    </button>
+
+                    <button class="btn-small btn-danger" onclick="fazerLogout()">
+                        <i class="fa-solid fa-sign-out-alt"></i>
+                        Sair
+                    </button>
+                </div>
+            </div>
+
+            <!-- Seção 1: Identidade do Perfil -->
+            <div class="collapsible-section" id="profile-section">
+                <div class="section-header-collapsible" onclick="toggleSection('profile')">
+                    <div class="section-header-left">
+                        <div class="section-icon">
+                            <i class="fa-solid fa-id-card"></i>
+                        </div>
+                        <div class="section-info">
+                            <h3>Identidade do Perfil</h3>
+                            <p>Nome, bio e imagens</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down toggle-arrow"></i>
+                </div>
+                
+                <div class="section-content" id="profile-content">
+                    <div class="input-box">
+                        <div class="label-with-help">
+                            <label class="form-label">Nome da Loja / Perfil</label>
+                            <button type="button" class="help-icon" onclick="showHelpTooltip(event, 'O nome da sua loja que será exibido no perfil e será a primeira coisa que as pessoas verão.')">
+                                <i class="fa-solid fa-circle-question"></i>
+                            </button>
+                        </div>
+                        <div class="input-field">
+                            <input 
+                                type="text" 
+                                id="store_name" 
+                                class="form-control" 
+                                
+                                value="Minha Loja Incrível"
+                                oninput="updateStoreNamePreview(this.value)"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="input-box">
+                        <label class="form-label">Descrição / Bio</label>
+                        <div class="rich-editor-container">
+                            <div class="editor-toolbar">
+                                <div class="toolbar-left">
+                                    <button type="button" class="toolbar-btn" onclick="formatDoc('bold')" title="Negrito">
+                                        <i class="fa-solid fa-bold"></i>
+                                    </button>
+                                    <button type="button" class="emoji-btn" onclick="openEmojiPicker('store_bio')" title="Inserir emoji">
+                                        <i class="fa-solid fa-smile"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div 
+                                id="store_bio" 
+                                class="form-control rich-editor" 
+                                contenteditable="true"
+                                
+                                oninput="handleEditorInput(this)"
+                                onpaste="handleEditorPaste(event)"
+                            >Bem-vindo à minha loja! Aqui você encontra os melhores produtos.</div>
+                        </div>
+                        <div class="char-count">
+                            <span id="charCount">68</span>/500 caracteres
+                        </div>
+                    </div>
+
+                    <div class="upload-area">
+                        <div class="upload-box" onclick="document.getElementById('profile_photo').click()">
+                            <i class="fa-solid fa-camera"></i>
+                            <p>Foto de Perfil</p>
+                            <small>Enviar nova foto</small>
+                            <input type="file" id="profile_photo" accept="image/*" hidden>
+                        </div>
+
+                        <div class="upload-box" onclick="document.getElementById('cover_photo').click()">
+                            <i class="fa-solid fa-image"></i>
+                            <p>Imagem de Capa</p>
+                            <small>Nenhuma capa selecionada</small>
+                            <input type="file" id="cover_photo" accept="image/*" hidden>
+                        </div>
+                    </div>
+
+                    <div class="address-grid">
+                        <div class="input-box address-field-box">
+                            <label class="form-label">Endereço</label>
+                            <div class="input-field">
+                                <input 
+                                    type="text" 
+                                    id="store_address" 
+                                    class="form-control" 
+                                    
+                                >
+                            </div>
+                        </div>
+
+                        <div class="input-box number-field-box">
+                            <label class="form-label">Número</label>
+                            <div class="input-field number-input-field">
+                                <input 
+                                    type="text" 
+                                    id="store_number" 
+                                    class="form-control" 
+                                    
+                                    inputmode="numeric"
+                                >
+                                <label class="sn-checkbox">
+                                    <input type="checkbox" id="store_number_sn">
+                                    S/N
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="location-row">
+                        <div class="input-box">
+                            <label class="form-label">Bairro</label>
+                            <div class="input-field">
+                                <input 
+                                    type="text" 
+                                    id="store_neighborhood" 
+                                    class="form-control" 
+                                    
+                                >
+                            </div>
+                        </div>
+
+                        <div class="input-box">
+                            <label class="form-label">Cidade</label>
+                            <div class="input-field">
+                                <input 
+                                    type="text" 
+                                    id="store_city" 
+                                    name="store_city"
+                                    class="form-control" 
+                                    
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seção de Categorias -->
+                    <div class="perfil-categorias">
+                        <div class="label-with-help">
+                            <h4 class="form-label categorias-title"><strong>Segmento</strong></h4>
+                            <button type="button" class="help-icon" onclick="showHelpTooltip(event, 'Selecione os segmentos que melhor descrevem seu negócio. Você pode escolher até 4 categorias diferentes para melhor classificar sua loja.')">
+                                <i class="fa-solid fa-circle-question"></i>
+                            </button>
+                        </div>
+                        <div class="categorias-grid">
+                            <div class="categoria-item">
+                                <select id="categoria1" name="categoria1" class="form-control categoria-select empty">
+                                    <option value="">Selecione uma opção</option>
+                                    <!-- opções serão adicionadas via JS -->
+                                </select>
+                            </div>
+                            <div class="categoria-item">
+                                <select id="categoria2" name="categoria2" class="form-control categoria-select empty">
+                                    <option value="">Selecione uma opção</option>
+                                </select>
+                            </div>
+                            <div class="categoria-item">
+                                <select id="categoria3" name="categoria3" class="form-control categoria-select empty">
+                                    <option value="">Selecione uma opção</option>
+                                </select>
+                            </div>
+                            <div class="categoria-item">
+                                <select id="categoria4" name="categoria4" class="form-control categoria-select empty">
+                                    <option value="">Selecione uma opção</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-box">
+                        <div class="control-row">
+                            <div>
+                                <label class="form-label" for="show_view_counter" style="margin-bottom: 4px;">Contador de visualizações</label>
+                                <p style="margin: 0; color: #64748b; font-size: 0.85rem;">Mostra na página pública quantas visualizações o perfil recebeu.</p>
+                            </div>
+                            <label class="smart-switch">
+                                <input type="checkbox" id="show_view_counter">
+                                <span class="switch-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="section-actions">
+                        <button class="btn-small btn-primary" onclick="saveProfileData()">
+                            <i class="fa-solid fa-save"></i>
+                            Salvar
+                        </button>
+                        <button class="btn-small btn-outline" onclick="resetProfileChanges()">
+                            <i class="fa-solid fa-times"></i>
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção 2: Aparência -->
+            <div class="collapsible-section" id="appearance-section">
+                <div class="section-header-collapsible" onclick="toggleSection('appearance')">
+                    <div class="section-header-left">
+                        <div class="section-icon">
+                            <i class="fa-solid fa-palette"></i>
+                        </div>
+                        <div class="section-info">
+                            <h3>Aparência</h3>
+                            <p>Template, cores e fonte</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down toggle-arrow"></i>
+                </div>
+                
+                <div class="section-content" id="appearance-content">
+                    <!-- TEMPLATES PRÉ-DEFINIDOS - NOVO LAYOUT EM LISTA -->
+                    <div class="templates-container">
+                        <!-- Template: Classico -->
+                        <button class="template-card" onclick="TemplateManager.setTemplate('classico')">
+                            <span class="template-preview classico-preview">
+                                <span class="preview-avatar"></span>
+                                <span class="preview-bar"></span>
+                                <span class="preview-bar"></span>
+                            </span>
+                            <span class="template-content">
+                                <span class="template-title">Clássico</span>
+                                <span class="template-description">Estilo atemporal com o vibrante amarelo clássico do Trilista.</span>
+                            </span>
+                            <span class="template-badge popular">Popular</span>
+                        </button>
+
+                        <!-- Template: Rosa Soft -->
+                        <button class="template-card" onclick="TemplateManager.setTemplate('pink')">
+                            <span class="template-preview pink-preview">
+                                <span class="preview-avatar"></span>
+                                <span class="preview-bar"></span>
+                                <span class="preview-bar"></span>
+                            </span>
+                            <span class="template-content">
+                                <span class="template-title">Rosa Soft</span>
+                                <span class="template-description">Leveza e suavidade em cada detalhe. Perfeito para uma presença online discreta e charmosa.</span>
+                            </span>
+                            <span class="template-badge leve">Leve</span>
+                        </button>
+
+                        <!-- Template: Midnight Minimal -->
+                        <button class="template-card" onclick="TemplateManager.setTemplate('dark')">
+                            <span class="template-preview dark-preview">
+                                <span class="preview-avatar"></span>
+                                <span class="preview-bar"></span>
+                                <span class="preview-bar"></span>
+                            </span>
+                            <span class="template-content">
+                                <span class="template-title">Escuro</span>
+                                <span class="template-description">Foco total no conteúdo com uma estética dark profissional e moderna.</span>
+                            </span>
+                            <span class="template-badge dark">Escuro</span>
+                        </button>
+
+                        <!-- Template: Design Customizado -->
+                        <button class="template-card" onclick="TemplateManager.setTemplate('custom')">
+                            <span class="template-preview custom-preview">
+                                <i class="fa-solid fa-sliders"></i>
+                            </span>
+                            <span class="template-content">
+                                <span class="template-title">Design Customizado</span>
+                                <span class="template-description">Crie seu próprio estilo ajustando cores e fontes exclusivas para sua página.</span>
+                            </span>
+                            <span class="template-badge livre">Livre</span>
+                        </button>
+                    </div>
+
+                    <!-- NOVO PAINEL DE PERSONALIZAÇÃO INTELIGENTE (RE-DESENHADO) -->
+                    <div class="customization-section" id="custom-design-panel" style="display: none;">
+                        <div class="customization-header">
+                            <h4 class="customization-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Estilo Customizado</h4>
+                            <div class="header-actions">
+                                <button class="btn-small btn-outline" onclick="resetCustomAppearance()">
+                                    <i class="fa-solid fa-rotate-left"></i> Resetar
+                                </button>
+                                <button class="btn-small btn-primary" onclick="saveCustomAppearance()">
+                                    <i class="fa-solid fa-save"></i> Salvar
+                                </button>
+                            </div>
+                        </div>
+
+
+                        <div class="smart-editor-layout">
+                            <!-- Abas de Navegação Compactas -->
+                            <div class="editor-sidebar">
+                                <button class="sidebar-tab active" onclick="switchTab('bg')" title="Fundo">
+                                    <i class="fa-solid fa-image"></i>
+                                    <span>Fundo</span>
+                                </button>
+                                <button class="sidebar-tab" onclick="switchTab('layout')" title="Layout">
+                                    <i class="fa-solid fa-layer-group"></i>
+                                    <span>Layout</span>
+                                </button>
+                                <button class="sidebar-tab" onclick="switchTab('text')" title="Texto">
+                                    <i class="fa-solid fa-font"></i>
+                                    <span>Texto</span>
+                                </button>
+                                <button class="sidebar-tab" onclick="switchTab('buttons')" title="Botões">
+                                    <i class="fa-solid fa-square-check"></i>
+                                    <span>Botões</span>
+                                </button>
+                            </div>
+
+                            <!-- Conteúdo das Abas -->
+                            <div class="editor-content">
+                                <!-- Aba: Fundo -->
+                                <div id="tab-bg" class="tab-pane active">
+                                    <div class="control-group">
+                                        <label class="group-label">Cor de Fundo</label>
+                                        <div class="color-picker-compact">
+                                            <input type="color" id="bg-color-picker" oninput="updatePreview('bgColor', this.value)" value="#ffffff">
+                                            <input type="text" class="color-hex-small" id="bg-color-hex" value="#FFFFFF" onchange="updatePreview('bgColor', this.value)">
+                                        </div>
+                                    </div>
+                                    <div class="divider">ou</div>
+                                    <div class="control-group">
+                                        <label class="group-label">Imagem de Fundo</label>
+                                        <div class="upload-smart" onclick="document.getElementById('bg-image-upload').click()">
+                                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                                            <span>Subir Foto</span>
+                                            <input type="file" id="bg-image-upload" hidden accept="image/*" onchange="handleBgUpload(event)">
+                                        </div>
+                                        <div id="bg-controls" class="contextual-controls" style="display: none;">
+                                            <div class="control-row">
+                                                <span>Opacidade</span>
+                                                <div class="range-with-value">
+                                                    <input type="range" min="0" max="1" step="0.1" value="1" oninput="updatePreview('bgOpacity', this.value); this.nextElementSibling.textContent = Math.round(this.value * 100) + '%'">
+                                                    <span class="range-badge">100%</span>
+                                                </div>
+                                            </div>
+                                            <div class="control-row">
+                                                <span>Zoom</span>
+                                                <div class="range-with-value">
+                                                    <input type="range" min="5" max="200" value="100" oninput="updatePreview('bgZoom', this.value); this.nextElementSibling.textContent = this.value + '%'">
+                                                    <span class="range-badge">100%</span>
+                                                </div>
+                                            </div>
+                                            <div class="control-row">
+                                                <span>Repetir Imagem</span>
+                                                <label class="smart-switch">
+                                                    <input type="checkbox" id="bg-repeat-check" onchange="updatePreview('bgRepeat', this.checked)">
+                                                    <span class="switch-slider"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Aba: Texto -->
+                                <div id="tab-text" class="tab-pane">
+                                    <div class="control-grid-smart">
+                                        <div class="control-group">
+                                            <label class="group-label">Cor Texto</label>
+                                            <div class="color-picker-compact">
+                                                <input type="color" id="text-color-picker" oninput="updatePreview('textColor', this.value)" value="#1e293b">
+                                                <input type="text" class="color-hex-small" id="text-color-hex" value="#1E293B" onchange="updatePreview('textColor', this.value)">
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="group-label">Tamanho</label>
+                                            <div class="range-with-value">
+                                                <input type="range" min="12" max="20" value="16" oninput="updatePreview('fontSize', this.value); this.nextElementSibling.textContent = this.value + 'px'">
+                                                <span class="range-badge">16px</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="group-label">Fonte Principal</label>
+                                        <select class="smart-select" id="font-family-select" onchange="updatePreview('fontFamily', this.value)">
+                                            <optgroup label="Modernas (Sans Serif)">
+                                                <option value="'Inter', sans-serif">Inter (Padrão)</option>
+                                                <option value="'Poppins', sans-serif">Poppins (Suave)</option>
+                                                <option value="'Montserrat', sans-serif">Montserrat (Geométrica)</option>
+                                                <option value="'Oswald', sans-serif">Oswald (Condensada)</option>
+                                            </optgroup>
+                                            <optgroup label="Elegantes (Serif)">
+                                                <option value="'Playfair Display', serif">Playfair Display (Luxo)</option>
+                                                <option value="'Lora', serif">Lora (Clássica)</option>
+                                            </optgroup>
+                                            <optgroup label="Criativas (Script/Display)">
+                                                <option value="'Pacifico', cursive">Pacifico (Retrô)</option>
+                                                <option value="'Dancing Script', cursive">Dancing Script (Manuscrita)</option>
+                                                <option value="'Bebas Neue', sans-serif">Bebas Neue (Impacto)</option>
+                                            </optgroup>
+                                            <optgroup label="Técnicas (Monospace)">
+                                                <option value="'Roboto Mono', monospace">Roboto Mono (Código)</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="group-label">Espaçamento Linhas</label>
+                                        <div class="range-with-value">
+                                            <input type="range" min="10" max="20" value="15" oninput="updatePreview('lineHeight', this.value/10); this.nextElementSibling.textContent = (this.value/10).toFixed(1)">
+                                            <span class="range-badge">1.5</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Aba: Botões -->
+                                <div id="tab-buttons" class="tab-pane">
+                                    <div class="control-group">
+                                        <label class="group-label">Estilo dos Links</label>
+                                        <div class="link-mode-toggle">
+                                            <button class="mode-btn active" id="link-mode-full" onclick="setLinkMode('full')">
+                                                <i class="fa-solid fa-grip-lines"></i>
+                                                <span>Lista</span>
+                                            </button>
+                                            <button class="mode-btn" id="link-mode-compact" onclick="setLinkMode('compact')">
+                                                <i class="fa-solid fa-grip"></i>
+                                                <span>Ícones</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- Controles Dinâmicos para Modo Lista e Ícone (Custom) -->
+                                    <div id="custom-mode-controls" style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px;">
+                                        <p id="custom-controls-label" style="font-size: 11px; color: #666; margin-bottom: 10px; font-weight: 600; text-transform: uppercase;">Personalização do Botão:</p>
+                                        <div class="control-grid-smart">
+                                            <div class="control-group">
+                                                <label class="group-label">Cor Fundo Botão</label>
+                                                <div class="color-picker-compact">
+                                                    <input type="color" id="btn-color-picker" oninput="updatePreview('btnColor', this.value)" value="#6366f1">
+                                                    <input type="text" class="color-hex-small" id="btn-color-hex" value="#6366F1" onchange="updatePreview('btnColor', this.value)">
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="group-label">Cor do Ícone</label>
+                                                <div class="color-picker-compact">
+                                                    <input type="color" id="btn-icon-color-picker" oninput="updatePreview('btnIconColor', this.value)" value="#ffffff">
+                                                    <input type="text" class="color-hex-small" id="btn-icon-color-hex" value="#FFFFFF" onchange="updatePreview('btnIconColor', this.value)">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Aba: Layout -->
+                                <div id="tab-layout" class="tab-pane">
+                                    <div class="control-group">
+                                        <label class="group-label">Formato da Capa</label>
+                                        <div class="cover-shape-picker">
+                                            <button type="button" class="cover-shape-option active" id="cover-shape-rect" onclick="CustomAppearanceManager.setCoverShape('rect')">
+                                                <span class="cover-shape-preview cover-shape-preview-rect"></span>
+                                                <span>Retangular</span>
+                                            </button>
+                                            <button type="button" class="cover-shape-option" id="cover-shape-curve-down" onclick="CustomAppearanceManager.setCoverShape('curve-down')">
+                                                <span class="cover-shape-preview cover-shape-preview-curve-down"></span>
+                                                <span>Curva Baixa</span>
+                                            </button>
+                                            <button type="button" class="cover-shape-option" id="cover-shape-curve-up" onclick="CustomAppearanceManager.setCoverShape('curve-up')">
+                                                <span class="cover-shape-preview cover-shape-preview-curve-up"></span>
+                                                <span>Arco Alto</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="group-label">Altura da Capa</label>
+                                        <div class="range-with-value">
+                                            <input type="range" id="cover-height-range" min="80" max="220" value="124" oninput="updatePreview('coverHeight', this.value); this.nextElementSibling.textContent = this.value + 'px'">
+                                            <span class="range-badge">124px</span>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="group-label">Tamanho da Logo</label>
+                                        <div class="range-with-value">
+                                            <input type="range" id="logo-size-range" min="50" max="200" value="100" oninput="updatePreview('logoSize', this.value); this.nextElementSibling.textContent = this.value + '%'">
+                                            <span class="range-badge">100%</span>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="group-label">Posição Vertical (Subir/Descer)</label>
+                                        <div class="range-with-value">
+                                            <input type="range" id="logo-y-range" min="-100" max="100" value="0" oninput="updatePreview('logoYOffset', this.value); this.nextElementSibling.textContent = this.value + 'px'">
+                                            <span class="range-badge">0px</span>
+                                        </div>
+                                    </div>
+                                    <p class="smart-hint" style="margin-top: 15px;"><i class="fa-solid fa-info-circle"></i> Use os controles acima para ajustar o destaque da sua logo na página.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção 3: Links & Contatos -->
+            <div class="collapsible-section" id="links-section">
+                <div class="section-header-collapsible" onclick="toggleSection('links')">
+                    <div class="section-header-left">
+                        <div class="section-icon">
+                            <i class="fa-solid fa-link"></i>
+                        </div>
+                        <div class="section-info">
+                            <h3>Links & Contatos</h3>
+                            <p>Site, WhatsApp e redes sociais</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down toggle-arrow"></i>
+                </div>
+                
+                <div class="section-content" id="links-content">
+                    <!-- BOTÕES PARA ADICIONAR NOVOS LINKS (agora no topo) -->
+                    <div class="add-links-container">
+                        <h4>Adicionar Contato:</h4>
+                        <div class="link-type-buttons">
+                            <button class="link-type-btn" onclick="LinksManager.addLink('whatsapp')">
+                                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                            </button>
+                            <button class="link-type-btn" onclick="LinksManager.addLink('instagram')">
+                                <i class="fa-brands fa-instagram"></i> Instagram
+                            </button>
+                            <button class="link-type-btn" onclick="LinksManager.addLink('telefone')">
+                                <i class="fa-solid fa-phone"></i> Telefone
+                            </button>
+                            <button class="link-type-btn" onclick="LinksManager.addLink('site')">
+                                <i class="fa-solid fa-globe"></i> Site
+                            </button>
+                            <button class="link-type-btn" onclick="LinksManager.addLink('facebook')">
+                                <i class="fa-brands fa-facebook"></i> Facebook
+                            </button>
+                            <button class="link-type-btn" onclick="LinksManager.addLink('email')">
+                                <i class="fa-solid fa-envelope"></i> E-mail
+                            </button>
+                            <button class="link-type-btn" onclick="LinksManager.addLink('maps')">
+                                <i class="fa-solid fa-map-location-dot"></i> Maps
+                            </button>
+                            <button class="link-type-btn" onclick="LinksManager.addLink('custom')">
+                                <i class="fa-solid fa-link"></i> Personalizado
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- LISTA DE LINKS CADASTRADOS -->
+                    <div class="links-list" id="linksList">
+                        <div class="empty-state">
+                            <i class="fa-solid fa-link"></i>
+                            <p>Nenhum link adicionado</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção 5: Fotos (Galeria) -->
+            <div class="collapsible-section" id="photos-section">
+                <div class="section-header-collapsible" onclick="toggleSection('photos')">
+                    <div class="section-header-left">
+                        <div class="section-icon">
+                            <i class="fa-solid fa-images"></i>
+                        </div>
+                        <div class="section-info">
+                            <h3>Fotos (Galeria)</h3>
+                            <p id="photos-count">0 fotos</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down toggle-arrow"></i>
+                </div>
+                
+                <div class="section-content" id="photos-content">
+                    <!-- ÁREA DE UPLOAD -->
+                    <div class="upload-gallery-area">
+                        <div class="upload-instructions">
+                            <i class="fa-solid fa-cloud-upload-alt"></i>
+                            <h4>Adicionar Fotos</h4>
+                            <p>Arraste ou clique para selecionar fotos (máx. 6 por vez)</p>
+                            <small>Tamanho máximo: 5MB por foto • Formatos: JPG, PNG, WebP</small>
+                        </div>
+                        
+                        <input 
+                            type="file" 
+                            id="galleryUpload" 
+                            accept="image/*" 
+                            multiple 
+                            onchange="GaleriaManager.handleUpload(event)"
+                            style="display: none;"
+                        >
+                        
+                        <button class="btn-small btn-primary" onclick="document.getElementById('galleryUpload').click()">
+                            <i class="fa-solid fa-plus"></i>
+                            Selecionar Fotos
+                        </button>
+                        
+                        <div class="upload-limits">
+                            <div class="limit-info">
+                                <i class="fa-solid fa-image"></i>
+                                <span>Até 6 fotos por upload</span>
+                            </div>
+                            <div class="limit-info">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>Upload Automático</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- LISTA DE FOTOS JÁ CARREGADAS -->
+                    <div class="gallery-list" id="galleryListContainer">
+                        <div class="list-header">
+                            <h5>Fotos na Galeria</h5>
+                            <span class="list-count" id="galleryListCount">0 fotos</span>
+                        </div>
+                        <div class="gallery-items" id="galleryItems">
+                            <div class="empty-gallery">
+                                <i class="fa-solid fa-camera"></i>
+                                <p>A galeria está vazia</p>
+                                <small>Adicione fotos para ver aqui</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção 6: Vídeos -->
+            <div class="collapsible-section" id="videos-section">
+                <div class="section-header-collapsible" onclick="toggleSection('videos')">
+                    <div class="section-header-left">
+                        <div class="section-icon">
+                            <i class="fa-solid fa-video"></i>
+                        </div>
+                        <div class="section-info">
+                            <h3>Vídeos</h3>
+                            <p id="videos-count">0 vídeos</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down toggle-arrow"></i>
+                </div>
+                
+                <div class="section-content" id="videos-content">
+                    <!-- BOTÕES PARA ADICIONAR VÍDEOS -->
+                    <div class="add-videos-container">
+                        <h4>Adicionar Vídeo:</h4>
+                        <div class="video-type-buttons">
+                            <button class="video-type-btn" onclick="VideosManager.adicionarVideo('upload')">
+                                <i class="fa-solid fa-upload"></i>
+                                <span class="btn-text-group">
+                                    <strong>Vídeo Curto</strong>
+                                    <small>Upload direto (até 1min)</small>
+                                </span>
+                            </button>
+                            <button class="video-type-btn" onclick="VideosManager.adicionarVideo('link')">
+                                <i class="fa-solid fa-link"></i>
+                                <span class="btn-text-group">
+                                    <strong>Vídeo por Link</strong>
+                                    <small>YouTube, Vimeo, etc.</small>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- LISTA DE VÍDEOS CADASTRADOS -->
+                    <div class="videos-list" id="videosList">
+                        <div class="empty-state">
+                            <i class="fa-solid fa-video"></i>
+                            <p>Nenhum vídeo adicionado</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botão Global de Salvar Loja -->
+            <div class="save-store-container">
+                <div class="storage-info">
+                    <i class="fa-solid fa-database"></i>
+                    <span id="storageUsage">Calculando...</span>
+                </div>
+                <div class="save-store-actions">
+                    <button class="btn-save-store" onclick="saveEntireStore()">
+                        <i class="fa-solid fa-save"></i>
+                        Salvar Loja
+                    </button>
+                    <button class="btn-save-gear" type="button" onclick="openAccountSettingsModal()" title="Configurações da conta" aria-label="Configurações da conta">
+                        <i class="fa-solid fa-gear"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Preview -->
+        <section class="preview-section">
+            <div class="phone-mockup">
+                <div class="phone-screen">
+                    <div id="previewBgLayer" class="preview-bg-layer"></div>
+                    <div class="phone-status-bar">
+                        <div class="phone-time">
+                            <i class="fa-solid fa-signal"></i>
+                            <span>12:30</span>
+                        </div>
+                        <div class="phone-status-brand">
+                            <img src="src/img/Logo Trilista.png" alt="Trilista">
+                        </div>
+                        <div>
+                            <i class="fa-solid fa-wifi"></i>
+                            <i class="fa-solid fa-battery-full"></i>
+                        </div>
+                    </div>
+
+                    <div class="store-content">
+                        <div class="store-header">
+                            <div class="store-cover" id="storeCover"></div>
+                            <div id="previewViewCounter" class="store-view-counter" style="display: none;">
+                                <i class="fa-solid fa-eye"></i>
+                                <span id="previewViewCounterValue">0</span>
+                            </div>
+                            <div class="store-avatar">
+                                <i class="fa-solid fa-store"></i>
+                            </div>
+                            <h2 id="previewStoreName" class="store-name">Minha Loja Incrível</h2>
+                            <p id="previewStoreBio" class="store-bio">
+                                Bem-vindo à minha loja! Aqui você encontra os melhores produtos.
+                            </p>
+                        </div>
+
+                        <!-- Endereço (preview) com quebra automática flexível -->
+                        <div id="previewStoreLocation" class="store-location store-location-flexible" style="display: none;">
+                            <i class="fa-solid fa-map-marker-alt"></i>
+                            <span id="previewStoreAddress"></span>
+                            <span id="addressComma" style="display: none;">,</span>
+                            <span id="previewStoreNeighborhood"></span>
+                            <span id="neighborhoodSeparator" style="display: none;"> - </span>
+                            <span id="previewStoreCity"></span>
+                        </div>
+
+                        <!-- ÁREA ONDE OS LINKS VÃO APARECER -->
+                        <div class="store-section" id="links-preview-section" style="display: none;">
+                            <div class="links-header">
+                                <h4 class="section-title-small">Links & Contatos</h4>
+                            </div>
+                            <div id="phoneLinksPreview" class="phone-links-container">
+                                <div class="empty-state">
+                                    <i class="fa-solid fa-plus-circle"></i>
+                                    <p>Adicione conteúdo para ver o preview</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="store-section">
+                            <div class="gallery-header">
+                                <h4 class="section-title-small">Galeria</h4>
+                                <div class="view-selector">
+                                    <select id="galleryViewMode" onchange="GaleriaManager.changeViewMode(this.value)">
+                                        <option value="1">1 imagem</option>
+                                        <option value="4">4 imagens</option>
+                                        <option value="6">6 imagens</option>
+                                    </select>
+                                    <button type="button" class="gallery-open-feed-btn" onclick="GaleriaManager.openLightbox()">
+                                        Ver galeria
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="gallery-carousel" id="phoneGallery">
+                                <div class="carousel-container">
+                                    <div class="carousel-track" id="galleryTrack">
+                                        <div class="empty-gallery-state">
+                                            <i class="fa-solid fa-images"></i>
+                                            <p>Nenhuma foto na galeria</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <button class="carousel-btn prev-btn" onclick="GaleriaManager.prevSlide()">
+                                        <i class="fa-solid fa-chevron-left"></i>
+                                    </button>
+                                    <button class="carousel-btn next-btn" onclick="GaleriaManager.nextSlide()">
+                                        <i class="fa-solid fa-chevron-right"></i>
+                                    </button>
+                                    
+                                    <div class="carousel-indicators" id="galleryIndicators"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="store-section" id="videos-preview-section" style="display: none;">
+                            <h4 class="section-title-small">Vídeos</h4>
+                            <div class="carousel-container video-carousel">
+                                <div id="phoneVideosPreview" class="carousel-track"></div>
+                                <button class="carousel-btn prev-btn video-prev" onclick="VideosManager.prevSlide()">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </button>
+                                <button class="carousel-btn next-btn video-next" onclick="VideosManager.nextSlide()">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </button>
+                                <div id="videoIndicators" class="carousel-indicators"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Lightbox Galeria (Tela Cheia no Celular) -->
+                    <div id="galleryLightbox" class="gallery-lightbox">
+                        <button class="lightbox-close" onclick="GaleriaManager.closeLightbox()">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                        <div class="lightbox-content gallery-feed-modal-content">
+                            <div class="gallery-feed-modal-header">
+                                <h4>Galeria</h4>
+                                <p>Mais recentes no topo</p>
+                            </div>
+                            <div id="lightboxFeed" class="gallery-feed-modal-scroll"></div>
+                        </div>
+                    </div>
+
+                    <!-- Lightbox Vídeos (Tela Cheia no Celular) -->
+                    <div id="videoLightbox" class="gallery-lightbox video-lightbox">
+                        <button class="lightbox-close" onclick="VideosManager.closeLightbox()">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                        <div class="lightbox-content">
+                            <div id="videoLightboxContainer" class="video-lightbox-container">
+                                <!-- Iframe será injetado aqui -->
+                            </div>
+                            <div class="lightbox-caption" id="videoLightboxCaption"></div>
+                        </div>
+                        <button class="lightbox-nav lightbox-prev" onclick="VideosManager.prevLightbox()">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <button class="lightbox-nav lightbox-next" onclick="VideosManager.nextLightbox()">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QR Code Modal -->
+        <div id="qrCodeModal" class="qr-modal" style="display: none;">
+            <div class="qr-modal-content">
+                <div class="qr-modal-header">
+                    <h3>QR Code da Loja</h3>
+                    <button class="qr-modal-close" onclick="document.getElementById('qrCodeModal').style.display='none';">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div id="qrcodePreview" class="qr-modal-body"></div>
+                <div class="qr-modal-footer">
+                    <button id="downloadQRBtn" class="btn-primary" onclick="QRCodeManager.downloadQR()" style="display:none;">
+                        <i class="fa-solid fa-download"></i>
+                        Baixar QR Code
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="accountSettingsModal" class="account-settings-modal" style="display: none;">
+            <div class="account-settings-dialog">
+                <div class="account-settings-header">
+                    <div>
+                        <h3>Configurações da Conta</h3>
+                        <p>Atualize seus acessos e gerencie o backup da loja.</p>
+                    </div>
+                    <button type="button" class="account-settings-close" onclick="closeAccountSettingsModal()" aria-label="Fechar configurações">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="account-settings-body">
+                    <section class="account-settings-section">
+                        <div class="account-settings-section-title">
+                            <i class="fa-solid fa-user-shield"></i>
+                            <span>Acesso da Conta</span>
+                        </div>
+
+                        <div class="account-settings-grid">
+                            <div class="input-box input-box-password">
+                                <label class="form-label" for="account_login_email">Conta de email atual para login</label>
+                                <input type="email" id="account_login_email" class="form-control" >
+                            </div>
+
+                            <div class="input-box input-box-password">
+                                <label class="form-label" for="account_google_status">Conta de email vinculada para login</label>
+                                <input type="text" id="account_google_status" class="form-control"  disabled>
+                                <button type="button" id="account_google_link_button" class="btn-small btn-primary account-google-link-btn" onclick="linkGoogleAccount()">
+                                    <i class="fa-brands fa-google"></i>
+                                    Vincular com Google
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="account-settings-grid account-settings-grid-password">
+                            <div class="input-box input-box-password">
+                                <label class="form-label" for="account_current_password">Senha atual</label>
+                                <div class="password-field-wrapper">
+                                    <input type="password" id="account_current_password" class="form-control" >
+                                    <button type="button" class="password-toggle-panel" onclick="togglePanelPasswordVisibility('account_current_password', this)" aria-label="Mostrar senha" title="Mostrar senha">
+                                        <i class="fa-regular fa-eye-slash"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="input-box input-box-password">
+                                <label class="form-label" for="account_new_password">Nova senha</label>
+                                <div class="password-field-wrapper">
+                                    <input type="password" id="account_new_password" class="form-control" >
+                                    <button type="button" class="password-toggle-panel" onclick="togglePanelPasswordVisibility('account_new_password', this)" aria-label="Mostrar senha" title="Mostrar senha">
+                                        <i class="fa-regular fa-eye-slash"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="input-box input-box-password">
+                                <label class="form-label" for="account_confirm_password">Confirmar nova senha</label>
+                                <div class="password-field-wrapper">
+                                    <input type="password" id="account_confirm_password" class="form-control" >
+                                    <button type="button" class="password-toggle-panel" onclick="togglePanelPasswordVisibility('account_confirm_password', this)" aria-label="Mostrar senha" title="Mostrar senha">
+                                        <i class="fa-regular fa-eye-slash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+
+                <div class="account-settings-footer">
+                    <div class="account-settings-backup-card account-settings-backup-card-footer">
+                        <div class="account-settings-section-title">
+                            <i class="fa-solid fa-box-archive"></i>
+                            <span>Backup da Loja</span>
+                        </div>
+                        <div class="account-settings-actions">
+                            <button type="button" class="btn-small account-settings-backup-action" onclick="exportCurrentStoreBackup()">
+                                <i class="fa-solid fa-download"></i>
+                                Exportar
+                            </button>
+                            <button type="button" class="btn-small account-settings-backup-action" onclick="openImportBackup()">
+                                <i class="fa-solid fa-upload"></i>
+                                Importar
+                            </button>
+                        </div>
+                        <input type="file" id="backupImportInput" accept=".json,application/json" hidden onchange="importBackupFile(event)">
+                    </div>
+                    <div class="account-settings-footer-buttons">
+                        <button type="button" class="btn-small btn-outline" onclick="closeAccountSettingsModal()">Cancelar</button>
+                        <button type="button" class="btn-small btn-primary" onclick="saveAccountSettings()">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            Salvar alterações
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
+    <script src="src/javascript/auth.js?v=20260413d"></script>
+    <script>
+        // Verificação de autenticação imediata
+        if (!Auth.isAuthenticated()) {
+            window.location.href = 'login.html';
+        }
+
+        // Mostrar barra de impersonação se necessário
+        if (Auth.isImpersonating()) {
+            const bar = document.getElementById('impersonationBar');
+            const nameSpan = document.getElementById('impersonatedUserName');
+            if (bar && nameSpan) {
+                const user = Auth.getCurrentUser();
+                nameSpan.textContent = user.nomeEmpresa;
+                bar.style.display = 'flex';
+            }
+        }
+    </script>
+    <script src="src/javascript/db.js?v=20260413d"></script>
+    
+    <!-- Módulos do painel -->
+    <script src="src/javascript/painel/temas.js"></script>
+    <script src="src/javascript/painel/template-manager.js"></script>
+    <script src="src/javascript/painel/template-persist-fix.js"></script>
+    <script src="src/javascript/painel/links.js?v=20260413a"></script>
+    <script src="src/javascript/painel/galeria.js"></script>
+    <script src="src/javascript/painel/videos.js"></script>
+    <script src="src/javascript/painel/aparencia-custom.js"></script>
+    <script src="https://unpkg.com/qr-code-styling@1.9.2/lib/qr-code-styling.js"></script>
+    <script src="src/javascript/painel/qrcode.js?v=20260415a"></script>
+    <script src="src/javascript/painel/painel-principal.js?v=20260413g"></script>
+    
+    <!-- Função para atualizar preview em tempo real -->
+    <script>
+        /**
+         * Atualiza o nome da loja na preview enquanto o usuário digita
+         * @param {string} newName - Novo nome da loja
+         */
+        function updateStoreNamePreview(newName) {
+            const previewElement = document.getElementById('previewStoreName');
+            if (previewElement) {
+                previewElement.textContent = newName || 'Minha Loja Incrível';
+            }
+            
+            // Também atualiza o título da página no browser
+            const titleName = newName || 'Minha Loja Incrível';
+            document.title = `${titleName} - Trilista`;
+        }
+    </script>
+    
+</body>
+</html>
+
+
+
+
+

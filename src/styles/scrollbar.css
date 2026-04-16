@@ -1,0 +1,32 @@
+/* ============ SCROLLBAR PERSONALIZADA ============ */
+.phone-screen::-webkit-scrollbar {
+    width: 4px;
+}
+
+.phone-screen::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 2px;
+}
+
+.phone-screen::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 2px;
+}
+
+.phone-screen::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+.links-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.links-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.links-list::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}

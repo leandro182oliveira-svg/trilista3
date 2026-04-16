@@ -1,0 +1,321 @@
+/* ============ ESTILOS PARA LINKS & CONTATOS ============ */
+.links-list {
+    margin-bottom: 25px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.link-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    background: #f8fafc;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border-left: 4px solid #667eea;
+    transition: all 0.3s ease;
+}
+
+.link-item:hover {
+    background: #edf2f7;
+    transform: translateX(5px);
+}
+
+.link-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.link-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+}
+
+.link-details {
+    flex: 1;
+}
+
+.link-title {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.link-value {
+    color: #718096;
+    font-size: 13px;
+    word-break: break-all;
+}
+
+.link-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.link-action-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: none;
+    background: white;
+    color: #a0aec0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.link-action-btn:hover {
+    background: #667eea;
+    color: white;
+}
+
+/* COLOR PICKER PANEL FOR INDIVIDUAL LINKS */
+.link-item-container {
+    margin-bottom: 12px;
+}
+
+.link-color-picker-panel {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 12px 15px;
+    margin-top: -10px;
+    margin-bottom: 5px;
+    animation: slideDown 0.2s ease-out;
+}
+
+.color-picker-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.color-field {
+    flex: 1;
+    min-width: 120px;
+}
+
+.color-field label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.picker-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f8fafc;
+    padding: 4px 8px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.picker-wrapper input[type="color"] {
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.picker-wrapper span {
+    font-size: 11px;
+    font-family: monospace;
+    font-weight: 600;
+    color: #475569;
+}
+
+.btn-reset-color {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 32px;
+}
+
+.btn-reset-color:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* BOTÕES DE TIPOS DE LINK */
+.add-links-container {
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 0; /* remove top margin for tighter spacing */
+    margin-bottom: 20px; /* space below buttons area */
+}
+
+.add-links-container h4 {
+    color: #2d3748;
+    margin-bottom: 4px; /* even less space below title */
+    font-size: 15px;
+}
+
+.link-type-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px; /* slightly tighter between buttons */
+    margin-top: 4px; /* small space above buttons */
+}
+
+/* spacing between add-buttons and list */
+.links-list {
+    margin-top: 20px;
+}
+
+@media (min-width: 768px) {
+    .link-type-buttons {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .link-type-buttons {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.link-type-btn {
+    padding: 12px 10px;
+    border: 2px solid #e2e8f0;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #4a5568;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.link-type-btn:hover {
+    border-color: #667eea;
+    color: #667eea;
+    transform: translateY(-2px);
+}
+
+.link-type-btn i {
+    font-size: 14px;
+}
+
+/* ESTILOS PARA OS LINKS NO CELULAR (PREVIEW) */
+a.phone-link-item {
+    text-decoration: none;
+    color: inherit;
+}
+
+.phone-link-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #667eea;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.phone-link-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-color: #cbd5e0;
+}
+
+.phone-link-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.phone-link-text {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.phone-link-title {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 13px;
+    margin-bottom: 2px;
+}
+
+.phone-link-value {
+    color: #718096;
+    font-size: 11px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.phone-link-arrow {
+    color: #cbd5e0;
+    font-size: 11px;
+    flex-shrink: 0;
+}
+
+.phone-links-container {
+    margin-top: 10px;
+}
+
+/* Cores específicas para tipos de link */
+.phone-link-icon.whatsapp { background: #25D366; }
+.phone-link-icon.instagram { background: #E4405F; }
+.phone-link-icon.telefone { background: #3B82F6; }
+.phone-link-icon.site { background: #8B5CF6; }
+.phone-link-icon.facebook { background: #1877F2; }
+.phone-link-icon.email { background: #EF4444; }
+.phone-link-icon.maps { background: #34D399; }
+
+.link-icon.whatsapp { background: #25D366; }
+.link-icon.instagram { background: #E4405F; }
+.link-icon.telefone { background: #3B82F6; }
+.link-icon.site { background: #8B5CF6; }
+.link-icon.facebook { background: #1877F2; }
+.link-icon.email { background: #EF4444; }
+.link-icon.maps { background: #34D399; }

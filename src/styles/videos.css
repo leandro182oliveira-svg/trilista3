@@ -1,0 +1,546 @@
+/* ============ ESTILOS PARA VÍDEOS ============ */
+
+.video-type-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.video-type-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.video-type-btn:hover {
+    border-color: var(--theme-panel-icon-bg, #667eea);
+    background: color-mix(in srgb, var(--theme-panel-icon-bg, #667eea) 6%, white);
+    transform: translateY(-2px);
+}
+
+.video-type-btn i {
+    font-size: 24px;
+    color: var(--theme-panel-icon-bg, #667eea);
+    width: 24px;
+    text-align: center;
+}
+
+.video-type-btn div {
+    flex: 1;
+}
+
+.video-type-btn strong {
+    display: block;
+    color: #2d3748;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.video-type-btn small {
+    color: #718096;
+    font-size: 12px;
+}
+
+/* Lista de vídeos moderna com Drag & Drop */
+.videos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.video-item-card {
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 10px;
+    gap: 12px;
+    transition: all 0.2s ease;
+    cursor: grab;
+}
+
+.video-item-card:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.video-item-card.dragging {
+    opacity: 0.5;
+    background: #f1f5f9;
+    border: 2px dashed var(--primary-color);
+}
+
+.video-drag-handle {
+    color: #94a3b8;
+    cursor: grab;
+    padding: 0 4px;
+}
+
+.video-main-content {
+    display: flex;
+    flex: 1;
+    gap: 15px;
+    align-items: center;
+}
+
+.video-thumbnail-wrapper {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-thumbnail-wrapper video,
+.video-thumbnail-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-type-badge {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    backdrop-filter: blur(2px);
+}
+
+.video-item-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.video-caption-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--text-color);
+    transition: all 0.2s;
+}
+
+.video-caption-input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.video-footer-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.video-expiration-info {
+    font-size: 11px;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.video-expiration-info.urgent {
+    color: #f59e0b;
+}
+
+.video-expiration-info.expired {
+    color: #ef4444;
+}
+
+.btn-icon-delete-video {
+    background: transparent;
+    border: none;
+    color: #ef4444;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.btn-icon-delete-video:hover {
+    background: #fee2e2;
+    transform: scale(1.1);
+}
+
+/* Preview de vídeos no celular */
+.phone-videos-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.phone-video-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.phone-video-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #000;
+}
+
+.phone-video-caption {
+    padding: 10px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #1e293b;
+    text-align: left;
+    border-top: 1px solid #f1f5f9;
+}
+
+.phone-video-link-preview {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #0f172a;
+}
+
+.phone-video-link-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.phone-video-play-badge {
+    position: absolute;
+    width: 54px;
+    height: 54px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15, 23, 42, 0.72);
+    color: #ffffff;
+    font-size: 18px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+}
+
+.phone-video-link-fallback {
+    flex-direction: column;
+    gap: 10px;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.phone-video-link-fallback i {
+    font-size: 28px;
+}
+
+.video-link-lightbox-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-link-lightbox-fallback .phone-video-link-preview {
+    width: min(100%, 720px);
+    height: auto;
+    aspect-ratio: 16 / 9;
+    border-radius: 18px;
+}
+
+.video-link-lightbox-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 22px;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #0f172a;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* Modal de vídeo moderna */
+.video-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.video-modal-content {
+    background: white;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 450px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.video-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.video-modal-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #1e293b;
+    font-weight: 700;
+}
+
+.video-modal-close {
+    background: #e2e8f0;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #64748b;
+    transition: all 0.2s;
+}
+
+.video-modal-close:hover {
+    background: #cbd5e0;
+    color: #1e293b;
+    transform: rotate(90deg);
+}
+
+.video-modal-body {
+    padding: 24px;
+}
+
+.video-upload-area {
+    border: 2px dashed #cbd5e0;
+    border-radius: 16px;
+    padding: 30px 20px;
+    text-align: center;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.video-upload-area:hover,
+.video-upload-area.drag-over {
+    border-color: var(--primary-color);
+    background: rgba(102, 126, 234, 0.05);
+}
+
+.video-upload-instructions i {
+    font-size: 40px;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.video-upload-instructions h4 {
+    margin: 10px 0 5px;
+    font-size: 1rem;
+    color: #1e293b;
+}
+
+.video-upload-instructions p {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin: 0;
+}
+
+.video-upload-instructions small {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    line-height: 1.5;
+}
+
+.video-duration-options h5 {
+    margin: 0 0 12px;
+    font-size: 0.9rem;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.duration-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.duration-options label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px;
+    background: #f1f5f9;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #475569;
+    transition: all 0.2s;
+}
+
+.duration-options input[type="radio"] {
+    display: none;
+}
+
+.duration-options label:has(input:checked) {
+    background: white;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+}
+
+.video-modal-footer {
+    padding: 20px 24px;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    gap: 12px;
+}
+
+.video-modal-footer button {
+    flex: 1;
+    padding: 12px !important;
+    font-weight: 600;
+}
+
+.video-link-preview {
+    background: #f1f5f9;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #e2e8f0;
+    word-break: break-all;
+}
+
+.video-link-preview p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #475569;
+}
+
+.video-link-preview strong {
+    color: #1e293b;
+}
+
+/* ============ VIDEO LIGHTBOX (TELA CHEIA NO PREVIEW) ============ */
+.video-lightbox .video-lightbox-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.video-lightbox-container iframe,
+.video-lightbox-container video {
+    width: 100%;
+    height: 100%;
+    max-height: 85%;
+    border: none;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+}
+
+.video-lightbox .lightbox-content {
+    padding: 10px;
+    height: 90%;
+}
+
+.video-lightbox .lightbox-caption {
+    margin-top: 15px;
+    font-weight: 500;
+    background: rgba(0,0,0,0.5);
+    padding: 8px 16px;
+    border-radius: 20px;
+    backdrop-filter: blur(4px);
+}
+
+/* Ajuste específico para vídeos curtos (Shorts/TikTok) no Lightbox */
+.video-lightbox.shorts-mode .video-lightbox-container iframe,
+.video-lightbox.shorts-mode .video-lightbox-container video {
+    width: auto;
+    height: 100%;
+    aspect-ratio: 9 / 16;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .video-type-buttons {
+        grid-template-columns: 1fr;
+    }
+
+    .video-modal-content {
+        width: 95%;
+        margin: 20px;
+    }
+
+    .video-modal-header,
+    .video-modal-body,
+    .video-modal-footer {
+        padding: 16px 20px;
+    }
+}

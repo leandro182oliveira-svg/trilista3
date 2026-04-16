@@ -1,0 +1,697 @@
+/* ============ PREVIEW SECTION (LADO DIREITO) ============ */
+.preview-section {
+    flex: 1;
+    position: sticky;
+    top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-width: 0;
+}
+
+/* Celular para preview */
+.phone-mockup {
+    width: 380px;
+    height: 760px;
+    background: #000;
+    border-radius: 40px;
+    padding: 20px;
+    position: relative;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.3),
+        0 0 0 4px #333,
+        0 0 0 10px #222;
+    margin: 0 auto;
+}
+
+/* Borda do celular */
+.phone-mockup::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -2px;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 80px;
+    background: #333;
+    border-radius: 0 4px 4px 0;
+}
+
+.phone-mockup::after {
+    content: '';
+    position: absolute;
+    top: 25%;
+    right: -2px;
+    width: 4px;
+    height: 40px;
+    background: #333;
+    border-radius: 4px 0 0 4px;
+}
+
+/* Conteúdo interno do celular */
+.phone-screen {
+    width: 100%;
+    height: 100%;
+    background: var(--theme-bg, white);
+    border-radius: 30px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Status bar do celular */
+.phone-status-bar {
+    background: var(--theme-status-bar-bg, var(--theme-primary, #6366F1)); /* Cor sólida baseada no tema */
+    color: var(--theme-status-bar-text, var(--theme-primary-text, white));
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 600;
+    position: relative;
+    z-index: 10;
+}
+
+.phone-time {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Conteúdo da loja */
+.store-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+}
+
+.store-content::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+.store-header {
+    text-align: center;
+    margin-bottom: 8px;
+    padding-top: 0;
+    position: relative;
+}
+
+.store-cover {
+    width: calc(100% + 40px);
+    height: 0;
+    margin-top: -20px;
+    margin-left: -20px;
+    margin-right: -20px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 0;
+    transition: height 0.3s ease;
+    overflow: hidden;
+}
+
+.store-cover.cover-shape-rect {
+    clip-path: inset(0 0 0 0);
+}
+
+.store-cover.cover-shape-curve-down {
+    clip-path: polygon(0 0, 100% 0, 100% 70%, 92% 78%, 78% 85%, 62% 89%, 50% 91%, 38% 89%, 22% 85%, 8% 78%, 0 70%);
+}
+
+.store-cover.cover-shape-curve-up {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 92% 92%, 78% 85%, 62% 81%, 50% 80%, 38% 81%, 22% 85%, 8% 92%, 0 100%);
+}
+
+.store-cover.has-cover {
+    height: 124px;
+    margin-bottom: -40px;
+}
+
+.store-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FFCC00 0%, #E0A800 100%);
+    margin: 0 auto 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 32px;
+    border: 3px solid white;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Wrapper for action buttons around avatar */
+.avatar-actions-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    margin: 0 auto 12px;
+}
+
+/* Action buttons with outline style */
+.avatar-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 70px;
+    padding: 12px 10px;
+    border: 2px solid var(--theme-primary, #2d3748);
+    background: transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--theme-text, #2d3748);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.avatar-action-btn i {
+    font-size: 20px;
+    color: var(--theme-primary, #2d3748);
+    transition: all 0.3s ease;
+}
+
+.avatar-action-btn:hover {
+    border-color: var(--theme-primary, #667eea);
+    color: #667eea;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.15);
+}
+
+.avatar-action-btn:hover i {
+    color: #667eea;
+    transform: scale(1.1);
+}
+
+.avatar-action-btn span {
+    text-align: center;
+    line-height: 1.2;
+}
+
+@media (max-width: 480px) {
+    .avatar-actions-wrapper {
+        gap: 20px;
+    }
+    .avatar-action-btn {
+        width: 60px;
+        padding: 10px 8px;
+        font-size: 11px;
+    }
+    .avatar-action-btn i {
+        font-size: 18px;
+    }
+}
+
+.store-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 4px;
+}
+
+.store-bio {
+    color: #718096;
+    font-size: 13px;
+    line-height: 1.4;
+    max-width: 280px;
+    margin: 0 auto;
+}
+
+/* segmentos preview container */
+.phone-segments-container {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.segment-tag {
+    background: var(--theme-primary, var(--primary-color, #667eea));
+    color: var(--theme-primary-text, #fff);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.store-location {
+    color: #4a5568;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 4px;
+    text-align: center;
+    word-break: break-word;
+    white-space: normal;
+    width: 100%;
+}
+
+.store-location-flexible {
+    flex-wrap: wrap;
+    margin-bottom: 16px; /* espaço abaixo do endereço, separando dos links */
+}
+
+.store-location i {
+    color: var(--theme-primary, #667eea);
+    font-size: 11px;
+    flex-shrink: 0;
+}
+
+/* Seções da loja no preview */
+.store-view-counter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 136px;
+    right: 18px;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--theme-text, #2d3748);
+    font-size: 0.82rem;
+    font-weight: 500;
+    opacity: 0.72;
+    box-shadow: none;
+    z-index: 12;
+}
+
+.store-view-counter i {
+    color: var(--theme-primary, #667eea);
+    font-size: 0.86rem;
+}
+
+.store-section {
+    margin-bottom: 20px;
+}
+
+/* Back button in preview page */
+.preview-back {
+    padding: 8px 12px;
+    font-size: 13px;
+    border-radius: 8px;
+    background: #718096;
+    color: white;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.preview-back:hover {
+    background: #4a5568;
+}
+
+.gallery-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.gallery-header .view-selector {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.gallery-header .view-selector select {
+    padding: 4px 6px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 11px;
+    background: white;
+    color: #666;
+}
+
+#links-preview-section {
+    margin-bottom: 10px; /* Margem ainda menor */
+}
+
+/* Inline QR container under address */
+/* inline QR styles removed */
+
+#links-preview-section .links-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.phone-screen .store-content.theme-classico #links-preview-section .section-title-small,
+.phone-screen .store-content.theme-pink #links-preview-section .section-title-small,
+.phone-screen .store-content.theme-dark #links-preview-section .section-title-small {
+    font-family: inherit !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    line-height: 1.1 !important;
+    margin-bottom: 0 !important;
+}
+
+/* QR button near links removed */
+#links-preview-section .qr-preview-btn {
+    display: none !important;
+}
+
+#links-preview-section .qr-preview-btn:hover {
+    display: none !important;
+}
+
+/* Modal styles added for QR code */
+.qr-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qr-modal-content {
+    background: linear-gradient(180deg, #ffffff 0%, #f7f7f7 100%);
+    border-radius: 28px;
+    padding: 28px;
+    max-width: 440px;
+    width: 90%;
+    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.24);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.qr-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.qr-modal-header h3 {
+    font-size: 20px;
+    color: #101828;
+    margin: 0;
+}
+
+.qr-modal-close {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: #a0aec0;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.qr-modal-close:hover {
+    color: #667eea;
+}
+
+.qr-modal-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: 24px;
+    margin-bottom: 18px;
+    min-height: 400px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.qr-clean-frame {
+    position: relative;
+    width: 100%;
+    max-width: 340px;
+    background: #ffffff;
+    padding: 12px;
+    border-radius: 28px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+.qr-center-placeholder {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 20%;
+    aspect-ratio: 1 / 1;
+    background: #ffffff;
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+.qr-clean-frame svg,
+.qr-clean-frame canvas {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    background: #ffffff;
+    border-radius: 20px;
+}
+
+.qr-modal-footer {
+    display: flex;
+    gap: 8px;
+}
+
+.qr-modal-footer button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 14px;
+    background: #111111;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.qr-modal-footer button:hover {
+    background: #000000;
+}
+
+#links-preview-section .section-title-small {
+    font-size: inherit;
+    color: inherit;
+    font-family: inherit;
+    font-weight: inherit;
+    text-transform: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    text-shadow: inherit;
+    margin-bottom: 0;
+}
+
+#links-preview-section .section-item {
+    padding: 8px 12px; /* Padding menor */
+    margin-bottom: 6px; /* Margem entre itens menor */
+    gap: 8px; /* Gap menor */
+}
+
+#links-preview-section .section-item i {
+    font-size: 12px; /* Ícone menor */
+    width: 14px; /* Largura menor */
+}
+
+#links-preview-section .phone-link-item {
+    background: #f8f9fa;
+    border-radius: 6px;
+    padding: 6px 10px;
+    margin-bottom: 4px;
+    border-left: 2px solid #667eea;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: inherit;
+}
+
+#links-preview-section .phone-link-item:hover {
+    background: #edf2f7;
+}
+
+#links-preview-section .phone-link-item .phone-link-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#links-preview-section .phone-link-item .phone-link-icon i {
+    color: white;
+    font-size: 10px;
+}
+
+#links-preview-section .phone-link-item .phone-link-text {
+    flex: 1;
+}
+
+#links-preview-section .phone-link-item .phone-link-text div:first-child {
+    color: var(--theme-text, #2d3748);
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 4px; /* espaço maior entre título e descrição */
+}
+
+#links-preview-section .phone-link-item .phone-link-text div:last-child {
+    color: var(--theme-text, #718096);
+    opacity: 0.8;
+    font-size: 11px;
+}
+
+.section-title-small {
+    font-size: 13px;
+    color: var(--theme-text, #a0aec0);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.section-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-left: 3px solid var(--theme-primary, #667eea);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-item:hover {
+    background: #edf2f7;
+}
+
+.section-item i {
+    color: var(--theme-primary, #667eea);
+    font-size: 14px;
+    width: 16px;
+}
+
+.section-item span {
+    color: var(--theme-text, #4a5568);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 30px 15px;
+    color: #a0aec0;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+.empty-state i {
+    font-size: 32px;
+    margin-bottom: 12px;
+    opacity: 0.5;
+}
+
+.empty-state p {
+    font-size: 13px;
+}
+
+/* Status indicators */
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: #f0f9ff;
+    color: #0369a1;
+    margin-top: 5px;
+}
+
+.status-indicator i {
+    font-size: 10px;
+}
+
+/* Responsive adjustments for preview page */
+@media (max-width: 900px) {
+    .preview-container {
+        margin: 16px;
+    }
+    .preview-main {
+        grid-template-columns: 1fr;
+        padding: 12px;
+    }
+    .preview-header .store-cover {
+        height: 160px;
+    }
+}
+
+@media (max-width: 480px) {
+    .preview-header .store-cover {
+        height: 120px;
+    }
+    .store-avatar {
+        width: 72px;
+        height: 72px;
+        font-size: 28px;
+        border-width: 3px;
+    }
+    .preview-container {
+        border-radius: 8px;
+    }
+}
+
+/* Ajuste fino dos nomes dos links no preview do painel */
+#links-preview-section .phone-link-item {
+    padding: 8px 10px;
+    min-height: 38px;
+}
+
+#links-preview-section .phone-link-item .phone-link-text {
+    display: flex;
+    align-items: center;
+    min-height: 22px;
+}
+
+#links-preview-section .phone-link-item .phone-link-text div:first-child {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 0;
+}

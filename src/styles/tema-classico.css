@@ -1,0 +1,315 @@
+/* ============================================
+   TEMA - CLASSICO (Antigo Boho)
+   ============================================ */
+
+/* Estrutura Base dos Templates (Compartilhada entre temas) */
+.templates-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.template-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 16px;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    position: relative;
+    text-align: left;
+    font-family: inherit;
+    width: auto;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+}
+
+.template-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
+}
+
+.template-card.active {
+    border-color: #6366F1;
+    background: color-mix(in srgb, #6366F1 15%, transparent);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18);
+}
+
+.template-preview {
+    flex-shrink: 0;
+    width: 50px;
+    height: 70px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 3px;
+    position: relative;
+    overflow: hidden;
+    font-size: 18px;
+    color: white;
+}
+
+.template-preview .preview-avatar,
+.template-preview .preview-bar {
+    opacity: 0.8;
+}
+
+.template-preview .preview-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}
+
+.template-preview .preview-bar {
+    width: 50%;
+    height: 4px;
+    border-radius: 2px;
+    opacity: 0.6;
+}
+
+.template-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.template-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #1F2937;
+    margin: 0 0 2px 0;
+}
+
+.template-description {
+    font-size: 10px;
+    color: #6B7280;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.template-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.template-badge.popular { background: #FEF3C7; color: #B45309; }
+.template-badge.novo { background: #DCE9FE; color: #1E40AF; }
+.template-badge.clean { background: #DBEAFE; color: #075985; }
+.template-badge.livre { background: transparent; display: none; }
+
+@media (max-width: 768px) {
+    .templates-container { grid-template-columns: 1fr; }
+    .template-card { flex-direction: column; gap: 12px; padding: 12px; width: 100%; }
+    .template-preview { width: 100%; height: 80px; }
+    .template-content { width: 100%; }
+    .template-badge { top: 12px; right: 12px; }
+}
+
+/* Estilos Específicos do Classico (Popular) */
+.classico-preview {
+    background: #FFC82C;
+}
+
+.classico-preview .preview-avatar {
+    background: #ffffff;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.classico-preview .preview-bar {
+    background: #ffffff;
+    opacity: 0.9;
+}
+
+.template-card.active[onclick*="'classico'"] {
+    border-color: #FFC82C;
+    background: rgba(255, 200, 44, 0.1);
+    box-shadow: 0 0 0 3px rgba(252, 185, 0, 0.15);
+}
+
+.template-badge.popular { 
+    background: #FFC82C; 
+    color: #000000; 
+}
+
+/* Estilos da Página Final para o Tema Classico */
+body.theme-classico {
+    --theme-bg: #FFCC00;
+    --theme-text-color: #000000;
+    --theme-primary: #000000;
+    --theme-button-bg: #FFCC00;
+    --theme-button-list-bg: #d1d5db;
+    --theme-button-text: #000000;
+    --theme-icon-color: #000000;
+    --theme-card-radius: 14px;
+    --theme-card-shadow: none;
+    --theme-font-family: 'Inter', sans-serif;
+    --theme-font-size: 14px;
+    --theme-font-weight: 500;
+    --theme-line-height: 1.5;
+    --theme-letter-spacing: 0px;
+}
+
+.phone-screen .store-content.theme-classico .store-location i,
+body.theme-classico .perfil-endereco i {
+    color: #FFC82C !important;
+}
+
+.phone-screen .store-content.theme-classico .store-name,
+.phone-screen .store-content.theme-classico .store-bio,
+.phone-screen .store-content.theme-classico .store-location,
+.phone-screen .store-content.theme-classico .section-title-small,
+body.theme-classico .perfil-nome,
+body.theme-classico .perfil-bio,
+body.theme-classico .perfil-endereco,
+body.theme-classico .section-title {
+    color: #000000 !important;
+}
+
+.phone-screen .store-content.theme-classico #links-preview-section .links-header,
+.phone-screen .store-content.theme-classico #links-preview-section .section-title-small {
+    text-align: left !important;
+}
+
+.phone-screen .store-content.theme-classico #links-preview-section .section-title-small {
+    font-family: inherit !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    line-height: 1.1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: auto !important;
+    align-self: flex-start !important;
+}
+
+.phone-screen .store-content.theme-classico {
+    --theme-button-bg: #FFCC00;
+    --theme-button-list-bg: #d1d5db;
+    --theme-button-text: #000000;
+    --theme-icon-color: #000000;
+    --theme-card-radius: 14px;
+    --theme-card-shadow: none;
+    --theme-font-family: 'Inter', sans-serif;
+    --theme-font-size: 14px;
+    --theme-font-weight: 500;
+    --theme-line-height: 1.5;
+    --theme-letter-spacing: 0px;
+}
+
+/* Replica do comportamento do tema custom em modo lista */
+.phone-screen .store-content.theme-classico #links-preview-section .phone-link-item,
+body.theme-classico .phone-link-item,
+body.theme-classico .link-button {
+    background-color: var(--theme-button-list-bg, #ffc107) !important;
+    color: var(--theme-button-text, #000000) !important;
+    border-radius: var(--theme-card-radius, 14px) !important;
+    border: none !important;
+    box-shadow: var(--theme-card-shadow, none) !important;
+    padding: 8px 14px !important;
+    gap: 6px !important;
+    margin-bottom: 4px !important;
+    min-height: 40px !important;
+    font-family: var(--theme-font-family, 'Inter', sans-serif) !important;
+    font-size: var(--theme-font-size, 14px) !important;
+    font-weight: var(--theme-font-weight, 500) !important;
+    line-height: var(--theme-line-height, 1.5) !important;
+    letter-spacing: var(--theme-letter-spacing, 0px) !important;
+}
+
+.phone-screen .store-content.theme-classico #links-preview-section .phone-link-item .phone-link-title,
+.phone-screen .store-content.theme-classico #links-preview-section .phone-link-item .phone-link-value,
+.phone-screen .store-content.theme-classico #links-preview-section .phone-link-item .phone-link-arrow i,
+body.theme-classico .phone-link-title,
+body.theme-classico .phone-link-value,
+body.theme-classico .phone-link-arrow i,
+body.theme-classico .link-text,
+body.theme-classico .link-arrow,
+body.theme-classico .phone-link-arrow {
+    color: var(--theme-button-text, #000000) !important;
+}
+
+.phone-screen .store-content.theme-classico #links-preview-section .phone-link-item .phone-link-icon,
+body.theme-classico .phone-link-icon,
+body.theme-classico .link-icon {
+    background-color: transparent !important;
+    color: var(--theme-icon-color, var(--theme-button-list-bg, #ffc107)) !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: 0 !important;
+    margin: 0 4px 0 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.phone-screen .store-content.theme-classico #links-preview-section .phone-link-item .phone-link-icon i,
+body.theme-classico .phone-link-icon i,
+body.theme-classico .link-icon i {
+    color: var(--theme-icon-color, #000000) !important;
+    font-size: 15px !important;
+}
+
+.phone-screen .store-content.theme-classico #links-preview-section .phone-link-item .phone-link-text,
+body.theme-classico .phone-link-text,
+body.theme-classico .link-text {
+    display: flex !important;
+    align-items: center !important;
+    flex: 1 !important;
+    min-width: 0 !important;
+}
+
+.phone-screen .store-content.theme-classico #links-preview-section .phone-link-item .phone-link-title,
+body.theme-classico .phone-link-title {
+    display: block !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    line-height: 1.5 !important;
+    margin-bottom: 0 !important;
+}
+
+.phone-screen .store-content.theme-classico #links-preview-section .phone-link-item .phone-link-value,
+body.theme-classico .phone-link-value {
+    display: none !important;
+}
+
+.phone-screen .store-content.theme-classico #links-preview-section .phone-link-item .phone-link-arrow,
+body.theme-classico .phone-link-arrow {
+    margin-left: auto !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+.phone-screen .store-content.theme-classico #links-preview-section .phone-links-container,
+body.theme-classico .phone-links-container {
+    margin-top: 8px;
+}
+
+.phone-screen .store-content.theme-classico .segment-tag,
+body.theme-classico .segment-tag {
+    background: #FFCC00 !important;
+    color: #111827 !important;
+    border: 1px solid rgba(180, 83, 9, 0.18);
+    border-radius: 10px;
+}
+
+.phone-screen .store-content.theme-classico #links-preview-section .phone-link-item:hover,
+body.theme-classico .phone-link-item:hover,
+body.theme-classico .link-button:hover {
+    transform: translateY(-1px);
+    background-color: var(--theme-button-list-bg, #d1d5db) !important;
+}

@@ -1,0 +1,236 @@
+/* ============================================
+   TEMA - FEMININO & DOCE (PINK)
+   ============================================ */
+
+/* Estrutura Base dos Templates (Compartilhada entre temas) */
+.templates-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.template-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 16px;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    position: relative;
+    text-align: left;
+    font-family: inherit;
+    width: auto;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+}
+
+.template-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
+}
+
+.template-card.active {
+    border-color: #6366F1;
+    background: color-mix(in srgb, #6366F1 15%, transparent);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18);
+}
+
+.template-preview {
+    flex-shrink: 0;
+    width: 50px;
+    height: 70px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 3px;
+    position: relative;
+    overflow: hidden;
+    font-size: 18px;
+    color: white;
+}
+
+.template-preview .preview-avatar,
+.template-preview .preview-bar {
+    opacity: 0.8;
+}
+
+.template-preview .preview-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}
+
+.template-preview .preview-bar {
+    width: 50%;
+    height: 4px;
+    border-radius: 2px;
+    opacity: 0.6;
+}
+
+.template-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.template-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #1F2937;
+    margin: 0 0 2px 0;
+}
+
+.template-description {
+    font-size: 10px;
+    color: #6B7280;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.template-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.template-badge.popular { background: #FEF3C7; color: #B45309; }
+.template-badge.novo { background: #DCE9FE; color: #1E40AF; }
+.template-badge.clean { background: #DBEAFE; color: #075985; }
+.template-badge.leve { background: #FF69B4; color: #ffffff; }
+.template-badge.livre { background: transparent; display: none; }
+
+@media (max-width: 768px) {
+    .templates-container { grid-template-columns: 1fr; }
+    .template-card { flex-direction: column; gap: 12px; padding: 12px; width: 100%; }
+    .template-preview { width: 100%; height: 80px; }
+    .template-content { width: 100%; }
+    .template-badge { top: 12px; right: 12px; }
+}
+
+/* Estilos Específicos do Feminino & Doce (Pink) */
+.pink-preview {
+    background: linear-gradient(135deg, #FFB6D9 0%, #FF69B4 100%);
+}
+
+.pink-preview .preview-avatar,
+.pink-preview .preview-bar {
+    background: #ffffff;
+    opacity: 0.9;
+}
+
+.template-card.active[onclick*="'pink'"] {
+    border-color: #FF69B4;
+    background: rgba(255, 105, 180, 0.2);
+    box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.15);
+}
+
+.template-badge.leve { 
+    background: #FF69B4; 
+    color: #ffffff; 
+}
+
+/* Estilos da Página Final para o Tema Pink */
+body.theme-pink {
+    --theme-bg: #fff0f6;
+    --theme-text-color: #6b0f1e;
+    --theme-primary: #d63384;
+}
+
+.phone-screen .store-content.theme-pink .store-location i,
+body.theme-pink .perfil-endereco i {
+    color: #d63384 !important;
+}
+
+.phone-screen .store-content.theme-pink .store-name,
+.phone-screen .store-content.theme-pink .store-bio,
+.phone-screen .store-content.theme-pink .store-location,
+.phone-screen .store-content.theme-pink .section-title-small,
+body.theme-pink .perfil-nome,
+body.theme-pink .perfil-bio,
+body.theme-pink .perfil-endereco,
+body.theme-pink .section-title {
+    color: #000000 !important;
+}
+
+.phone-screen .store-content.theme-pink #links-preview-section .phone-link-item,
+body.theme-pink .phone-link-item {
+    padding: 5px 11px;
+    gap: 8px;
+    margin-bottom: 3px;
+    border-radius: 11px;
+}
+
+.phone-screen .store-content.theme-pink #links-preview-section .phone-link-item .phone-link-icon,
+body.theme-pink .phone-link-icon {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    font-size: 16px;
+    border-radius: 9px;
+}
+
+.phone-screen .store-content.theme-pink #links-preview-section .phone-link-item .phone-link-icon i,
+body.theme-pink .phone-link-icon i {
+    font-size: 15px;
+}
+
+.phone-screen .store-content.theme-pink #links-preview-section .phone-link-item .phone-link-title,
+body.theme-pink .phone-link-title {
+    color: #000000;
+    font-size: 10px;
+    margin-bottom: 0;
+}
+
+.phone-screen .store-content.theme-pink #links-preview-section .phone-link-item .phone-link-value,
+body.theme-pink .phone-link-value {
+    color: #000000;
+    font-size: 8px;
+}
+
+.phone-screen .store-content.theme-pink #links-preview-section .phone-link-item .phone-link-text div:first-child {
+    color: #000000;
+    font-size: 10px;
+    font-weight: 700;
+    margin-bottom: 0;
+    line-height: 1.05;
+}
+
+.phone-screen .store-content.theme-pink #links-preview-section .phone-link-item .phone-link-text div:last-child {
+    color: #000000;
+    font-size: 8px;
+    line-height: 1.05;
+}
+
+.phone-screen .store-content.theme-pink #links-preview-section .phone-link-item .phone-link-arrow i {
+    font-size: 13px;
+}
+
+.phone-screen .store-content.theme-pink #links-preview-section .phone-link-item .phone-link-title {
+    font-size: 12px;
+}
+
+.phone-screen .store-content.theme-pink #links-preview-section .phone-link-item .phone-link-text div:first-child {
+    font-size: 12px;
+    line-height: 1.2;
+}
+
+.phone-screen .store-content.theme-pink .segment-tag,
+body.theme-pink .segment-tag {
+    background: rgba(214, 51, 132, 0.16) !important;
+    color: #8a1240 !important;
+    border: 1px solid rgba(214, 51, 132, 0.3);
+    border-radius: 10px;
+}
